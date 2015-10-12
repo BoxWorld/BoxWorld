@@ -2,4 +2,7 @@
 *.d
 *.lib
 *.so
-
+.DS_Store
+bin/BoxWorldDebug.app
+BoxWorld.xcodeproj/xcuserdata
+BoxWorld.xcodeproj/project.xcworkspace/xcuserdata
