@@ -13,11 +13,11 @@
 void ConnSimuImp::init() {
     isConnected = true;
     
-    bool suc = mFile.open(ofToDataPath("BoxWorldShader_0.xml"), ofFile::ReadWrite, false);
+    bool suc = mFile.open(ofToDataPath("BoxWorldShader_0.json"), ofFile::ReadWrite, false);
     
     if(suc) {
         ofAddListener(mTimer.TIMER_REACHED, this, &ConnSimuImp::scanDataDir);
-        mTimer.setup(3000, false);
+        mTimer.setup(1000, false);
     }
     
     return;
@@ -26,7 +26,9 @@ void ConnSimuImp::init() {
 void ConnSimuImp::scanDataDir(ofEventArgs& args)
 {
     if(mConnListener) {
-        Message *msg = new Message(Message::UPDATE_SHADER_CMD, NULL);
+        Message *msg = new Message(
+                                   Message::UPDATE_SHADER_CMD,
+                                   *new string(mFile.readToBuffer().getBinaryBuffer()));
         mConnListener->onIncomingMsg(msg);
         delete msg;
     }

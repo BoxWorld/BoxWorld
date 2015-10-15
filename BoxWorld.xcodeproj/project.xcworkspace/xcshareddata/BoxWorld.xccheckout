@@ -7,7 +7,7 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>440FCBE3-2495-4118-87FE-4F041C221FFD</string>
 	<key>IDESourceControlProjectName</key>
-	<string>BoxWorld</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>85371A0504F910480F3F97B2030451F8E9A2205B</key>
@@ -16,13 +16,13 @@
 		<string>https://github.com/fx-lange/ofxTimer.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>BoxWorld.xcodeproj</string>
+	<string>BoxWorld.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>85371A0504F910480F3F97B2030451F8E9A2205B</key>
 		<string>../..</string>
 		<key>E0535550E19824754C404DB0DDE5EC8ABB043726</key>
-		<string>../../../addons/ofxTimer</string>
+		<string>../../../../../addons/ofxTimer</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/BoxWorld/BoxWorld.git</string>

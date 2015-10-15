@@ -9,6 +9,9 @@
 #ifndef BoxWorld_Config_h
 #define BoxWorld_Config_h
 
+#define BOXWORLD_WIDTH  1024
+#define BOXWORLD_HEIGHT 768
+
 /*
  * Define current running hardware platform.
  */

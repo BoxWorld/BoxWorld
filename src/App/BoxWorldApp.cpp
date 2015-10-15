@@ -1,20 +1,23 @@
 #include "BoxWorldApp.h"
 #include "ConnMgrInst.h"
+#include "Parser.h"
 
 //--------------------------------------------------------------
 void BoxWorldApp::setup(){
     ConnMgrInst::get()->setCmdReceiver(this);
     ofSetDataPathRoot("./data/");
+    
+    mShaderExecutor = new ShaderExecutor(BOXWORLD_WIDTH, BOXWORLD_HEIGHT);
 }
 
 //--------------------------------------------------------------
 void BoxWorldApp::update(){
-
+    mShaderExecutor->update();
 }
 
 //--------------------------------------------------------------
 void BoxWorldApp::draw(){
-
+    mShaderExecutor->draw();
 }
 
 //--------------------------------------------------------------
@@ -63,5 +66,6 @@ void BoxWorldApp::dragEvent(ofDragInfo dragInfo){
 }
 
 void BoxWorldApp::updateScene(Message *msg){
-    
+    Parser *shader_parser = new Parser(msg->getContent());
+    mShaderExecutor->setProgramModel(shader_parser->getMainProgram());
 }

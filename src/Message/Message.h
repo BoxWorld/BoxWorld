@@ -35,6 +35,10 @@ public:
         return mMsgType;
     }
     
+    string getContent() {
+        return mMsgContent;
+    }
+    
 private:
     E_BoxWorldMsgType mMsgType;
     string mMsgContent;

@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "CmdReceiverIf.h"
+#include "ShaderExecutor.h"
 
 class BoxWorldApp : public ofBaseApp, CmdReceiverIf{
 
@@ -23,4 +24,6 @@ public:
     /* CmdReceiverIf Implementations. */
     void updateScene(Message *msg);
 		
+private:
+    ShaderExecutor *mShaderExecutor;
 };

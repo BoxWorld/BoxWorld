@@ -7,9 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		062F47E71BCB93700027C8BF /* ConnSimuImp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F47E61BCB93700027C8BF /* ConnSimuImp.cpp */; };
+		0626F6441BD0D3F30000A9A6 /* ShaderExecutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0626F6421BD0D3F30000A9A6 /* ShaderExecutor.cpp */; };
+		0626F6481BD126970000A9A6 /* GLSLProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0626F6461BD126970000A9A6 /* GLSLProgram.cpp */; };
 		062F47ED1BCBC57D0027C8BF /* ofxTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F47EB1BCBC57D0027C8BF /* ofxTimer.cpp */; };
-		062F47F21BCBDDAA0027C8BF /* ConnMgrInst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F47F11BCBDDAA0027C8BF /* ConnMgrInst.cpp */; };
+		062F48011BCFF03F0027C8BF /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F48001BCFF03F0027C8BF /* jsoncpp.cpp */; };
+		062F480C1BCFF1730027C8BF /* ConnMgrInst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F48081BCFF1730027C8BF /* ConnMgrInst.cpp */; };
+		062F480D1BCFF1730027C8BF /* ConnSimuImp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F480A1BCFF1730027C8BF /* ConnSimuImp.cpp */; };
+		062F48111BCFF1840027C8BF /* BoxWorldApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F480E1BCFF1840027C8BF /* BoxWorldApp.cpp */; };
+		062F48121BCFF1840027C8BF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F48101BCFF1840027C8BF /* main.cpp */; };
+		062F48161BD084A40027C8BF /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F48151BD084A40027C8BF /* Parser.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -20,8 +26,6 @@
 		E45BE9810E8CC7DD009D7055 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9770E8CC7DD009D7055 /* CoreServices.framework */; };
 		E45BE9830E8CC7DD009D7055 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9790E8CC7DD009D7055 /* OpenGL.framework */; };
 		E45BE9840E8CC7DD009D7055 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */; };
-		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
-		E4B69E210A3A1BDC003C02F2 /* BoxWorldApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* BoxWorldApp.cpp */; };
 		E4C2424710CC5A17004149E2 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C2424410CC5A17004149E2 /* AppKit.framework */; };
 		E4C2424810CC5A17004149E2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C2424510CC5A17004149E2 /* Cocoa.framework */; };
 		E4C2424910CC5A17004149E2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C2424610CC5A17004149E2 /* IOKit.framework */; };
@@ -62,19 +66,45 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		062F47DF1BCB5D500027C8BF /* ConnIf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnIf.h; sourceTree = "<group>"; };
-		062F47E01BCB61440027C8BF /* ConnListenerIf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnListenerIf.h; sourceTree = "<group>"; };
-		062F47E11BCB63510027C8BF /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		062F47E31BCB65560027C8BF /* ConnMgrInst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnMgrInst.h; sourceTree = "<group>"; };
+		0626F6421BD0D3F30000A9A6 /* ShaderExecutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderExecutor.cpp; path = Shader/ShaderExecutor.cpp; sourceTree = "<group>"; };
+		0626F6431BD0D3F30000A9A6 /* ShaderExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderExecutor.h; path = Shader/ShaderExecutor.h; sourceTree = "<group>"; };
+		0626F6451BD0DBC10000A9A6 /* FboPingPong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FboPingPong.h; path = Shader/FboPingPong.h; sourceTree = "<group>"; };
+		0626F6461BD126970000A9A6 /* GLSLProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLSLProgram.cpp; path = Shader/GLSLProgram.cpp; sourceTree = "<group>"; };
+		0626F6471BD126970000A9A6 /* GLSLProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLSLProgram.h; path = Shader/GLSLProgram.h; sourceTree = "<group>"; };
+		0626F6491BD1DC5D0000A9A6 /* UniformIf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformIf.h; path = Shader/Uniform/UniformIf.h; sourceTree = "<group>"; };
+		0626F64C1BD1DE720000A9A6 /* UniformFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformFactory.h; path = Shader/Uniform/UniformFactory.h; sourceTree = "<group>"; };
+		0626F64D1BD1F1E60000A9A6 /* ShaderCtrlIf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderCtrlIf.h; path = Shader/ShaderCtrlIf.h; sourceTree = "<group>"; };
+		0626F6541BD24BA10000A9A6 /* UniformDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformDate.h; sourceTree = "<group>"; };
+		0626F6551BD24BA10000A9A6 /* UniformIChannelTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformIChannelTime.h; sourceTree = "<group>"; };
+		0626F6561BD24BA10000A9A6 /* UniformIGlobalTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformIGlobalTime.h; sourceTree = "<group>"; };
+		0626F6571BD24BA10000A9A6 /* UniformIMouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformIMouse.h; sourceTree = "<group>"; };
+		0626F6581BD24BA10000A9A6 /* UniformResolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformResolution.h; sourceTree = "<group>"; };
+		0626F6591BD24BA10000A9A6 /* UniformSampleRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformSampleRate.h; sourceTree = "<group>"; };
+		0626F65A1BD24BE50000A9A6 /* UniformTypeFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeFloat.h; path = Shader/Uniform/UniformTypeFloat.h; sourceTree = "<group>"; };
+		0626F65B1BD254220000A9A6 /* UniformTypeSampler2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeSampler2D.h; path = Shader/Uniform/UniformTypeSampler2D.h; sourceTree = "<group>"; };
 		062F47E41BCB91480027C8BF /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
-		062F47E51BCB93070027C8BF /* ConnSimuImp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnSimuImp.h; sourceTree = "<group>"; };
-		062F47E61BCB93700027C8BF /* ConnSimuImp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConnSimuImp.cpp; sourceTree = "<group>"; };
 		062F47EB1BCBC57D0027C8BF /* ofxTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTimer.cpp; sourceTree = "<group>"; };
 		062F47EC1BCBC57D0027C8BF /* ofxTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTimer.h; sourceTree = "<group>"; };
-		062F47EF1BCBDC450027C8BF /* CmdIf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CmdIf.h; sourceTree = "<group>"; };
-		062F47F01BCBDD130027C8BF /* CmdUpdateScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CmdUpdateScene.h; sourceTree = "<group>"; };
-		062F47F11BCBDDAA0027C8BF /* ConnMgrInst.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConnMgrInst.cpp; sourceTree = "<group>"; };
-		062F47F31BCBEA970027C8BF /* CmdReceiverIf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CmdReceiverIf.h; sourceTree = "<group>"; };
+		062F47FB1BCFD7730027C8BF /* BoxWorldShader_0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = BoxWorldShader_0.json; path = bin/data/BoxWorldShader_0.json; sourceTree = SOURCE_ROOT; };
+		062F47FE1BCFF03F0027C8BF /* json-forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "json-forwards.h"; sourceTree = "<group>"; };
+		062F47FF1BCFF03F0027C8BF /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		062F48001BCFF03F0027C8BF /* jsoncpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsoncpp.cpp; sourceTree = "<group>"; };
+		062F48021BCFF1570027C8BF /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.h; path = Message/Message.h; sourceTree = "<group>"; };
+		062F48031BCFF1650027C8BF /* CmdIf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CmdIf.h; path = Cmd/CmdIf.h; sourceTree = "<group>"; };
+		062F48041BCFF1650027C8BF /* CmdReceiverIf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CmdReceiverIf.h; path = Cmd/CmdReceiverIf.h; sourceTree = "<group>"; };
+		062F48051BCFF1650027C8BF /* CmdUpdateScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CmdUpdateScene.h; path = Cmd/CmdUpdateScene.h; sourceTree = "<group>"; };
+		062F48061BCFF1730027C8BF /* ConnIf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnIf.h; path = Connection/ConnIf.h; sourceTree = "<group>"; };
+		062F48071BCFF1730027C8BF /* ConnListenerIf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnListenerIf.h; path = Connection/ConnListenerIf.h; sourceTree = "<group>"; };
+		062F48081BCFF1730027C8BF /* ConnMgrInst.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConnMgrInst.cpp; path = Connection/ConnMgrInst.cpp; sourceTree = "<group>"; };
+		062F48091BCFF1730027C8BF /* ConnMgrInst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnMgrInst.h; path = Connection/ConnMgrInst.h; sourceTree = "<group>"; };
+		062F480A1BCFF1730027C8BF /* ConnSimuImp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConnSimuImp.cpp; path = Connection/ConnSimuImp.cpp; sourceTree = "<group>"; };
+		062F480B1BCFF1730027C8BF /* ConnSimuImp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnSimuImp.h; path = Connection/ConnSimuImp.h; sourceTree = "<group>"; };
+		062F480E1BCFF1840027C8BF /* BoxWorldApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BoxWorldApp.cpp; path = App/BoxWorldApp.cpp; sourceTree = "<group>"; };
+		062F480F1BCFF1840027C8BF /* BoxWorldApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BoxWorldApp.h; path = App/BoxWorldApp.h; sourceTree = "<group>"; };
+		062F48101BCFF1840027C8BF /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = App/main.cpp; sourceTree = "<group>"; };
+		062F48131BD0822E0027C8BF /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Parser.h; path = Shader/Parser.h; sourceTree = "<group>"; };
+		062F48151BD084A40027C8BF /* Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Parser.cpp; path = Shader/Parser.cpp; sourceTree = "<group>"; };
+		062F48171BD0881F0027C8BF /* ShaderConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderConfig.h; path = Shader/ShaderConfig.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -86,9 +116,6 @@
 		E45BE9790E8CC7DD009D7055 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		E4B69B5B0A3A1756003C02F2 /* BoxWorldDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxWorldDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
-		E4B69E1E0A3A1BDC003C02F2 /* BoxWorldApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = BoxWorldApp.cpp; path = src/BoxWorldApp.cpp; sourceTree = SOURCE_ROOT; };
-		E4B69E1F0A3A1BDC003C02F2 /* BoxWorldApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BoxWorldApp.h; path = src/BoxWorldApp.h; sourceTree = SOURCE_ROOT; };
 		E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "openFrameworks-Info.plist"; sourceTree = "<group>"; };
 		E4C2424410CC5A17004149E2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		E4C2424510CC5A17004149E2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -127,15 +154,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0626F64A1BD1DD0F0000A9A6 /* Uniform */ = {
+			isa = PBXGroup;
+			children = (
+				0626F6491BD1DC5D0000A9A6 /* UniformIf.h */,
+				0626F64C1BD1DE720000A9A6 /* UniformFactory.h */,
+				0626F65A1BD24BE50000A9A6 /* UniformTypeFloat.h */,
+				0626F65B1BD254220000A9A6 /* UniformTypeSampler2D.h */,
+				0626F6531BD24BA10000A9A6 /* ShadertoyCustom */,
+			);
+			name = Uniform;
+			sourceTree = "<group>";
+		};
+		0626F6531BD24BA10000A9A6 /* ShadertoyCustom */ = {
+			isa = PBXGroup;
+			children = (
+				0626F6541BD24BA10000A9A6 /* UniformDate.h */,
+				0626F6551BD24BA10000A9A6 /* UniformIChannelTime.h */,
+				0626F6561BD24BA10000A9A6 /* UniformIGlobalTime.h */,
+				0626F6571BD24BA10000A9A6 /* UniformIMouse.h */,
+				0626F6581BD24BA10000A9A6 /* UniformResolution.h */,
+				0626F6591BD24BA10000A9A6 /* UniformSampleRate.h */,
+			);
+			name = ShadertoyCustom;
+			path = Shader/Uniform/ShadertoyCustom;
+			sourceTree = "<group>";
+		};
 		062F47DE1BCB5C000027C8BF /* Connection */ = {
 			isa = PBXGroup;
 			children = (
-				062F47DF1BCB5D500027C8BF /* ConnIf.h */,
-				062F47E51BCB93070027C8BF /* ConnSimuImp.h */,
-				062F47E61BCB93700027C8BF /* ConnSimuImp.cpp */,
-				062F47E01BCB61440027C8BF /* ConnListenerIf.h */,
-				062F47E31BCB65560027C8BF /* ConnMgrInst.h */,
-				062F47F11BCBDDAA0027C8BF /* ConnMgrInst.cpp */,
+				062F48061BCFF1730027C8BF /* ConnIf.h */,
+				062F48071BCFF1730027C8BF /* ConnListenerIf.h */,
+				062F48081BCFF1730027C8BF /* ConnMgrInst.cpp */,
+				062F48091BCFF1730027C8BF /* ConnMgrInst.h */,
+				062F480A1BCFF1730027C8BF /* ConnSimuImp.cpp */,
+				062F480B1BCFF1730027C8BF /* ConnSimuImp.h */,
 			);
 			name = Connection;
 			sourceTree = "<group>";
@@ -143,7 +196,7 @@
 		062F47E21BCB64CD0027C8BF /* Message */ = {
 			isa = PBXGroup;
 			children = (
-				062F47E11BCB63510027C8BF /* Message.h */,
+				062F48021BCFF1570027C8BF /* Message.h */,
 			);
 			name = Message;
 			sourceTree = "<group>";
@@ -169,9 +222,9 @@
 		062F47EE1BCBDC0C0027C8BF /* Command */ = {
 			isa = PBXGroup;
 			children = (
-				062F47EF1BCBDC450027C8BF /* CmdIf.h */,
-				062F47F01BCBDD130027C8BF /* CmdUpdateScene.h */,
-				062F47F31BCBEA970027C8BF /* CmdReceiverIf.h */,
+				062F48031BCFF1650027C8BF /* CmdIf.h */,
+				062F48041BCFF1650027C8BF /* CmdReceiverIf.h */,
+				062F48051BCFF1650027C8BF /* CmdUpdateScene.h */,
 			);
 			name = Command;
 			sourceTree = "<group>";
@@ -179,11 +232,55 @@
 		062F47F41BCBEC900027C8BF /* App */ = {
 			isa = PBXGroup;
 			children = (
-				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
-				E4B69E1E0A3A1BDC003C02F2 /* BoxWorldApp.cpp */,
-				E4B69E1F0A3A1BDC003C02F2 /* BoxWorldApp.h */,
+				062F480E1BCFF1840027C8BF /* BoxWorldApp.cpp */,
+				062F480F1BCFF1840027C8BF /* BoxWorldApp.h */,
+				062F48101BCFF1840027C8BF /* main.cpp */,
 			);
 			name = App;
+			sourceTree = "<group>";
+		};
+		062F47FA1BCFD7610027C8BF /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				062F47FB1BCFD7730027C8BF /* BoxWorldShader_0.json */,
+			);
+			name = resources;
+			path = src;
+			sourceTree = "<group>";
+		};
+		062F47FC1BCFF03F0027C8BF /* jsoncpp */ = {
+			isa = PBXGroup;
+			children = (
+				062F47FD1BCFF03F0027C8BF /* json */,
+				062F48001BCFF03F0027C8BF /* jsoncpp.cpp */,
+			);
+			path = jsoncpp;
+			sourceTree = "<group>";
+		};
+		062F47FD1BCFF03F0027C8BF /* json */ = {
+			isa = PBXGroup;
+			children = (
+				062F47FE1BCFF03F0027C8BF /* json-forwards.h */,
+				062F47FF1BCFF03F0027C8BF /* json.h */,
+			);
+			path = json;
+			sourceTree = "<group>";
+		};
+		062F48141BD082390027C8BF /* Shader */ = {
+			isa = PBXGroup;
+			children = (
+				062F48131BD0822E0027C8BF /* Parser.h */,
+				062F48151BD084A40027C8BF /* Parser.cpp */,
+				062F48171BD0881F0027C8BF /* ShaderConfig.h */,
+				0626F6421BD0D3F30000A9A6 /* ShaderExecutor.cpp */,
+				0626F6431BD0D3F30000A9A6 /* ShaderExecutor.h */,
+				0626F6451BD0DBC10000A9A6 /* FboPingPong.h */,
+				0626F6461BD126970000A9A6 /* GLSLProgram.cpp */,
+				0626F6471BD126970000A9A6 /* GLSLProgram.h */,
+				0626F64D1BD1F1E60000A9A6 /* ShaderCtrlIf.h */,
+				0626F64A1BD1DD0F0000A9A6 /* Uniform */,
+			);
+			name = Shader;
 			sourceTree = "<group>";
 		};
 		BB4B014C10F69532006C3DED /* addons */ = {
@@ -245,6 +342,7 @@
 			children = (
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
+				062F47FA1BCFD7610027C8BF /* resources */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
@@ -256,11 +354,13 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				062F47FC1BCFF03F0027C8BF /* jsoncpp */,
 				062F47EE1BCBDC0C0027C8BF /* Command */,
 				062F47E21BCB64CD0027C8BF /* Message */,
 				062F47DE1BCB5C000027C8BF /* Connection */,
 				062F47F41BCBEC900027C8BF /* App */,
 				062F47E41BCB91480027C8BF /* Config.h */,
+				062F48141BD082390027C8BF /* Shader */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -361,10 +461,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				062F47E71BCB93700027C8BF /* ConnSimuImp.cpp in Sources */,
-				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
-				062F47F21BCBDDAA0027C8BF /* ConnMgrInst.cpp in Sources */,
-				E4B69E210A3A1BDC003C02F2 /* BoxWorldApp.cpp in Sources */,
+				062F480D1BCFF1730027C8BF /* ConnSimuImp.cpp in Sources */,
+				0626F6441BD0D3F30000A9A6 /* ShaderExecutor.cpp in Sources */,
+				062F48111BCFF1840027C8BF /* BoxWorldApp.cpp in Sources */,
+				062F48161BD084A40027C8BF /* Parser.cpp in Sources */,
+				062F48121BCFF1840027C8BF /* main.cpp in Sources */,
+				0626F6481BD126970000A9A6 /* GLSLProgram.cpp in Sources */,
+				062F48011BCFF03F0027C8BF /* jsoncpp.cpp in Sources */,
+				062F480C1BCFF1730027C8BF /* ConnMgrInst.cpp in Sources */,
 				062F47ED1BCBC57D0027C8BF /* ofxTimer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -454,6 +558,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
+				HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS)";
 				ICON = "$(ICON_NAME_DEBUG)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
@@ -539,6 +644,7 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
+				HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS)";
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
