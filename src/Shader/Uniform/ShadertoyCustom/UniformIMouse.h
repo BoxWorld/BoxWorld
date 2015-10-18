@@ -14,7 +14,7 @@
 
 class UniformIMouse : public UniformIf {
 public:
-    void applyValue(ShaderCtrlIf *shaderCtrl) {
+    void applyValue() {
         glUniform4f(getLocation(), 0.0, 0.0, 0.0, 0.0);
     }
     

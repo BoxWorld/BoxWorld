@@ -10,15 +10,13 @@
 #define BoxWorld_UniformTypeFloat_h
 
 #include "UniformIf.h"
-#include "ofMain.h"
 
 class UniformTypeFloat : public UniformIf {
 public:
-    void applyValue(ShaderCtrlIf *shaderCtrl) {
-        std::string::size_type sz;     // alias of size_t
-        float value = std::stof (mValue,&sz);
+    void applyValue() {
+        float value = std::atof (mValue.c_str());
 
-        glUniform1f(getLocation(), value);
+        mCtrl->applyFloatOnShader(getLocation(), value);
     }
     
     static UniformIf * __stdcall Create() { return new UniformTypeFloat(); }

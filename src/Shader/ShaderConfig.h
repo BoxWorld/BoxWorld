@@ -31,11 +31,20 @@ const static char* VERT_SUB_UCLIST_KEY = "vertUniformControlList";
 const static char* UC_SUB_NAME_KEY = "name";
 const static char* UC_SUB_TYPE_KEY = "typeString";
 const static char* UC_SUB_VALUE_KEY = "value";
+const static char* UC_SUB_TEXPARAMLIST_KEY = "texParamList";
+const static char* TEXPARAM_SUB_KEY_KEY = "key";
+const static char* TEXPARAM_SUB_VALUE_KEY = "value";
+
+typedef struct {
+    int key;
+    int value;
+}S_TextureParam;
 
 typedef struct {
     string name;
     string typeString;
     string value;
+    list<S_TextureParam> texParamList;
 }S_UniformControl;
 
 typedef struct {

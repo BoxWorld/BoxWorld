@@ -15,7 +15,7 @@
 
 class UniformResolution : public UniformIf {
 public:
-    void applyValue(ShaderCtrlIf *shaderCtrl) {
+    void applyValue() {
         glUniform3f(getLocation(), BOXWORLD_WIDTH, BOXWORLD_HEIGHT, 1.0);
     }
     

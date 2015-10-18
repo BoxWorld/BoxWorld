@@ -48,4 +48,4 @@ private:
     int     flag;       // Integer for making a quick swap
 };
 
-#endif
+#endif /* defined(BoxWorld_FboPingpong_h) */

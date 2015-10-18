@@ -14,10 +14,10 @@
 
 class UniformIChannelTime : public UniformIf {
 public:
-    void applyValue(ShaderCtrlIf *shaderCtrl) {
+    void applyValue() {
         float time[4];
         for(int i=0; i<4; i++) {
-            time[i] = shaderCtrl->getElapsedTime();
+            time[i] = mCtrl->getElapsedTime();
         }
         glUniform1fv(getLocation(), 4, time);
     }

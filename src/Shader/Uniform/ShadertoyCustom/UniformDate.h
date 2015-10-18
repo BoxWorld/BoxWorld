@@ -15,7 +15,7 @@
 
 class UniformDate : public UniformIf {
 public:
-    void applyValue(ShaderCtrlIf *shaderCtrl) {
+    void applyValue() {
         time_t theTime = time(NULL);
         struct tm *aTime = localtime(&theTime);
         

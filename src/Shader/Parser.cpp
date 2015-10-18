@@ -61,6 +61,15 @@ Parser::Parser(string json_data)
                 uc.name = arr_uc_value[i][UC_SUB_NAME_KEY].asString();
                 uc.typeString = arr_uc_value[i][UC_SUB_TYPE_KEY].asString();
                 uc.value = arr_uc_value[i][UC_SUB_VALUE_KEY].asString();
+                if((uc.typeString == "sampler2D") && (arr_uc_value[i][UC_SUB_TEXPARAMLIST_KEY] != NULL)) {
+                    const Json::Value arr_texparam_value = arr_uc_value[i][UC_SUB_TEXPARAMLIST_KEY];
+                    for(int k=0; k<arr_texparam_value.size(); k++) {
+                        S_TextureParam tex_param;
+                        tex_param.key = arr_texparam_value[k][TEXPARAM_SUB_KEY_KEY].asInt();
+                        tex_param.value = arr_texparam_value[k][TEXPARAM_SUB_VALUE_KEY].asInt();
+                        uc.texParamList.insert(uc.texParamList.end(), tex_param);
+                    }
+                }
                 fragment_uc_list.insert(fragment_uc_list.end(), uc);
             }
             if(fragment_uc_list.size() > 0) {

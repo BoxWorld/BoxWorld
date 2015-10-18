@@ -16,6 +16,18 @@
 #include "UniformIMouse.h"
 #include "UniformDate.h"
 #include "UniformSampleRate.h"
+#include "UniformTypeFloat.h"
+#include "UniformTypeSampler2D.h"
+#include "UniformTypeSamplerCube.h"
+#include "UniformTypeBool.h"
+#include "UniformTypeVec2.h"
+#include "UniformTypeVec3.h"
+#include "UniformTypeVec4.h"
+#include "UniformTypeUint.h"
+#include "UniformTypeInt.h"
+#include "UniformTypeMat2.h"
+#include "UniformTypeMat3.h"
+#include "UniformTypeMat4.h"
 
 // Factory for creating instances of UniformIf
 class UniformFactory
@@ -53,12 +65,28 @@ public:
     
 private:
     UniformFactory(){
+        /* Shadertoy default uniforms. */
         Register(UNIFORM_IGLOBAL_TIME, &UniformIGlobalTime::Create, CREATE_BY_NAME);
         Register(UNIFORM_ICHANNEL_TIME, &UniformIChannelTime::Create, CREATE_BY_NAME);
         Register(UNIFORM_IRESOLUTION, &UniformResolution::Create, CREATE_BY_NAME);
         Register(UNIFORM_IMOUSE, &UniformIMouse::Create, CREATE_BY_NAME);
         Register(UNIFORM_DATE, &UniformDate::Create, CREATE_BY_NAME);
         Register(UNIFORM_SAMPLE_RATE, &UniformSampleRate::Create, CREATE_BY_NAME);
+        
+        /* Custom uniforms. */
+        Register(UNIFORM_TYPE_FLOAT, &UniformTypeFloat::Create, CREATE_BY_TYPE);
+        Register(UNIFORM_TYPE_SAMPLER2D, &UniformTypeSampler2D::Create, CREATE_BY_TYPE);
+        Register(UNIFORM_TYPE_SAMPLERCUBE, &UniformTypeSamplerCube::Create, CREATE_BY_TYPE);
+        Register(UNIFORM_TYPE_BOOL, &UniformTypeBool::Create, CREATE_BY_TYPE);
+        Register(UNIFORM_TYPE_VEC2, &UniformTypeVec2::Create, CREATE_BY_TYPE);
+        Register(UNIFORM_TYPE_VEC3, &UniformTypeVec3::Create, CREATE_BY_TYPE);
+        Register(UNIFORM_TYPE_VEC4, &UniformTypeVec4::Create, CREATE_BY_TYPE);
+        Register(UNIFORM_TYPE_INT, &UniformTypeInt::Create, CREATE_BY_TYPE);
+        Register(UNIFORM_TYPE_UINT, &UniformTypeUint::Create, CREATE_BY_TYPE);
+        Register(UNIFORM_TYPE_DOUBLE, &UniformTypeUint::Create, CREATE_BY_TYPE);
+        Register(UNIFORM_TYPE_MAT2, &UniformTypeMat2::Create, CREATE_BY_TYPE);
+        Register(UNIFORM_TYPE_MAT3, &UniformTypeMat3::Create, CREATE_BY_TYPE);
+        Register(UNIFORM_TYPE_MAT4, &UniformTypeMat4::Create, CREATE_BY_TYPE);
     }
     
     UniformFactory(const UniformFactory &) { }

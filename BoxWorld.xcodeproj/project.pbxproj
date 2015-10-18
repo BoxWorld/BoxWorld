@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0626F6441BD0D3F30000A9A6 /* ShaderExecutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0626F6421BD0D3F30000A9A6 /* ShaderExecutor.cpp */; };
 		0626F6481BD126970000A9A6 /* GLSLProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0626F6461BD126970000A9A6 /* GLSLProgram.cpp */; };
+		0626F66E1BD48CBF0000A9A6 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0626F6671BD48CBF0000A9A6 /* README.md */; };
+		0626F66F1BD48CBF0000A9A6 /* ofxCubeMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0626F66C1BD48CBF0000A9A6 /* ofxCubeMap.cpp */; };
 		062F47ED1BCBC57D0027C8BF /* ofxTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F47EB1BCBC57D0027C8BF /* ofxTimer.cpp */; };
 		062F48011BCFF03F0027C8BF /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F48001BCFF03F0027C8BF /* jsoncpp.cpp */; };
 		062F480C1BCFF1730027C8BF /* ConnMgrInst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F48081BCFF1730027C8BF /* ConnMgrInst.cpp */; };
@@ -82,6 +84,22 @@
 		0626F6591BD24BA10000A9A6 /* UniformSampleRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformSampleRate.h; sourceTree = "<group>"; };
 		0626F65A1BD24BE50000A9A6 /* UniformTypeFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeFloat.h; path = Shader/Uniform/UniformTypeFloat.h; sourceTree = "<group>"; };
 		0626F65B1BD254220000A9A6 /* UniformTypeSampler2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeSampler2D.h; path = Shader/Uniform/UniformTypeSampler2D.h; sourceTree = "<group>"; };
+		0626F65C1BD37A340000A9A6 /* UniformTypeBool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeBool.h; path = Shader/Uniform/UniformTypeBool.h; sourceTree = "<group>"; };
+		0626F65D1BD37DEE0000A9A6 /* UniformTypeVec2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeVec2.h; path = Shader/Uniform/UniformTypeVec2.h; sourceTree = "<group>"; };
+		0626F65E1BD3874F0000A9A6 /* UniformTypeVec3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeVec3.h; path = Shader/Uniform/UniformTypeVec3.h; sourceTree = "<group>"; };
+		0626F65F1BD38A990000A9A6 /* UniformTypeVec4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeVec4.h; path = Shader/Uniform/UniformTypeVec4.h; sourceTree = "<group>"; };
+		0626F6601BD38BC40000A9A6 /* UniformTypeUint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeUint.h; path = Shader/Uniform/UniformTypeUint.h; sourceTree = "<group>"; };
+		0626F6611BD38D530000A9A6 /* UniformTypeDouble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeDouble.h; path = Shader/Uniform/UniformTypeDouble.h; sourceTree = "<group>"; };
+		0626F6621BD38EC10000A9A6 /* UniformTypeMat2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeMat2.h; path = Shader/Uniform/UniformTypeMat2.h; sourceTree = "<group>"; };
+		0626F6631BD3973E0000A9A6 /* UniformTypeMat3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeMat3.h; path = Shader/Uniform/UniformTypeMat3.h; sourceTree = "<group>"; };
+		0626F6641BD397F10000A9A6 /* UniformTypeMat4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeMat4.h; path = Shader/Uniform/UniformTypeMat4.h; sourceTree = "<group>"; };
+		0626F6651BD398EA0000A9A6 /* UniformTypeInt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeInt.h; path = Shader/Uniform/UniformTypeInt.h; sourceTree = "<group>"; };
+		0626F6671BD48CBF0000A9A6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		0626F6691BD48CBF0000A9A6 /* CubeMap.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CubeMap.frag; sourceTree = "<group>"; };
+		0626F66A1BD48CBF0000A9A6 /* CubeMap.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CubeMap.vert; sourceTree = "<group>"; };
+		0626F66C1BD48CBF0000A9A6 /* ofxCubeMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCubeMap.cpp; sourceTree = "<group>"; };
+		0626F66D1BD48CBF0000A9A6 /* ofxCubeMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCubeMap.h; sourceTree = "<group>"; };
+		0626F6701BD48DE60000A9A6 /* UniformTypeSamplerCube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeSamplerCube.h; path = Shader/Uniform/UniformTypeSamplerCube.h; sourceTree = "<group>"; };
 		062F47E41BCB91480027C8BF /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		062F47EB1BCBC57D0027C8BF /* ofxTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTimer.cpp; sourceTree = "<group>"; };
 		062F47EC1BCBC57D0027C8BF /* ofxTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTimer.h; sourceTree = "<group>"; };
@@ -157,11 +175,22 @@
 		0626F64A1BD1DD0F0000A9A6 /* Uniform */ = {
 			isa = PBXGroup;
 			children = (
+				0626F6531BD24BA10000A9A6 /* ShadertoyCustom */,
 				0626F6491BD1DC5D0000A9A6 /* UniformIf.h */,
 				0626F64C1BD1DE720000A9A6 /* UniformFactory.h */,
 				0626F65A1BD24BE50000A9A6 /* UniformTypeFloat.h */,
 				0626F65B1BD254220000A9A6 /* UniformTypeSampler2D.h */,
-				0626F6531BD24BA10000A9A6 /* ShadertoyCustom */,
+				0626F6701BD48DE60000A9A6 /* UniformTypeSamplerCube.h */,
+				0626F65C1BD37A340000A9A6 /* UniformTypeBool.h */,
+				0626F65D1BD37DEE0000A9A6 /* UniformTypeVec2.h */,
+				0626F65E1BD3874F0000A9A6 /* UniformTypeVec3.h */,
+				0626F65F1BD38A990000A9A6 /* UniformTypeVec4.h */,
+				0626F6601BD38BC40000A9A6 /* UniformTypeUint.h */,
+				0626F6611BD38D530000A9A6 /* UniformTypeDouble.h */,
+				0626F6621BD38EC10000A9A6 /* UniformTypeMat2.h */,
+				0626F6631BD3973E0000A9A6 /* UniformTypeMat3.h */,
+				0626F6641BD397F10000A9A6 /* UniformTypeMat4.h */,
+				0626F6651BD398EA0000A9A6 /* UniformTypeInt.h */,
 			);
 			name = Uniform;
 			sourceTree = "<group>";
@@ -178,6 +207,35 @@
 			);
 			name = ShadertoyCustom;
 			path = Shader/Uniform/ShadertoyCustom;
+			sourceTree = "<group>";
+		};
+		0626F6661BD48CBF0000A9A6 /* ofxCubeMap */ = {
+			isa = PBXGroup;
+			children = (
+				0626F6671BD48CBF0000A9A6 /* README.md */,
+				0626F6681BD48CBF0000A9A6 /* shaders */,
+				0626F66B1BD48CBF0000A9A6 /* src */,
+			);
+			name = ofxCubeMap;
+			path = ../../../addons/ofxCubeMap;
+			sourceTree = "<group>";
+		};
+		0626F6681BD48CBF0000A9A6 /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				0626F6691BD48CBF0000A9A6 /* CubeMap.frag */,
+				0626F66A1BD48CBF0000A9A6 /* CubeMap.vert */,
+			);
+			path = shaders;
+			sourceTree = "<group>";
+		};
+		0626F66B1BD48CBF0000A9A6 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				0626F66C1BD48CBF0000A9A6 /* ofxCubeMap.cpp */,
+				0626F66D1BD48CBF0000A9A6 /* ofxCubeMap.h */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		062F47DE1BCB5C000027C8BF /* Connection */ = {
@@ -286,6 +344,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				0626F6661BD48CBF0000A9A6 /* ofxCubeMap */,
 				062F47E91BCBC57D0027C8BF /* ofxTimer */,
 			);
 			name = addons;
@@ -463,11 +522,13 @@
 			files = (
 				062F480D1BCFF1730027C8BF /* ConnSimuImp.cpp in Sources */,
 				0626F6441BD0D3F30000A9A6 /* ShaderExecutor.cpp in Sources */,
+				0626F66E1BD48CBF0000A9A6 /* README.md in Sources */,
 				062F48111BCFF1840027C8BF /* BoxWorldApp.cpp in Sources */,
 				062F48161BD084A40027C8BF /* Parser.cpp in Sources */,
 				062F48121BCFF1840027C8BF /* main.cpp in Sources */,
 				0626F6481BD126970000A9A6 /* GLSLProgram.cpp in Sources */,
 				062F48011BCFF03F0027C8BF /* jsoncpp.cpp in Sources */,
+				0626F66F1BD48CBF0000A9A6 /* ofxCubeMap.cpp in Sources */,
 				062F480C1BCFF1730027C8BF /* ConnMgrInst.cpp in Sources */,
 				062F47ED1BCBC57D0027C8BF /* ofxTimer.cpp in Sources */,
 			);

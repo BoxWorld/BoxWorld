@@ -14,7 +14,7 @@
 
 class UniformSampleRate : public UniformIf {
 public:
-    void applyValue(ShaderCtrlIf *shaderCtrl) {
+    void applyValue() {
         glUniform1f(getLocation(), 0.0);
     }
     

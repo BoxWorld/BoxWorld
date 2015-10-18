@@ -9,6 +9,7 @@
 #include "ShaderExecutor.h"
 
 ShaderExecutor::ShaderExecutor(int width, int height){
+    mGLProgramMain = NULL;
     mWidth = width;
     mHeight = height;
     mInternalFormat = GL_RGBA;

@@ -14,8 +14,8 @@
 
 class UniformIGlobalTime : public UniformIf {
 public:
-    void applyValue(ShaderCtrlIf *shaderCtrl) {
-        glUniform1f(getLocation(), shaderCtrl->getElapsedTime());
+    void applyValue() {
+        glUniform1f(getLocation(), mCtrl->getElapsedTime());
     }
     
     static UniformIf * __stdcall Create() { return new UniformIGlobalTime(); }
