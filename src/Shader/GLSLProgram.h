@@ -14,6 +14,7 @@
 #include "ShaderConfig.h"
 #include "UniformIf.h"
 #include "ShaderCtrlIf.h"
+#include "QuadV.h"
 
 typedef map<string, UniformIf*> ProgramUniformMap;
 
@@ -54,6 +55,7 @@ private:
     S_MainProgram       mProgramModel;
     ProgramUniformMap   mMainUniformMap;
     ProgramUniformMap   mCustomUniformMap;
+    QuadV               *mQuadDrawable;
 };
 
 #endif /* defined(__BoxWorld__GLSLProgram__) */

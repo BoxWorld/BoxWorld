@@ -28,11 +28,10 @@ public:
                 ss.ignore();
         }
         
-        float valueArr[4];
+        float valueArr[3];
         valueArr[0] = vect.at(0);
         valueArr[1] = vect.at(1);
         valueArr[2] = vect.at(2);
-        valueArr[3] = vect.at(3);
         mCtrl->applyMat4OnShader(getLocation(), valueArr);
     }
     

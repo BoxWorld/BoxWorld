@@ -9,12 +9,47 @@
 #include "GLSLProgram.h"
 #include "UniformFactory.h"
 
+#define STRINGIFY(x) #x
+
+static string defaultVertexShader = STRINGIFY(
+    layout(location = 0) in vec3 VertexPosition;
+
+    // Matrix used for tiled rendering:
+    uniform mat4 TileMatrix = mat4(1.0);
+    uniform vec2 resolution;
+
+    // custom version of gl_FragCoord, used for tiled rendering.
+    out vec4 glFragCoord;
+
+    void main() {
+      vec2 v = VertexPosition.xy;
+      v.x = v.x * TileMatrix[0][0] + TileMatrix[3][0];
+      v.y = v.y * TileMatrix[1][1] + TileMatrix[3][1];
+      v = v * 0.5 + 0.5;
+      glFragCoord.xy = v * resolution;
+      
+      gl_Position = vec4(VertexPosition, 1.0);
+    }
+);
+
+static string defaultFragmentShaderTexColor = STRINGIFY(
+    in vec4 glFragCoord;
+    out vec4 fragColor;
+
+    void main() {
+        fragColor = vec4(1.0,0.0,1.0,1.0);
+    }
+);
+
+
 GLSLProgram::GLSLProgram(S_MainProgram programModel, int width, int height) {
     mTexUnitIdx = 0;
     mWidth = width;
     mHeight = height;
     mProgramModel = programModel;
-    mShader.unload();
+    //mShader.unload();
+    //mShader.setupShaderFromSource(GL_VERTEX_SHADER, string("#version 400\n").append(string(defaultVertexShader)));
+    //mShader.setupShaderFromSource(GL_FRAGMENT_SHADER, string("#version 400\n").append(string(defaultFragmentShaderTexColor)));
     mShader.setupShaderFromSource(GL_VERTEX_SHADER, mProgramModel.code.vertexCode.vert);
     mShader.setupShaderFromSource(GL_FRAGMENT_SHADER, mProgramModel.code.fragmentCode.frag);
     mLinkFine = mShader.linkProgram();
@@ -23,6 +58,9 @@ GLSLProgram::GLSLProgram(S_MainProgram programModel, int width, int height) {
     mUniformsLoaded = false;
     
     mClockStart = clock();
+    
+    mQuadDrawable = new QuadV();
+    mQuadDrawable->init();
 }
 
 float GLSLProgram::getElapsedTime(){
@@ -82,7 +120,7 @@ void GLSLProgram::fillUniformMaps(){
                     custom_uniform->setName(name);
                     custom_uniform->setLocation(location);
                     custom_uniform->setValueStr(iter->value);
-                    if(iter->typeString == "sampler2D") {
+                    if((iter->typeString == "sampler2D") || iter->typeString == "samplerCube") {
                         custom_uniform->setTexParamList(iter->texParamList);
                     }
                     custom_uniform->setCtroller(this);
@@ -108,19 +146,7 @@ void GLSLProgram::applyUniforms(){
 }
 
 void GLSLProgram::renderFrame(){
-    if (mLinkFine)
-        ofSetColor(255,255);
-    else
-        ofSetColor(150,255);
-    
-    glBegin(GL_QUADS);
-    {
-        glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
-        glTexCoord2f(mWidth, 0); glVertex3f(mWidth, 0, 0);
-        glTexCoord2f(mWidth, mHeight); glVertex3f(mWidth, mHeight, 0);
-        glTexCoord2f(0,mHeight);  glVertex3f(0,mHeight, 0);
-    }
-    glEnd();
+    mQuadDrawable->render();
 }
 
 int GLSLProgram::getTexUnitIdx() {
@@ -185,12 +211,10 @@ void  GLSLProgram::applyMat2OnShader(int loc, float* fp){
     glUniformMatrix2fv(loc, 1, false, fp);
 }
 
-void  GLSLProgram::applyMat3OnShader(int loc, float* fp)
-{
+void  GLSLProgram::applyMat3OnShader(int loc, float* fp){
     glUniformMatrix3fv(loc, 1, false, fp);
 }
 
-void  GLSLProgram::applyMat4OnShader(int loc, float* fp)
-{
+void  GLSLProgram::applyMat4OnShader(int loc, float* fp){
     glUniformMatrix4fv(loc, 1, false, fp);
 }

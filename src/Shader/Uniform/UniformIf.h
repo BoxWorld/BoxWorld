@@ -19,6 +19,7 @@ static string UNIFORM_ICHANNEL_PREFIX = "iChannel";
 static string UNIFORM_ICHANNEL_RESO_PREFIX = "iChannelResolution";
 static string UNIFORM_ICHANNEL_RESO_DEFAULT = "iChannelResolution[0]";
 
+// name
 static string UNIFORM_IGLOBAL_TIME = "iGlobalTime";
 static string UNIFORM_ICHANNEL_TIME = "iChannelTime[0]";
 static string UNIFORM_IRESOLUTION = "iResolution";
@@ -26,6 +27,9 @@ static string UNIFORM_IMOUSE = "iMouse";
 static string UNIFORM_DATE = "iDate";
 static string UNIFORM_SAMPLE_RATE = "iSampleRate";
 
+static string UNIFORM_SANDBOX_RESOLUTION = "resolution";
+
+// type
 static string UNIFORM_TYPE_FLOAT = "float";
 static string UNIFORM_TYPE_DOUBLE = "double";
 static string UNIFORM_TYPE_SAMPLER2D = "sampler2D";

@@ -2,7 +2,7 @@
 //  UniformResolution.h
 //  BoxWorld
 //
-//  Created by Han Maokun on 10/17/15.
+//  Created by Han Maokun on 10/19/15.
 //
 //
 
@@ -16,7 +16,7 @@
 class UniformResolution : public UniformIf {
 public:
     void applyValue() {
-        glUniform3f(getLocation(), BOXWORLD_WIDTH, BOXWORLD_HEIGHT, 1.0);
+        glUniform2f(getLocation(), BOXWORLD_WIDTH, BOXWORLD_HEIGHT);
     }
     
     static UniformIf * __stdcall Create() { return new UniformResolution(); }

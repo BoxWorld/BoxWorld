@@ -24,9 +24,9 @@
 		<key>85371A0504F910480F3F97B2030451F8E9A2205B</key>
 		<string>../..</string>
 		<key>D3A391CBE6A216E3ED8F808E0A0C340E1DD995B2</key>
-		<string>../../../../../addons/ofxCubeMap</string>
+		<string>../../../addons/ofxCubeMap</string>
 		<key>E0535550E19824754C404DB0DDE5EC8ABB043726</key>
-		<string>../../../../../addons/ofxTimer</string>
+		<string>../../../addons/ofxTimer</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/BoxWorld/BoxWorld.git</string>

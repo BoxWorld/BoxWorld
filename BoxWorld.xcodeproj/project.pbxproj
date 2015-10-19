@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0626F6441BD0D3F30000A9A6 /* ShaderExecutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0626F6421BD0D3F30000A9A6 /* ShaderExecutor.cpp */; };
 		0626F6481BD126970000A9A6 /* GLSLProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0626F6461BD126970000A9A6 /* GLSLProgram.cpp */; };
-		0626F66E1BD48CBF0000A9A6 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0626F6671BD48CBF0000A9A6 /* README.md */; };
 		0626F66F1BD48CBF0000A9A6 /* ofxCubeMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0626F66C1BD48CBF0000A9A6 /* ofxCubeMap.cpp */; };
 		062F47ED1BCBC57D0027C8BF /* ofxTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F47EB1BCBC57D0027C8BF /* ofxTimer.cpp */; };
 		062F48011BCFF03F0027C8BF /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F48001BCFF03F0027C8BF /* jsoncpp.cpp */; };
@@ -80,7 +79,7 @@
 		0626F6551BD24BA10000A9A6 /* UniformIChannelTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformIChannelTime.h; sourceTree = "<group>"; };
 		0626F6561BD24BA10000A9A6 /* UniformIGlobalTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformIGlobalTime.h; sourceTree = "<group>"; };
 		0626F6571BD24BA10000A9A6 /* UniformIMouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformIMouse.h; sourceTree = "<group>"; };
-		0626F6581BD24BA10000A9A6 /* UniformResolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformResolution.h; sourceTree = "<group>"; };
+		0626F6581BD24BA10000A9A6 /* UniformIResolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformIResolution.h; sourceTree = "<group>"; };
 		0626F6591BD24BA10000A9A6 /* UniformSampleRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformSampleRate.h; sourceTree = "<group>"; };
 		0626F65A1BD24BE50000A9A6 /* UniformTypeFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeFloat.h; path = Shader/Uniform/UniformTypeFloat.h; sourceTree = "<group>"; };
 		0626F65B1BD254220000A9A6 /* UniformTypeSampler2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeSampler2D.h; path = Shader/Uniform/UniformTypeSampler2D.h; sourceTree = "<group>"; };
@@ -100,6 +99,11 @@
 		0626F66C1BD48CBF0000A9A6 /* ofxCubeMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCubeMap.cpp; sourceTree = "<group>"; };
 		0626F66D1BD48CBF0000A9A6 /* ofxCubeMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCubeMap.h; sourceTree = "<group>"; };
 		0626F6701BD48DE60000A9A6 /* UniformTypeSamplerCube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UniformTypeSamplerCube.h; path = Shader/Uniform/UniformTypeSamplerCube.h; sourceTree = "<group>"; };
+		0626F6771BD52E9B0000A9A6 /* UniformResolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformResolution.h; sourceTree = "<group>"; };
+		0626F67B1BD5FB9D0000A9A6 /* VBO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VBO.h; path = Shader/VBO.h; sourceTree = "<group>"; };
+		0626F67C1BD5FD380000A9A6 /* VAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VAO.h; path = Shader/VAO.h; sourceTree = "<group>"; };
+		0626F67D1BD6037B0000A9A6 /* QuadV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuadV.h; path = Shader/QuadV.h; sourceTree = "<group>"; };
+		0626F67E1BD618410000A9A6 /* GLDataType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLDataType.h; path = Shader/GLDataType.h; sourceTree = "<group>"; };
 		062F47E41BCB91480027C8BF /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		062F47EB1BCBC57D0027C8BF /* ofxTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTimer.cpp; sourceTree = "<group>"; };
 		062F47EC1BCBC57D0027C8BF /* ofxTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTimer.h; sourceTree = "<group>"; };
@@ -202,8 +206,9 @@
 				0626F6551BD24BA10000A9A6 /* UniformIChannelTime.h */,
 				0626F6561BD24BA10000A9A6 /* UniformIGlobalTime.h */,
 				0626F6571BD24BA10000A9A6 /* UniformIMouse.h */,
-				0626F6581BD24BA10000A9A6 /* UniformResolution.h */,
+				0626F6581BD24BA10000A9A6 /* UniformIResolution.h */,
 				0626F6591BD24BA10000A9A6 /* UniformSampleRate.h */,
+				0626F6771BD52E9B0000A9A6 /* UniformResolution.h */,
 			);
 			name = ShadertoyCustom;
 			path = Shader/Uniform/ShadertoyCustom;
@@ -327,6 +332,10 @@
 		062F48141BD082390027C8BF /* Shader */ = {
 			isa = PBXGroup;
 			children = (
+				0626F67E1BD618410000A9A6 /* GLDataType.h */,
+				0626F67B1BD5FB9D0000A9A6 /* VBO.h */,
+				0626F67C1BD5FD380000A9A6 /* VAO.h */,
+				0626F67D1BD6037B0000A9A6 /* QuadV.h */,
 				062F48131BD0822E0027C8BF /* Parser.h */,
 				062F48151BD084A40027C8BF /* Parser.cpp */,
 				062F48171BD0881F0027C8BF /* ShaderConfig.h */,
@@ -522,7 +531,6 @@
 			files = (
 				062F480D1BCFF1730027C8BF /* ConnSimuImp.cpp in Sources */,
 				0626F6441BD0D3F30000A9A6 /* ShaderExecutor.cpp in Sources */,
-				0626F66E1BD48CBF0000A9A6 /* README.md in Sources */,
 				062F48111BCFF1840027C8BF /* BoxWorldApp.cpp in Sources */,
 				062F48161BD084A40027C8BF /* Parser.cpp in Sources */,
 				062F48121BCFF1840027C8BF /* main.cpp in Sources */,

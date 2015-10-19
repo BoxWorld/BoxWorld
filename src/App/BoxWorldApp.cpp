@@ -4,11 +4,12 @@
 
 //--------------------------------------------------------------
 void BoxWorldApp::setup(){
-    
+    string data_resource_path;
 #ifdef TARGET_OSX
     // Get the absolute location of the executable file in the bundle.
     CFBundleRef appBundle     = CFBundleGetMainBundle();
     CFURLRef	executableURL = CFBundleCopyExecutableURL(appBundle);
+    CFURLRef	dataPrefixURL = CFBundleCopyBundleURL(appBundle);
     char execFile[4096];
     if (CFURLGetFileSystemRepresentation(executableURL, TRUE, (UInt8 *)execFile, 4096))
     {
@@ -25,11 +26,20 @@ void BoxWorldApp::setup(){
     else {
         ofLog(OF_LOG_ERROR, "Unable to identify executable's directory.");
     }  
-    CFRelease(executableURL);  
+    CFRelease(executableURL);
+    
+    char dataPrefix[4096];
+    if (CFURLGetFileSystemRepresentation(dataPrefixURL, TRUE, (UInt8 *)dataPrefix, 4096))
+    {
+        string strExecFile = dataPrefix;
+        int found = strExecFile.find_last_of("/");
+        string strPath = strExecFile.substr(0, found);
+        data_resource_path = strPath.append("/data/");
+    }
 #endif
     
     ConnMgrInst::get()->setCmdReceiver(this);
-    ofSetDataPathRoot("./data/");
+    ofSetDataPathRoot(data_resource_path);
     
     mShaderExecutor = new ShaderExecutor(BOXWORLD_WIDTH, BOXWORLD_HEIGHT);
 }

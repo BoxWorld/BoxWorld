@@ -13,6 +13,7 @@
 #include "UniformIGlobalTime.h"
 #include "UniformIChannelTime.h"
 #include "UniformResolution.h"
+#include "UniformIResolution.h"
 #include "UniformIMouse.h"
 #include "UniformDate.h"
 #include "UniformSampleRate.h"
@@ -68,10 +69,12 @@ private:
         /* Shadertoy default uniforms. */
         Register(UNIFORM_IGLOBAL_TIME, &UniformIGlobalTime::Create, CREATE_BY_NAME);
         Register(UNIFORM_ICHANNEL_TIME, &UniformIChannelTime::Create, CREATE_BY_NAME);
-        Register(UNIFORM_IRESOLUTION, &UniformResolution::Create, CREATE_BY_NAME);
+        Register(UNIFORM_IRESOLUTION, &UniformIResolution::Create, CREATE_BY_NAME);
         Register(UNIFORM_IMOUSE, &UniformIMouse::Create, CREATE_BY_NAME);
         Register(UNIFORM_DATE, &UniformDate::Create, CREATE_BY_NAME);
         Register(UNIFORM_SAMPLE_RATE, &UniformSampleRate::Create, CREATE_BY_NAME);
+        
+        Register(UNIFORM_SANDBOX_RESOLUTION, &UniformResolution::Create, CREATE_BY_NAME);
         
         /* Custom uniforms. */
         Register(UNIFORM_TYPE_FLOAT, &UniformTypeFloat::Create, CREATE_BY_TYPE);
