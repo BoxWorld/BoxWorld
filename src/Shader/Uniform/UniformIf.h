@@ -56,7 +56,9 @@ public:
     virtual void applyValue() = 0;
     
     virtual void setCtroller(ShaderCtrlIf *ctrl) { mCtrl = ctrl; }
-    virtual void setTexParamList(list<S_TextureParam> texParamList) { mTexParamList = texParamList; };
+    virtual void setTexParamList(list<S_TextureParam> texParamList) { mTexParamList = texParamList; }
+    
+    virtual bool refreshNeeded() { return mNeedRefresh; }
     
 protected:
     string                  mName;
@@ -64,6 +66,7 @@ protected:
     int                     mLocation;
     ShaderCtrlIf            *mCtrl;
     list<S_TextureParam>    mTexParamList;
+    bool                    mNeedRefresh;
 };
 
 typedef UniformIf* (__stdcall *CreateUniformFn)(void);

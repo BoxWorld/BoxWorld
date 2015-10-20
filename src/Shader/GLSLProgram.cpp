@@ -9,49 +9,15 @@
 #include "GLSLProgram.h"
 #include "UniformFactory.h"
 
-#define STRINGIFY(x) #x
-
-static string defaultVertexShader = STRINGIFY(
-    layout(location = 0) in vec3 VertexPosition;
-
-    // Matrix used for tiled rendering:
-    uniform mat4 TileMatrix = mat4(1.0);
-    uniform vec2 resolution;
-
-    // custom version of gl_FragCoord, used for tiled rendering.
-    out vec4 glFragCoord;
-
-    void main() {
-      vec2 v = VertexPosition.xy;
-      v.x = v.x * TileMatrix[0][0] + TileMatrix[3][0];
-      v.y = v.y * TileMatrix[1][1] + TileMatrix[3][1];
-      v = v * 0.5 + 0.5;
-      glFragCoord.xy = v * resolution;
-      
-      gl_Position = vec4(VertexPosition, 1.0);
-    }
-);
-
-static string defaultFragmentShaderTexColor = STRINGIFY(
-    in vec4 glFragCoord;
-    out vec4 fragColor;
-
-    void main() {
-        fragColor = vec4(1.0,0.0,1.0,1.0);
-    }
-);
-
-
 GLSLProgram::GLSLProgram(S_MainProgram programModel, int width, int height) {
     mTexUnitIdx = 0;
     mWidth = width;
     mHeight = height;
     mProgramModel = programModel;
-    //mShader.unload();
-    //mShader.setupShaderFromSource(GL_VERTEX_SHADER, string("#version 400\n").append(string(defaultVertexShader)));
-    //mShader.setupShaderFromSource(GL_FRAGMENT_SHADER, string("#version 400\n").append(string(defaultFragmentShaderTexColor)));
+    
     mShader.setupShaderFromSource(GL_VERTEX_SHADER, mProgramModel.code.vertexCode.vert);
     mShader.setupShaderFromSource(GL_FRAGMENT_SHADER, mProgramModel.code.fragmentCode.frag);
+    mShader.bindDefaults();
     mLinkFine = mShader.linkProgram();
     mProgram = mShader.getProgram();
     fillUniformMaps();
@@ -65,7 +31,7 @@ GLSLProgram::GLSLProgram(S_MainProgram programModel, int width, int height) {
 
 float GLSLProgram::getElapsedTime(){
     /* get elapsed time in milliseconds. */
-    return (clock() - mClockStart)/1000;
+    return ((float)(clock() - mClockStart)) * 0.0001;
 }
 
 void GLSLProgram::render() {
@@ -73,10 +39,15 @@ void GLSLProgram::render() {
     
     mShader.begin();
     {
-        if(!mUniformsLoaded) {
+        if(true) {
             applyUniforms();
             mUniformsLoaded = true;
-        }
+        }/*else if(mRefreshUniformMap.size() > 0) {
+            ProgramUniformMap::iterator iter = mRefreshUniformMap.begin();
+            for(iter; iter != mRefreshUniformMap.end(); iter++) {
+                iter->second->applyValue();
+            }
+        }*/
         renderFrame();
     }
     mShader.end();
@@ -111,6 +82,7 @@ void GLSLProgram::fillUniformMaps(){
             main_uniform->setLocation(location);
             main_uniform->setCtroller(this);
             mMainUniformMap.insert(ProgramUniformMap::value_type(name,main_uniform));
+            checkNeedsRefresh(main_uniform);
         }else {
             /* custom uniforms. */
             list<S_UniformControl>::iterator iter = mProgramModel.code.fragmentCode.fragUniformControlList.begin();
@@ -125,9 +97,17 @@ void GLSLProgram::fillUniformMaps(){
                     }
                     custom_uniform->setCtroller(this);
                     mCustomUniformMap.insert(ProgramUniformMap::value_type(name,custom_uniform));
+                    checkNeedsRefresh(custom_uniform);
                 }
             }
         }
+    }
+}
+
+void  GLSLProgram::checkNeedsRefresh(UniformIf *uniform)
+{
+    if(uniform->refreshNeeded()) {
+        mRefreshUniformMap.insert(ProgramUniformMap::value_type(uniform->getName(),uniform));
     }
 }
 

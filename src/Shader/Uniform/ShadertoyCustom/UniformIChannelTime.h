@@ -14,6 +14,10 @@
 
 class UniformIChannelTime : public UniformIf {
 public:
+    UniformIChannelTime() {
+        mNeedRefresh = true;
+    }
+    
     void applyValue() {
         float time[4];
         for(int i=0; i<4; i++) {

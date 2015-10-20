@@ -4,6 +4,9 @@
 
 //--------------------------------------------------------------
 void BoxWorldApp::setup(){
+    ofEnableAlphaBlending();
+    ofDisableArbTex();
+
     string data_resource_path;
 #ifdef TARGET_OSX
     // Get the absolute location of the executable file in the bundle.

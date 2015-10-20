@@ -15,6 +15,10 @@
 
 class UniformDate : public UniformIf {
 public:
+    UniformDate () {
+        mNeedRefresh = true;
+    }
+    
     void applyValue() {
         time_t theTime = time(NULL);
         struct tm *aTime = localtime(&theTime);

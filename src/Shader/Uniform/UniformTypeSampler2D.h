@@ -10,6 +10,7 @@
 #define BoxWorld_UniformTypeSampler2D_h
 
 #include "UniformIf.h"
+#include "ofMain.h"
 
 class UniformTypeSampler2D : public UniformIf {
 public:
@@ -19,8 +20,14 @@ public:
         
         /* generate texture. */
         ofImage img;
-        img.loadImage(ofToDataPath(mValue));
+        bool suc = img.loadImage(ofToDataPath(mValue));
+        if(!suc) {
+            ofLog(OF_LOG_ERROR, "Unable to load texture resource image.");
+        }
         mTex = img.getTextureReference();
+        ofTextureData tex_data = mTex.getTextureData();
+        tex_data.textureTarget = GL_TEXTURE_2D;
+        setupTexParameters();
     }
 
     void applyValue() {
@@ -72,6 +79,17 @@ public:
     static UniformIf * __stdcall Create() { return new UniformTypeSampler2D(); }
     
 private:
+    void setupTexParameters() {
+        glBindTexture(GL_TEXTURE_2D, mTex.getTextureData().textureID);
+        
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+    
     int                     mTexUnitIdx;
     ofTexture               mTex;
 };

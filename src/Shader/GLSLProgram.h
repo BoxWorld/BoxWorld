@@ -46,6 +46,7 @@ private:
     void  renderFrame();
     void  fillUniformMaps();
     void  applyUniforms();
+    void  checkNeedsRefresh(UniformIf *uniform);
     
     bool                mLinkFine;
     bool                mUniformsLoaded;
@@ -53,8 +54,9 @@ private:
     GLuint              mProgram;
     ofShader            mShader;
     S_MainProgram       mProgramModel;
-    ProgramUniformMap   mMainUniformMap;
-    ProgramUniformMap   mCustomUniformMap;
+    ProgramUniformMap   mMainUniformMap;        /* Shadertoy pre-defined uniforms. */
+    ProgramUniformMap   mCustomUniformMap;      /* Custom normal uniforms. */
+    ProgramUniformMap   mRefreshUniformMap;     /* Uniforms need refresh(iGlobalTime, iMouse...). */
     QuadV               *mQuadDrawable;
 };
 

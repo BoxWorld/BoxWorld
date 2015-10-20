@@ -14,6 +14,10 @@
 
 class UniformIGlobalTime : public UniformIf {
 public:
+    UniformIGlobalTime() {
+        mNeedRefresh = true;
+    }
+    
     void applyValue() {
         glUniform1f(getLocation(), mCtrl->getElapsedTime());
     }

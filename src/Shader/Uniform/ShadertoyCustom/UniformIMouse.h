@@ -14,6 +14,10 @@
 
 class UniformIMouse : public UniformIf {
 public:
+    UniformIMouse() {
+        mNeedRefresh = true;
+    }
+    
     void applyValue() {
         glUniform4f(getLocation(), 0.0, 0.0, 0.0, 0.0);
     }
