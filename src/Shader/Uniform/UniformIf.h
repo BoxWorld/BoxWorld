@@ -46,6 +46,8 @@ static string UNIFORM_TYPE_MAT4 = "mat4";
 
 class UniformIf {
 public:
+    virtual ~UniformIf() {}
+    
     virtual string getName() { return mName; }
     virtual void setName(string name) { mName = name; }
     

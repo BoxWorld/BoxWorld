@@ -74,8 +74,9 @@ public:
             VBOPair vbo_pair = *(mVBOPairArr+i);
             
             vbo_pair.mBuffer->destroy();
+            delete vbo_pair.mBuffer;
         }
-        mVBOPairArr = NULL;
+        delete mVBOPairArr;
         
         if (mId != 0) {
             glDeleteVertexArrays(1, &mId);

@@ -14,8 +14,15 @@
 class UniformTypeVec3 : public UniformIf {
 public:
     void applyValue() {
-        /* remove the first '(' or '[' and the last ')' or ']'. */
-        string num_content = mValue.substr(1, mValue.length()-2);
+        string num_content;
+        string first_c = mValue.substr(0,1);
+        if((first_c == "(") || (first_c == "[")) {
+            /* remove the first '(' or '[' and the last ')' or ']'. */
+            num_content = mValue.substr(1, mValue.length()-2);
+        }else {
+            num_content = mValue;
+        }
+        
         std::vector<float> vect;
         std::stringstream ss(num_content);
         

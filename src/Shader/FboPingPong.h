@@ -38,6 +38,8 @@ public:
         }
     }
     
+    void dispose() {}
+    
     ofFbo& operator[]( int n ){ return FBOs[n];}
     
     ofFbo   *src;       // Source       ->  Ping

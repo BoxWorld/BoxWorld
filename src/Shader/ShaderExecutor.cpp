@@ -16,6 +16,11 @@ ShaderExecutor::ShaderExecutor(int width, int height){
     allocate();
 }
 
+ShaderExecutor::~ShaderExecutor() {
+    if(mGLProgramMain) delete mGLProgramMain;
+    mFboPingpong.dispose();
+}
+
 void ShaderExecutor::allocate(int _internalFormat){
     if (_internalFormat != -1)
         mInternalFormat = _internalFormat;
@@ -24,6 +29,7 @@ void ShaderExecutor::allocate(int _internalFormat){
 }
 
 void ShaderExecutor::setProgramModel(const S_MainProgram mainProgramModel) {
+    if(mGLProgramMain) delete mGLProgramMain;
     mGLProgramMain = new GLSLProgram(mainProgramModel, mWidth, mHeight);
 }
 
@@ -35,6 +41,7 @@ void ShaderExecutor::update(){
             mGLProgramMain->render();
         }
     }
+    mFboPingpong.dst->getTextureReference().getTextureData().bFlipTexture = true;
     mFboPingpong.dst->end();
     
     mFboPingpong.swap();

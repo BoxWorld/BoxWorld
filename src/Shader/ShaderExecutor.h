@@ -17,7 +17,7 @@
 class ShaderExecutor {
 public:
     ShaderExecutor(int width, int height);
-    virtual ~ShaderExecutor() {}
+    virtual ~ShaderExecutor();
     
     void setProgramModel(const S_MainProgram mainProgramModel);
     void update();

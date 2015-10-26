@@ -31,6 +31,11 @@ public:
         mVertexBuf = new VBO(GL_ARRAY_BUFFER);
     }
     
+    ~QuadV() {
+        delete mDataType;
+        destroy();
+    }
+    
     float getHalfLength() { return mHalfLength; }
     
     void setHalfLength(float halfLength) {
@@ -68,6 +73,7 @@ public:
     
     void destroy() {
         mVertexArr->destroy();
+        delete mVertexArr;
         mInited = false;
     }
     

@@ -17,11 +17,12 @@
 #include "QuadV.h"
 
 typedef map<string, UniformIf*> ProgramUniformMap;
+typedef map<string, string>     UniformPresetMap;
 
 class GLSLProgram : public ShaderCtrlIf {
 public:
     GLSLProgram(S_MainProgram programModel, int width, int height);
-    virtual ~GLSLProgram() {}
+    virtual ~GLSLProgram();
     
     void  render();
 private:
@@ -44,19 +45,19 @@ private:
 
     /* methods. */
     void  renderFrame();
+    void  initUniformPresetMap();
+    string getUniformValueByName(string name, string default_val);
     void  fillUniformMaps();
     void  applyUniforms();
-    void  checkNeedsRefresh(UniformIf *uniform);
     
     bool                mLinkFine;
-    bool                mUniformsLoaded;
     int                 mWidth, mHeight;
     GLuint              mProgram;
     ofShader            mShader;
     S_MainProgram       mProgramModel;
     ProgramUniformMap   mMainUniformMap;        /* Shadertoy pre-defined uniforms. */
     ProgramUniformMap   mCustomUniformMap;      /* Custom normal uniforms. */
-    ProgramUniformMap   mRefreshUniformMap;     /* Uniforms need refresh(iGlobalTime, iMouse...). */
+    UniformPresetMap    mUniformPresetMap;
     QuadV               *mQuadDrawable;
 };
 

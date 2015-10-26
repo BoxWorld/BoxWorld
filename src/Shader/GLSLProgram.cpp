@@ -20,8 +20,8 @@ GLSLProgram::GLSLProgram(S_MainProgram programModel, int width, int height) {
     mShader.bindDefaults();
     mLinkFine = mShader.linkProgram();
     mProgram = mShader.getProgram();
+    initUniformPresetMap();
     fillUniformMaps();
-    mUniformsLoaded = false;
     
     mClockStart = clock();
     
@@ -29,9 +29,36 @@ GLSLProgram::GLSLProgram(S_MainProgram programModel, int width, int height) {
     mQuadDrawable->init();
 }
 
+GLSLProgram::~GLSLProgram() {
+    if(mQuadDrawable) delete mQuadDrawable;
+    
+    /* delete main uniforms. */
+    ProgramUniformMap::iterator iter = mMainUniformMap.begin();
+    for(iter; iter != mMainUniformMap.end(); iter++) {
+        delete iter->second;
+    }
+    
+    /* delete custom uniforms. */
+    iter = mCustomUniformMap.begin();
+    for(iter; iter != mCustomUniformMap.end(); iter++) {
+        delete iter->second;
+    }
+}
+
+void GLSLProgram::initUniformPresetMap()
+{
+    list<S_Preset> preset_list = mProgramModel.code.fragmentCode.presetList;
+    if(preset_list.size() == 0) return;
+    
+    list<S_Preset>::iterator iter = preset_list.begin();
+    for(iter; iter!= preset_list.end(); iter++) {
+        mUniformPresetMap.insert(UniformPresetMap::value_type(iter->name, iter->rawTextValue));
+    }
+}
+
 float GLSLProgram::getElapsedTime(){
     /* get elapsed time in milliseconds. */
-    return ((float)(clock() - mClockStart)) * 0.0001;
+    return ((float)(clock() - mClockStart)) * 0.00001;
 }
 
 void GLSLProgram::render() {
@@ -39,18 +66,18 @@ void GLSLProgram::render() {
     
     mShader.begin();
     {
-        if(true) {
-            applyUniforms();
-            mUniformsLoaded = true;
-        }/*else if(mRefreshUniformMap.size() > 0) {
-            ProgramUniformMap::iterator iter = mRefreshUniformMap.begin();
-            for(iter; iter != mRefreshUniformMap.end(); iter++) {
-                iter->second->applyValue();
-            }
-        }*/
+        applyUniforms();
         renderFrame();
     }
     mShader.end();
+}
+
+string GLSLProgram::getUniformValueByName(string name, string default_val)
+{
+    if((mUniformPresetMap.size() == 0) ||
+       mUniformPresetMap.find(name) == mUniformPresetMap.end()) return default_val;
+    
+    return mUniformPresetMap.find(name)->second;
 }
 
 /*
@@ -82,7 +109,6 @@ void GLSLProgram::fillUniformMaps(){
             main_uniform->setLocation(location);
             main_uniform->setCtroller(this);
             mMainUniformMap.insert(ProgramUniformMap::value_type(name,main_uniform));
-            checkNeedsRefresh(main_uniform);
         }else {
             /* custom uniforms. */
             list<S_UniformControl>::iterator iter = mProgramModel.code.fragmentCode.fragUniformControlList.begin();
@@ -91,23 +117,15 @@ void GLSLProgram::fillUniformMaps(){
                     UniformIf *custom_uniform = UniformFactory::getInst()->CreateUniform(iter->typeString, UniformFactory::CREATE_BY_TYPE);
                     custom_uniform->setName(name);
                     custom_uniform->setLocation(location);
-                    custom_uniform->setValueStr(iter->value);
-                    if((iter->typeString == "sampler2D") || iter->typeString == "samplerCube") {
+                    custom_uniform->setValueStr(getUniformValueByName(name, iter->value));
+                    if((iter->typeString == UNIFORM_TYPE_SAMPLER2D) || iter->typeString == UNIFORM_TYPE_SAMPLERCUBE) {
                         custom_uniform->setTexParamList(iter->texParamList);
                     }
                     custom_uniform->setCtroller(this);
                     mCustomUniformMap.insert(ProgramUniformMap::value_type(name,custom_uniform));
-                    checkNeedsRefresh(custom_uniform);
                 }
             }
         }
-    }
-}
-
-void  GLSLProgram::checkNeedsRefresh(UniformIf *uniform)
-{
-    if(uniform->refreshNeeded()) {
-        mRefreshUniformMap.insert(ProgramUniformMap::value_type(uniform->getName(),uniform));
     }
 }
 
@@ -157,6 +175,7 @@ void GLSLProgram::applyChannelResolutionOnShader(int idx, int width , int height
     buff[3 * idx + 2] = 0.0f;
     
     glUniform3fv(location, MAX_CHANNELS, buff);
+    delete buff;
 }
 
 void  GLSLProgram::applyIntegerOnShader(int loc, int value){
