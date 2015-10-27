@@ -9,7 +9,7 @@
 #include "GLSLProgram.h"
 #include "UniformFactory.h"
 
-GLSLProgram::GLSLProgram(S_MainProgram programModel, int width, int height) {
+GLSLProgram::GLSLProgram(S_Program programModel, int width, int height) {
     mTexUnitIdx = 0;
     mWidth = width;
     mHeight = height;
@@ -149,6 +149,10 @@ void GLSLProgram::renderFrame(){
 
 int GLSLProgram::getTexUnitIdx() {
     return mTexUnitIdx++;
+}
+
+float GLSLProgram::getBlockOfs() {
+    return mBlockOfs;
 }
 
 void  GLSLProgram::applyTextureOnShader(string name, int textureTarget, int textureID, int textureLocation){

@@ -17,6 +17,7 @@
 #include "UniformIMouse.h"
 #include "UniformDate.h"
 #include "UniformSampleRate.h"
+#include "UniformIBlockOffset.h"
 #include "UniformTypeFloat.h"
 #include "UniformTypeSampler2D.h"
 #include "UniformTypeSamplerCube.h"
@@ -73,7 +74,8 @@ private:
         Register(UNIFORM_IMOUSE, &UniformIMouse::Create, CREATE_BY_NAME);
         Register(UNIFORM_DATE, &UniformDate::Create, CREATE_BY_NAME);
         Register(UNIFORM_SAMPLE_RATE, &UniformSampleRate::Create, CREATE_BY_NAME);
-        
+        Register(UNIFORM_BLOCK_OFFSET, &UniformIBlockOffset::Create, CREATE_BY_NAME);
+
         Register(UNIFORM_SANDBOX_RESOLUTION, &UniformResolution::Create, CREATE_BY_NAME);
         
         /* Custom uniforms. */

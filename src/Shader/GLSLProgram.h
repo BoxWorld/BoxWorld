@@ -21,14 +21,16 @@ typedef map<string, string>     UniformPresetMap;
 
 class GLSLProgram : public ShaderCtrlIf {
 public:
-    GLSLProgram(S_MainProgram programModel, int width, int height);
+    GLSLProgram(S_Program programModel, int width, int height);
     virtual ~GLSLProgram();
     
     void  render();
+    void setBlockOfs(float block_ofs) { mBlockOfs = block_ofs; }
 private:
     /* inherited from ShaderCtrlIf. */
     float getElapsedTime();
     int   getTexUnitIdx();
+    float getBlockOfs();
     void  applyTextureOnShader(string name, int textureTarget, int textureID, int textureLocation);
     void  applyTextureOnShader(string name, ofTexture& tex, int texLocation);
     void  applyChannelResolutionOnShader(int idx, int width , int height);
@@ -52,9 +54,10 @@ private:
     
     bool                mLinkFine;
     int                 mWidth, mHeight;
+    float               mBlockOfs;  /* Audio shader uniform value. */
     GLuint              mProgram;
     ofShader            mShader;
-    S_MainProgram       mProgramModel;
+    S_Program           mProgramModel;
     ProgramUniformMap   mMainUniformMap;        /* Shadertoy pre-defined uniforms. */
     ProgramUniformMap   mCustomUniformMap;      /* Custom normal uniforms. */
     UniformPresetMap    mUniformPresetMap;

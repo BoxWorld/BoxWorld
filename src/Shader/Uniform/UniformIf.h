@@ -26,6 +26,7 @@ static string UNIFORM_IRESOLUTION = "iResolution";
 static string UNIFORM_IMOUSE = "iMouse";
 static string UNIFORM_DATE = "iDate";
 static string UNIFORM_SAMPLE_RATE = "iSampleRate";
+static string UNIFORM_BLOCK_OFFSET = "iBlockOffset";
 
 static string UNIFORM_SANDBOX_RESOLUTION = "resolution";
 

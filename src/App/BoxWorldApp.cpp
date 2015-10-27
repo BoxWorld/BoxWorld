@@ -104,6 +104,6 @@ void BoxWorldApp::dragEvent(ofDragInfo dragInfo){
 
 void BoxWorldApp::updateScene(Message *msg){
     Parser *shader_parser = new Parser(msg->getContent());
-    mShaderExecutor->setProgramModel(shader_parser->getMainProgram());
+    mShaderExecutor->setProgramModel(shader_parser->getMainProgram(), shader_parser->getAudioProgram());
     delete shader_parser;
 }

@@ -127,6 +127,8 @@
 		062F48131BD0822E0027C8BF /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Parser.h; path = Shader/Parser.h; sourceTree = "<group>"; };
 		062F48151BD084A40027C8BF /* Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Parser.cpp; path = Shader/Parser.cpp; sourceTree = "<group>"; };
 		062F48171BD0881F0027C8BF /* ShaderConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderConfig.h; path = Shader/ShaderConfig.h; sourceTree = "<group>"; };
+		06B9F4E21BDF167200EE1A29 /* AudioOutGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOutGenerator.h; path = Audio/AudioOutGenerator.h; sourceTree = "<group>"; };
+		06B9F4E41BDF92A000EE1A29 /* UniformIBlockOffset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformIBlockOffset.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -209,6 +211,7 @@
 				0626F6581BD24BA10000A9A6 /* UniformIResolution.h */,
 				0626F6591BD24BA10000A9A6 /* UniformSampleRate.h */,
 				0626F6771BD52E9B0000A9A6 /* UniformResolution.h */,
+				06B9F4E41BDF92A000EE1A29 /* UniformIBlockOffset.h */,
 			);
 			name = ShadertoyCustom;
 			path = Shader/Uniform/ShadertoyCustom;
@@ -350,6 +353,14 @@
 			name = Shader;
 			sourceTree = "<group>";
 		};
+		06B9F4E11BDF164400EE1A29 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				06B9F4E21BDF167200EE1A29 /* AudioOutGenerator.h */,
+			);
+			name = Audio;
+			sourceTree = "<group>";
+		};
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
@@ -422,6 +433,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				06B9F4E11BDF164400EE1A29 /* Audio */,
 				062F47FC1BCFF03F0027C8BF /* jsoncpp */,
 				062F47EE1BCBDC0C0027C8BF /* Command */,
 				062F47E21BCB64CD0027C8BF /* Message */,

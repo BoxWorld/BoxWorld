@@ -15,7 +15,7 @@
 class UniformSampleRate : public UniformIf {
 public:
     void applyValue() {
-        glUniform1f(getLocation(), 0.0);
+        glUniform1f(getLocation(), 44100);
     }
     
     static UniformIf * __stdcall Create() { return new UniformSampleRate(); }

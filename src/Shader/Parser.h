@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string>
 #include "ShaderConfig.h"
+#include "json.h"
 
 using namespace std;
 
@@ -31,11 +32,14 @@ public:
     }PARSER_ERROR;
     
     PARSER_ERROR getErrorType() { return mError; }
-    S_MainProgram getMainProgram() { return mMainProgram; }
+    S_Program getMainProgram() { return mMainProgram; }
+    S_Program getAudioProgram() { return mAudioProgram; }
     
 private:
+    S_Program decodeToProgram(const Json::Value& val);
+    
     PARSER_ERROR  mError;
-    S_MainProgram mMainProgram;
+    S_Program mMainProgram, mAudioProgram;
 };
 
 #endif

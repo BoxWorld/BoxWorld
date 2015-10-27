@@ -16,6 +16,7 @@ using namespace std;
 
 const static char* BOXWORLD_SHADER_KEY = "boxworldShader";
 const static char* PROGRAM_MAIN_KEY = "mainProgram";
+const static char* PROGRAM_AUDIO_KEY = "audioProgram";
 const static char* PROGRAM_POSTPROCESS_KEY = "postProcessProgram";
 const static char* PROGRAM_SUB_NAME_KEY = "name";
 const static char* PROGRAM_SUB_CODE_KEY = "code";
@@ -70,6 +71,7 @@ typedef struct{
 typedef struct {
     string name;
     S_Code code;
-}S_MainProgram;
+    bool valid;
+}S_Program;
 
 #endif
