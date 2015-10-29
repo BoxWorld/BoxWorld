@@ -11,11 +11,12 @@
 
 #include "UniformIf.h"
 #include "ofMain.h"
+#include "AudioOutGenerator.h"
 
 class UniformSampleRate : public UniformIf {
 public:
     void applyValue() {
-        glUniform1f(getLocation(), 44100);
+        glUniform1f(getLocation(), DEFAULT_SAMPLE_RATE);
     }
     
     static UniformIf * __stdcall Create() { return new UniformSampleRate(); }

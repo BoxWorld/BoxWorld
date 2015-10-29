@@ -12,8 +12,15 @@
 #include "ConnIf.h"
 #include "ofFileUtils.h"
 #include "ofxTimer.h"
+#include "FileWatcher.h"
 
-class ConnSimuImp : public ConnIf {
+typedef enum {
+    NORMAL = 0,
+    ADDED,
+    DELETED
+}FILE_EVENTS;
+
+class ConnSimuImp : public ConnIf, FW::FileWatchListener {
 public:
     ConnSimuImp (ConnListenerIf *listener) {
         mConnListener = listener;
@@ -22,11 +29,12 @@ public:
     virtual ~ConnSimuImp() {}
     
     void init();
+    void handleFileAction(FW::WatchID watchid, const string& dir, const string& filename, FW::Action action);
+    void update();
+
 private:
-    ofFile   mFile;
-    ofxTimer mTimer;
-    
-    void scanDataDir(ofEventArgs& args);
+    FW::FileWatcher *mFileWatcher;
+    void onAppAdd(string name);
 };
 
 #endif

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0623E6381BE06A880021918F /* boost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0623E6371BE06A880021918F /* boost.a */; };
+		0623E63E1BE099140021918F /* ResourceMgrInst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0623E63C1BE099140021918F /* ResourceMgrInst.cpp */; };
 		0626F6441BD0D3F30000A9A6 /* ShaderExecutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0626F6421BD0D3F30000A9A6 /* ShaderExecutor.cpp */; };
 		0626F6481BD126970000A9A6 /* GLSLProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0626F6461BD126970000A9A6 /* GLSLProgram.cpp */; };
 		0626F66F1BD48CBF0000A9A6 /* ofxCubeMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0626F66C1BD48CBF0000A9A6 /* ofxCubeMap.cpp */; };
@@ -17,6 +19,8 @@
 		062F48111BCFF1840027C8BF /* BoxWorldApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F480E1BCFF1840027C8BF /* BoxWorldApp.cpp */; };
 		062F48121BCFF1840027C8BF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F48101BCFF1840027C8BF /* main.cpp */; };
 		062F48161BD084A40027C8BF /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062F48151BD084A40027C8BF /* Parser.cpp */; };
+		063897C01BE2431B00A047E3 /* FileWatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 063897BC1BE2431B00A047E3 /* FileWatcher.cpp */; };
+		063897C21BE2431B00A047E3 /* FileWatcherOSX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 063897BE1BE2431B00A047E3 /* FileWatcherOSX.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -67,6 +71,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0623E6371BE06A880021918F /* boost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = boost.a; path = ../../../addons/ofxOSXBoost/libs/boost/lib/osx/boost.a; sourceTree = "<group>"; };
+		0623E63C1BE099140021918F /* ResourceMgrInst.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ResourceMgrInst.cpp; path = App/ResourceMgrInst.cpp; sourceTree = "<group>"; };
+		0623E63D1BE099140021918F /* ResourceMgrInst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceMgrInst.h; path = App/ResourceMgrInst.h; sourceTree = "<group>"; };
 		0626F6421BD0D3F30000A9A6 /* ShaderExecutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderExecutor.cpp; path = Shader/ShaderExecutor.cpp; sourceTree = "<group>"; };
 		0626F6431BD0D3F30000A9A6 /* ShaderExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderExecutor.h; path = Shader/ShaderExecutor.h; sourceTree = "<group>"; };
 		0626F6451BD0DBC10000A9A6 /* FboPingPong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FboPingPong.h; path = Shader/FboPingPong.h; sourceTree = "<group>"; };
@@ -107,7 +114,6 @@
 		062F47E41BCB91480027C8BF /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		062F47EB1BCBC57D0027C8BF /* ofxTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTimer.cpp; sourceTree = "<group>"; };
 		062F47EC1BCBC57D0027C8BF /* ofxTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTimer.h; sourceTree = "<group>"; };
-		062F47FB1BCFD7730027C8BF /* BoxWorldShader_0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = BoxWorldShader_0.json; path = bin/data/BoxWorldShader_0.json; sourceTree = SOURCE_ROOT; };
 		062F47FE1BCFF03F0027C8BF /* json-forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "json-forwards.h"; sourceTree = "<group>"; };
 		062F47FF1BCFF03F0027C8BF /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
 		062F48001BCFF03F0027C8BF /* jsoncpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsoncpp.cpp; sourceTree = "<group>"; };
@@ -127,6 +133,15 @@
 		062F48131BD0822E0027C8BF /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Parser.h; path = Shader/Parser.h; sourceTree = "<group>"; };
 		062F48151BD084A40027C8BF /* Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Parser.cpp; path = Shader/Parser.cpp; sourceTree = "<group>"; };
 		062F48171BD0881F0027C8BF /* ShaderConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderConfig.h; path = Shader/ShaderConfig.h; sourceTree = "<group>"; };
+		063897B61BE2431B00A047E3 /* FileWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileWatcher.h; sourceTree = "<group>"; };
+		063897B71BE2431B00A047E3 /* FileWatcherImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileWatcherImpl.h; sourceTree = "<group>"; };
+		063897B81BE2431B00A047E3 /* FileWatcherLinux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileWatcherLinux.h; sourceTree = "<group>"; };
+		063897B91BE2431B00A047E3 /* FileWatcherOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileWatcherOSX.h; sourceTree = "<group>"; };
+		063897BA1BE2431B00A047E3 /* FileWatcherWin32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileWatcherWin32.h; sourceTree = "<group>"; };
+		063897BC1BE2431B00A047E3 /* FileWatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileWatcher.cpp; sourceTree = "<group>"; };
+		063897BD1BE2431B00A047E3 /* FileWatcherLinux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileWatcherLinux.cpp; sourceTree = "<group>"; };
+		063897BE1BE2431B00A047E3 /* FileWatcherOSX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileWatcherOSX.cpp; sourceTree = "<group>"; };
+		063897BF1BE2431B00A047E3 /* FileWatcherWin32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileWatcherWin32.cpp; sourceTree = "<group>"; };
 		06B9F4E21BDF167200EE1A29 /* AudioOutGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOutGenerator.h; path = Audio/AudioOutGenerator.h; sourceTree = "<group>"; };
 		06B9F4E41BDF92A000EE1A29 /* UniformIBlockOffset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformIBlockOffset.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
@@ -156,6 +171,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0623E6381BE06A880021918F /* boost.a in Frameworks */,
 				E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */,
 				E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */,
 				E4EB6799138ADC1D00A09F29 /* GLUT.framework in Frameworks */,
@@ -301,6 +317,8 @@
 				062F480E1BCFF1840027C8BF /* BoxWorldApp.cpp */,
 				062F480F1BCFF1840027C8BF /* BoxWorldApp.h */,
 				062F48101BCFF1840027C8BF /* main.cpp */,
+				0623E63C1BE099140021918F /* ResourceMgrInst.cpp */,
+				0623E63D1BE099140021918F /* ResourceMgrInst.h */,
 			);
 			name = App;
 			sourceTree = "<group>";
@@ -308,7 +326,6 @@
 		062F47FA1BCFD7610027C8BF /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				062F47FB1BCFD7730027C8BF /* BoxWorldShader_0.json */,
 			);
 			name = resources;
 			path = src;
@@ -351,6 +368,38 @@
 				0626F64A1BD1DD0F0000A9A6 /* Uniform */,
 			);
 			name = Shader;
+			sourceTree = "<group>";
+		};
+		063897B41BE2431B00A047E3 /* FileWatcher */ = {
+			isa = PBXGroup;
+			children = (
+				063897B51BE2431B00A047E3 /* inc */,
+				063897BB1BE2431B00A047E3 /* src */,
+			);
+			path = FileWatcher;
+			sourceTree = "<group>";
+		};
+		063897B51BE2431B00A047E3 /* inc */ = {
+			isa = PBXGroup;
+			children = (
+				063897B61BE2431B00A047E3 /* FileWatcher.h */,
+				063897B71BE2431B00A047E3 /* FileWatcherImpl.h */,
+				063897B81BE2431B00A047E3 /* FileWatcherLinux.h */,
+				063897B91BE2431B00A047E3 /* FileWatcherOSX.h */,
+				063897BA1BE2431B00A047E3 /* FileWatcherWin32.h */,
+			);
+			path = inc;
+			sourceTree = "<group>";
+		};
+		063897BB1BE2431B00A047E3 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				063897BC1BE2431B00A047E3 /* FileWatcher.cpp */,
+				063897BD1BE2431B00A047E3 /* FileWatcherLinux.cpp */,
+				063897BE1BE2431B00A047E3 /* FileWatcherOSX.cpp */,
+				063897BF1BE2431B00A047E3 /* FileWatcherWin32.cpp */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		06B9F4E11BDF164400EE1A29 /* Audio */ = {
@@ -419,6 +468,7 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
+				0623E6371BE06A880021918F /* boost.a */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				062F47FA1BCFD7610027C8BF /* resources */,
@@ -433,6 +483,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				063897B41BE2431B00A047E3 /* FileWatcher */,
 				06B9F4E11BDF164400EE1A29 /* Audio */,
 				062F47FC1BCFF03F0027C8BF /* jsoncpp */,
 				062F47EE1BCBDC0C0027C8BF /* Command */,
@@ -542,7 +593,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				062F480D1BCFF1730027C8BF /* ConnSimuImp.cpp in Sources */,
+				063897C21BE2431B00A047E3 /* FileWatcherOSX.cpp in Sources */,
 				0626F6441BD0D3F30000A9A6 /* ShaderExecutor.cpp in Sources */,
+				063897C01BE2431B00A047E3 /* FileWatcher.cpp in Sources */,
+				0623E63E1BE099140021918F /* ResourceMgrInst.cpp in Sources */,
 				062F48111BCFF1840027C8BF /* BoxWorldApp.cpp in Sources */,
 				062F48161BD084A40027C8BF /* Parser.cpp in Sources */,
 				062F48121BCFF1840027C8BF /* main.cpp in Sources */,
@@ -629,17 +683,23 @@
 		E4B69B600A3A1757003C02F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(SRCROOT)/../../../addons/ofxOSXBoost/libs/boost/lib/osx",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
-				HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS)";
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					"$(SRCROOT)/../../../addons/ofxOSXBoost/libs/boost/include\n$(SRCROOT)/../../../addons/ofxOSXBoost/libs/boost/include\n$(SRCROOT)/../../../addons/ofxOSXBoost/libs/boost/include$(SRCROOT)/../../../addons/ofxOSXBoost/libs/boost/include\n",
+				);
 				ICON = "$(ICON_NAME_DEBUG)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
@@ -707,8 +767,12 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
+					/Users/hanmaokun/Downloads/of_v0.8.4_osx_release/addons/ofxOSXBoost/libs/boost/lib/osx,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -716,16 +780,22 @@
 		E4B69B610A3A1757003C02F2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(SRCROOT)/../../../addons/ofxOSXBoost/libs/boost/lib/osx",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
-				HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS)";
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					"$(SRCROOT)/../../../addons/ofxOSXBoost/libs/boost/include\n$(SRCROOT)/../../../addons/ofxOSXBoost/libs/boost/include\n$(SRCROOT)/../../../addons/ofxOSXBoost/libs/boost/include$(SRCROOT)/../../../addons/ofxOSXBoost/libs/boost/include\n",
+				);
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
@@ -793,8 +863,12 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_49)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
+					/Users/hanmaokun/Downloads/of_v0.8.4_osx_release/addons/ofxOSXBoost/libs/boost/lib/osx,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

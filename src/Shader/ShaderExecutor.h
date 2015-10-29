@@ -15,18 +15,22 @@
 #include "GLSLProgram.h"
 #include "AudioOutGenerator.h"
 
+/* https://github.com/danoli3/ofxOSXBoost */
+#include <boost/thread/thread.hpp>
+
 class ShaderExecutor {
 public:
     ShaderExecutor(int width, int height);
     virtual ~ShaderExecutor();
     
-    void setProgramModel(const S_Program& mainProgramModel, const S_Program& audioProgramModel);
+    bool setProgramModel(const S_Program& mainProgramModel, const S_Program& audioProgramModel);
     void update();
     void draw();
 private:
     void allocate(int _internalFormat = -1);
     void renderFrame();
 
+    bool            mAudioFileExist;
     bool            mAudioFileReady;
     int             mWidth, mHeight;
     int             mInternalFormat;

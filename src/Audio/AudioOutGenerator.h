@@ -11,6 +11,7 @@
 
 #include <fstream>
 #include <iostream>
+#include "ResourceMgrInst.h"
 
 #define MAX_AUDIO_VOLUME 2147483648
 
@@ -28,8 +29,9 @@ std::ostream& write_word( std::ostream& outs, Word value, unsigned size = sizeof
 
 class AudioOutGenerator {
 public:
-    AudioOutGenerator(int tex_width, int tex_height, float duration = DEFAULT_DURATION) {
+    AudioOutGenerator(string name, int tex_width, int tex_height, float duration = DEFAULT_DURATION) {
         mWavBuf = NULL;
+        mName = name.substr(0, name.find_last_of("."));
         mDuration = duration;
         mTotalSamples = duration * DEFAULT_SAMPLE_RATE;
         mTexWidth = tex_width;
@@ -40,8 +42,8 @@ public:
     }
     
     virtual ~AudioOutGenerator() {
-        if(mWavBuf[0]) delete mWavBuf;
-        //if(mWavBuf[1]) delete mWavBuf;
+        if(mWavBuf[1]) delete mWavBuf[1];
+        if(mWavBuf[0]) delete mWavBuf[0];
     }
     
     int getNumBlocks() { return mNumBlocks; }
@@ -49,6 +51,8 @@ public:
     int getTexSamples() { return mTexSamples; }
     
     float getSampleRate() { return DEFAULT_SAMPLE_RATE; }
+    
+    string getRawname() { return mName; }
     
     void writeToBuf(int offset, unsigned char* data){
         float *leftBuf  = mWavBuf[0];
@@ -60,7 +64,8 @@ public:
     }
     
     void writeWavFile() {
-        ofstream f( "example.wav", ios::binary );
+        string wav_file_name = ResourceMgrInst::get()->getWavFileDir().append(mName).append(".wav");
+        ofstream f( wav_file_name.c_str(), ios::binary );
         // Write the file headers
         f << "RIFF----WAVEfmt ";     // (chunk size to be filled in later)
         write_word( f,     16, 4 );  // no extension data
@@ -108,6 +113,7 @@ private:
     int mTexWidth, mTexHeight;
     float mDuration;
     float** mWavBuf;
+    string mName;
 };
 
 #endif

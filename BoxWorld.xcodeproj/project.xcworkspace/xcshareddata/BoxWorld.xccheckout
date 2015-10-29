@@ -7,7 +7,7 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>440FCBE3-2495-4118-87FE-4F041C221FFD</string>
 	<key>IDESourceControlProjectName</key>
-	<string>BoxWorld</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>85371A0504F910480F3F97B2030451F8E9A2205B</key>
@@ -16,9 +16,11 @@
 		<string>https://github.com/andreasmuller/ofxCubeMap.git</string>
 		<key>E0535550E19824754C404DB0DDE5EC8ABB043726</key>
 		<string>https://github.com/fx-lange/ofxTimer.git</string>
+		<key>E068B5130748B8B45220364D050FFE995677D392</key>
+		<string>https://github.com/danoli3/ofxOSXBoost.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>BoxWorld.xcodeproj</string>
+	<string>BoxWorld.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>85371A0504F910480F3F97B2030451F8E9A2205B</key>
@@ -27,6 +29,8 @@
 		<string>../../../addons/ofxCubeMap</string>
 		<key>E0535550E19824754C404DB0DDE5EC8ABB043726</key>
 		<string>../../../addons/ofxTimer</string>
+		<key>E068B5130748B8B45220364D050FFE995677D392</key>
+		<string>../../../addons/ofxOSXBoost</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/BoxWorld/BoxWorld.git</string>
@@ -51,6 +55,14 @@
 			<string>D3A391CBE6A216E3ED8F808E0A0C340E1DD995B2</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ofxCubeMap</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E068B5130748B8B45220364D050FFE995677D392</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ofxOSXBoost</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>

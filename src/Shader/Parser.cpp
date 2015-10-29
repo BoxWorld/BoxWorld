@@ -13,7 +13,7 @@ S_Program Parser::decodeToProgram(const Json::Value& val) {
     
     if (val.empty()) { mError = NO_MAINPROGRAM; return program; }
     
-    string program_name = val[PROGRAM_SUB_NAME_KEY].asString();
+    program.name = val[PROGRAM_SUB_NAME_KEY].asString();
     const Json::Value program_code_value = val[PROGRAM_SUB_CODE_KEY];
     if (program_code_value.empty()) { mError = NO_CODE; return program; }
     
@@ -51,7 +51,7 @@ S_Program Parser::decodeToProgram(const Json::Value& val) {
             uc.name = arr_uc_value[i][UC_SUB_NAME_KEY].asString();
             uc.typeString = arr_uc_value[i][UC_SUB_TYPE_KEY].asString();
             uc.value = arr_uc_value[i][UC_SUB_VALUE_KEY].asString();
-            if((uc.typeString == "sampler2D") && (arr_uc_value[i][UC_SUB_TEXPARAMLIST_KEY] != NULL)) {
+            if((uc.typeString == "sampler2D") && (arr_uc_value[i][UC_SUB_TEXPARAMLIST_KEY] != 0)) {
                 const Json::Value arr_texparam_value = arr_uc_value[i][UC_SUB_TEXPARAMLIST_KEY];
                 for(int k=0; k<arr_texparam_value.size(); k++) {
                     S_TextureParam tex_param;

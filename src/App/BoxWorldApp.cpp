@@ -1,6 +1,7 @@
 #include "BoxWorldApp.h"
 #include "ConnMgrInst.h"
 #include "Parser.h"
+#include "ResourceMgrInst.h"
 
 //--------------------------------------------------------------
 void BoxWorldApp::setup(){
@@ -41,15 +42,26 @@ void BoxWorldApp::setup(){
     }
 #endif
     
+    /* Init according to manifest file. */
+    ResourceMgrInst::get()->setRootDir(data_resource_path);
+
+    /* Init connection manager for incoming message handling. */
     ConnMgrInst::get()->setCmdReceiver(this);
     ofSetDataPathRoot(data_resource_path);
     
     mShaderExecutor = new ShaderExecutor(BOXWORLD_WIDTH, BOXWORLD_HEIGHT);
+    
+    if(ResourceMgrInst::get()->isDefaultAppValid()) {
+        Parser *shader_parser = new Parser(ResourceMgrInst::get()->getDefAppContent());
+        mShaderExecutor->setProgramModel(shader_parser->getMainProgram(), shader_parser->getAudioProgram());
+        delete shader_parser;
+    }
 }
 
 //--------------------------------------------------------------
 void BoxWorldApp::update(){
     mShaderExecutor->update();
+    ConnMgrInst::get()->update();
 }
 
 //--------------------------------------------------------------
@@ -104,6 +116,10 @@ void BoxWorldApp::dragEvent(ofDragInfo dragInfo){
 
 void BoxWorldApp::updateScene(Message *msg){
     Parser *shader_parser = new Parser(msg->getContent());
-    mShaderExecutor->setProgramModel(shader_parser->getMainProgram(), shader_parser->getAudioProgram());
+    bool suc = mShaderExecutor->setProgramModel(shader_parser->getMainProgram(), shader_parser->getAudioProgram());
     delete shader_parser;
+    
+    if(suc) {
+        
+    }
 }

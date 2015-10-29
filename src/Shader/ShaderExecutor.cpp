@@ -7,12 +7,14 @@
 //
 #include "ofMain.h"
 #include "ShaderExecutor.h"
+#include "ResourceMgrInst.h"
 
 ShaderExecutor::ShaderExecutor(int width, int height){
     mGLProgramMain = NULL;
     mGLProgramAudio = NULL;
     mAudGen = NULL;
     mAudioFileReady = false;
+    mAudioFileExist = false;
     mWidth = width;
     mHeight = height;
     mInternalFormat = GL_RGBA;
@@ -20,8 +22,9 @@ ShaderExecutor::ShaderExecutor(int width, int height){
 }
 
 ShaderExecutor::~ShaderExecutor() {
-    if(mGLProgramMain) delete mGLProgramMain;
-    if(mAudGen) delete mAudGen;
+    if(mGLProgramMain)  delete mGLProgramMain;
+    if(mGLProgramAudio) delete mGLProgramAudio;
+    if(mAudGen)         delete mAudGen;
     mFboPingpong.dispose();
 }
 
@@ -32,19 +35,39 @@ void ShaderExecutor::allocate(int _internalFormat){
     mFboPingpong.allocate(mWidth, mHeight, mInternalFormat);
 }
 
-void ShaderExecutor::setProgramModel(const S_Program& mainProgramModel, const S_Program& audioProgramModel) {
-    if(mGLProgramMain) delete mGLProgramMain;
-    if(mainProgramModel.valid)
+bool ShaderExecutor::setProgramModel(const S_Program& mainProgramModel, const S_Program& audioProgramModel) {
+    bool suc = false;
+    
+    /* create new one with feeds. */
+    if(mainProgramModel.valid){
+        if(mGLProgramMain) delete mGLProgramMain;
         mGLProgramMain = new GLSLProgram(mainProgramModel, mWidth, mHeight);
+        suc = true;
+    }
+    
+    if(mGLProgramAudio) {
+        delete mGLProgramAudio;
+        mGLProgramAudio = NULL;
+    }
+    if(mAudGen){
+        delete mAudGen;
+        mAudGen = NULL;
+    }
     if(audioProgramModel.valid) {
         mGLProgramAudio = new GLSLProgram(audioProgramModel, mWidth, mHeight);
-        mAudGen = new AudioOutGenerator(mWidth, mHeight);
+        mAudGen = new AudioOutGenerator(audioProgramModel.name, mWidth, mHeight);
         mAudioFbo.allocate(mWidth,mHeight, mInternalFormat );
         mAudioFbo.begin();
         ofClear(0, 0);
         mAudioFbo.end();
         mAudioPixels.allocate(mWidth, mHeight, OF_PIXELS_RGBA);
     }
+    
+    /* find if wav file already exists in cache first. */
+    if(mAudGen)
+        mAudioFileExist = ResourceMgrInst::get()->isWavFileExists(mAudGen->getRawname());
+    
+    return suc;
 }
 
 void ShaderExecutor::update(){
@@ -61,27 +84,37 @@ void ShaderExecutor::update(){
     mFboPingpong.swap();
     
     /* audio program rendering to generate wav file, only for once. */
-    if(mGLProgramAudio && !mAudioFileReady && mAudGen) {
-        for(int i=0; i<mAudGen->getNumBlocks(); i++) {
-            int offset = i * mAudGen->getTexSamples();
-            float block_ofs = offset/mAudGen->getSampleRate();
-            /* render to generate texture data. */
-            mAudioFbo.begin();
+    if(!mAudioFileExist && mGLProgramAudio && mAudGen) {
+        static bool wasExecuted = false;
+        
+        if(!wasExecuted) {
+            static int blocks_ctr = 0;
             {
-                ofClear(0);
-                mGLProgramAudio->setBlockOfs(block_ofs);
-                mGLProgramAudio->render();
+                int offset = blocks_ctr * mAudGen->getTexSamples();
+                float block_ofs = offset/mAudGen->getSampleRate();
+                /* render to generate texture data. */
+                mAudioFbo.begin();
+                {
+                    ofClear(0);
+                    mGLProgramAudio->setBlockOfs(block_ofs);
+                    mGLProgramAudio->render();
+                }
+                mAudioFbo.end();
+                mAudioFbo.readToPixels(mAudioPixels);
+                mAudGen->writeToBuf(offset, mAudioPixels.getPixels());
+                blocks_ctr += 1;
             }
-            mAudioFbo.end();
-            mAudioFbo.readToPixels(mAudioPixels);
-            mAudGen->writeToBuf(offset, mAudioPixels.getPixels());
+            if(blocks_ctr == mAudGen->getNumBlocks()){
+                mAudGen->writeWavFile();
+                mAudioFileReady = true;
+                mAudioFileExist = true;
+                wasExecuted = true;
+            }
         }
-        mAudGen->writeWavFile();
-        mAudioFileReady = true;
     }
 }
 
-void ShaderExecutor::draw(){    
+void ShaderExecutor::draw(){
     ofPushStyle();
     ofEnableAlphaBlending();
     mFboPingpong.dst->draw(0, 0, mWidth, mHeight);

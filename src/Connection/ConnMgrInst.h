@@ -45,6 +45,10 @@ public:
         cmd->exec();
     }
     
+    void update() {
+        mConnSimu->update();
+    }
+    
 private:
     ConnMgrInst () {
         init();

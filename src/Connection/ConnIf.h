@@ -20,6 +20,7 @@ public:
     virtual ~ConnIf() {}
     
     virtual void init() = 0;
+    virtual void update() = 0;
 protected:
     ConnListenerIf *mConnListener;
     bool isConnected;
