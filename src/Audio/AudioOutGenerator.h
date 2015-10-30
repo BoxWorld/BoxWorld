@@ -31,7 +31,8 @@ class AudioOutGenerator {
 public:
     AudioOutGenerator(string name, int tex_width, int tex_height, float duration = DEFAULT_DURATION) {
         mWavBuf = NULL;
-        mName = name.substr(0, name.find_last_of("."));
+        mFullName = name;
+        mRawName = name.substr(0, name.find_last_of("."));
         mDuration = duration;
         mTotalSamples = duration * DEFAULT_SAMPLE_RATE;
         mTexWidth = tex_width;
@@ -47,12 +48,10 @@ public:
     }
     
     int getNumBlocks() { return mNumBlocks; }
-    
     int getTexSamples() { return mTexSamples; }
-    
     float getSampleRate() { return DEFAULT_SAMPLE_RATE; }
-    
-    string getRawname() { return mName; }
+    string getRawname() { return mRawName; }
+    string getFullname() { return mFullName; }
     
     void writeToBuf(int offset, unsigned char* data){
         float *leftBuf  = mWavBuf[0];
@@ -64,7 +63,7 @@ public:
     }
     
     void writeWavFile() {
-        string wav_file_name = ResourceMgrInst::get()->getWavFileDir().append(mName).append(".wav");
+        string wav_file_name = ResourceMgrInst::get()->getWavFileDir().append(mRawName).append(".wav");
         ofstream f( wav_file_name.c_str(), ios::binary );
         // Write the file headers
         f << "RIFF----WAVEfmt ";     // (chunk size to be filled in later)
@@ -113,7 +112,7 @@ private:
     int mTexWidth, mTexHeight;
     float mDuration;
     float** mWavBuf;
-    string mName;
+    string mRawName, mFullName;
 };
 
 #endif

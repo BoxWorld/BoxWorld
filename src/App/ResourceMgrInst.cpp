@@ -11,6 +11,8 @@
 
 ResourceMgrInst::ResourceMgrInst() {
     mDefAppModel.valid = false;
+    mNeedsUpdate = false;
+    mCurAppIdx = 0;
     
     /* Init according to manifest file, or create one. */
     ofFile file;
@@ -33,13 +35,14 @@ ResourceMgrInst::ResourceMgrInst() {
         bool default_shader_valid = mManifestJsonValue[ROOT_KEY_VALID].asBool();
         if(default_shader_valid) {
             string def_app_name = mManifestJsonValue[ROOT_KEY_DEFAULT_APP_NAME].asString();
-            Json::Value apps_val = mManifestJsonValue[ROOT_KEY_APPS];
-            for(int i=0; i<apps_val.size(); i++) {
-                if(apps_val[i][APP_KEY_NAME] == DEFAULT_APP_NAME) {
-                    mDefAppModel.name = DEFAULT_APP_NAME;
-                    mDefAppModel.execFile = apps_val[i][APP_KEY_EXEC].asString();
-                    mDefAppModel.soundFile = apps_val[i][APP_KEY_SOUND].asString();
-                    mDefAppModel.valid = apps_val[i][APP_KEY_VALID].asBool();
+            mAppsVal = mManifestJsonValue[ROOT_KEY_APPS];
+            for(int i=0; i<mAppsVal.size(); i++) {
+                if(mAppsVal[i][APP_KEY_NAME] == def_app_name) {
+                    mCurAppIdx = i;
+                    mDefAppModel.name = def_app_name;
+                    mDefAppModel.execFile = mAppsVal[i][APP_KEY_EXEC].asString();
+                    mDefAppModel.soundFile = mAppsVal[i][APP_KEY_SOUND].asString();
+                    mDefAppModel.valid = mAppsVal[i][APP_KEY_VALID].asBool();
                     break;
                 }
             }
@@ -48,7 +51,10 @@ ResourceMgrInst::ResourceMgrInst() {
 }
 
 ResourceMgrInst::~ResourceMgrInst() {
-    
+    if(mNeedsUpdate) {
+        /* write updated data into file. */
+        updateManifestFile();
+    }
 }
 
 bool ResourceMgrInst::isDefaultAppValid(){
@@ -68,10 +74,26 @@ bool ResourceMgrInst::isWavFileExists(string raw_name){
     return (sound_file_path == "")? false:true;
 }
 
+void ResourceMgrInst::updateDefApp(string name){
+    mManifestJsonValue[ROOT_KEY_DEFAULT_APP_NAME] = name;
+    mNeedsUpdate = true;
+}
+
 string ResourceMgrInst::getDefAppContent() {
-    if(!mDefAppModel.valid) return NULL;
+    if(!mDefAppModel.valid) return string("");
     
     string file_path = mDefAppModel.execFile;
+    return ofBufferFromFile(file_path).getText();
+}
+
+string ResourceMgrInst::getNextAppContent() {
+    if(mAppsVal.size() < 2) return string("");
+    mCurAppIdx += 1;
+    if(mCurAppIdx == mAppsVal.size())
+        mCurAppIdx = 0;
+    
+    updateDefApp(mAppsVal[mCurAppIdx][APP_KEY_NAME].asString());
+    std::string file_path = mAppsVal[mCurAppIdx][APP_KEY_EXEC].asString();
     return ofBufferFromFile(file_path).getText();
 }
 
@@ -135,5 +157,27 @@ void ResourceMgrInst::resetManifestFile() {
     if(!file_written) {
         ofLogError("main manifest file written failed\n");
     }
+    file.close();
+}
+
+void ResourceMgrInst::updateWavFileInfo(string wav_file_raw_name) {
+    mAppsVal = mManifestJsonValue[ROOT_KEY_APPS];
+    for(int i=0; i<mAppsVal.size(); i++) {
+        if(mAppsVal[i][APP_KEY_NAME] == wav_file_raw_name) {
+            mAppsVal[i][APP_KEY_SOUND] = ofToDataPath(string("Cache/Wav/").append(wav_file_raw_name).append(".wav"));
+            break;
+        }
+    }
+    mManifestJsonValue[ROOT_KEY_APPS] = mAppsVal;
+    updateManifestFile();
+}
+
+void ResourceMgrInst::updateManifestFile(){
+    ofFile file;
+    file.open(ofToDataPath(MAIN_MANIFEST_FILE_NAME), ofFile::ReadWrite, false);
+    file.setWriteable(true);
+    ofBuffer buf(mManifestJsonValue.toStyledString());
+    bool file_written = file.writeFromBuffer(buf);
+    if(!file_written) {}
     file.close();
 }

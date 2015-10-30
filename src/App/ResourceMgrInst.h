@@ -57,18 +57,27 @@ public:
     virtual ~ResourceMgrInst();
     
     void setRootDir(string root_dir) { mRootDir = root_dir; }
-    string getRootDir() { return mRootDir; }
-    string getWavFileDir() { return mRootDir.append(CACHE_DIR_PREFIX).append(WAV_FILE_DIR_PREFIX);}
     void resetManifestFile();
+    void updateDefApp(string name);
+    void updateWavFileInfo(string wav_file_raw_name);
+    
+    string getNextAppContent();
     bool isDefaultAppValid();
     bool isWavFileExists(string raw_name);
     string getDefAppContent();
+    string getRootDir() { return mRootDir; }
+    string getWavFileDir() { return mRootDir.append(CACHE_DIR_PREFIX).append(WAV_FILE_DIR_PREFIX);}
     
 private:
-    string mRootDir;
+    void updateManifestFile();
+    
     bool mHasDefaultShader;
+    bool mNeedsUpdate;
+    int  mCurAppIdx;
+    string mRootDir;
     S_App mDefAppModel;
-    Json::Value  mManifestJsonValue;
+    Json::Value mManifestJsonValue;
+    Json::Value mAppsVal;
 };
 
 #endif /* defined(__BoxWorld__ResourceMgrInst__) */

@@ -7,7 +7,7 @@
 class BoxWorldApp : public ofBaseApp, CmdReceiverIf{
 
 public:
-    virtual ~BoxWorldApp() { if(mShaderExecutor) delete mShaderExecutor; };
+    virtual ~BoxWorldApp();
     
     void setup();
     void update();
@@ -27,5 +27,7 @@ public:
     void updateScene(Message *msg);
 		
 private:
+    void runAppWithContent(string content);
+    
     ShaderExecutor *mShaderExecutor;
 };

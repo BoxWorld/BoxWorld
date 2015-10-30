@@ -13,7 +13,7 @@ ShaderExecutor::ShaderExecutor(int width, int height){
     mGLProgramMain = NULL;
     mGLProgramAudio = NULL;
     mAudGen = NULL;
-    mAudioFileReady = false;
+    mAudThread = NULL;
     mAudioFileExist = false;
     mWidth = width;
     mHeight = height;
@@ -25,6 +25,10 @@ ShaderExecutor::~ShaderExecutor() {
     if(mGLProgramMain)  delete mGLProgramMain;
     if(mGLProgramAudio) delete mGLProgramAudio;
     if(mAudGen)         delete mAudGen;
+    if(mAudThread) {
+        mAudThread->stopThread();
+        delete mAudThread;
+    }
     mFboPingpong.dispose();
 }
 
@@ -37,6 +41,18 @@ void ShaderExecutor::allocate(int _internalFormat){
 
 bool ShaderExecutor::setProgramModel(const S_Program& mainProgramModel, const S_Program& audioProgramModel) {
     bool suc = false;
+    
+    if(mAudThread) {
+        mAudThread->stopThread();
+        delete mAudThread;
+        mAudThread = NULL;
+    }
+    
+    if(mSoundPlayer.getIsPlaying()) {
+        mSoundPlayer.stop();
+        mSoundPlayer.unloadSound();
+    }
+    mAudioFileExist = false;
     
     /* create new one with feeds. */
     if(mainProgramModel.valid){
@@ -56,7 +72,7 @@ bool ShaderExecutor::setProgramModel(const S_Program& mainProgramModel, const S_
     if(audioProgramModel.valid) {
         mGLProgramAudio = new GLSLProgram(audioProgramModel, mWidth, mHeight);
         mAudGen = new AudioOutGenerator(audioProgramModel.name, mWidth, mHeight);
-        mAudioFbo.allocate(mWidth,mHeight, mInternalFormat );
+        mAudioFbo.allocate(mWidth,mHeight, mInternalFormat);
         mAudioFbo.begin();
         ofClear(0, 0);
         mAudioFbo.end();
@@ -105,13 +121,25 @@ void ShaderExecutor::update(){
                 blocks_ctr += 1;
             }
             if(blocks_ctr == mAudGen->getNumBlocks()){
-                mAudGen->writeWavFile();
-                mAudioFileReady = true;
-                mAudioFileExist = true;
+                mAudThread = new AudioFileWriteThread(mAudGen, this);
+                mAudThread->startThread();
                 wasExecuted = true;
             }
         }
+    }else if(mAudioFileExist) {
+        if(!mSoundPlayer.getIsPlaying()) {
+            string wav_rel_path = "";
+            mSoundPlayer.loadSound(wav_rel_path.append("Cache/Wav/").append(mAudGen->getRawname()).append(".wav"));
+            mSoundPlayer.setVolume(0.75f);
+            mSoundPlayer.play();
+        }
     }
+}
+
+void ShaderExecutor::threadCallBack(void *){
+    mAudioFileExist = true;
+    if(mAudGen)
+        ResourceMgrInst::get()->updateWavFileInfo(mAudGen->getRawname());
 }
 
 void ShaderExecutor::draw(){

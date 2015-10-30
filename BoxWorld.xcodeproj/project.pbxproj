@@ -74,6 +74,7 @@
 		0623E6371BE06A880021918F /* boost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = boost.a; path = ../../../addons/ofxOSXBoost/libs/boost/lib/osx/boost.a; sourceTree = "<group>"; };
 		0623E63C1BE099140021918F /* ResourceMgrInst.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ResourceMgrInst.cpp; path = App/ResourceMgrInst.cpp; sourceTree = "<group>"; };
 		0623E63D1BE099140021918F /* ResourceMgrInst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceMgrInst.h; path = App/ResourceMgrInst.h; sourceTree = "<group>"; };
+		06246AA01BE36C7F00F436DE /* ThreadIf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThreadIf.h; path = Thread/ThreadIf.h; sourceTree = "<group>"; };
 		0626F6421BD0D3F30000A9A6 /* ShaderExecutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderExecutor.cpp; path = Shader/ShaderExecutor.cpp; sourceTree = "<group>"; };
 		0626F6431BD0D3F30000A9A6 /* ShaderExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderExecutor.h; path = Shader/ShaderExecutor.h; sourceTree = "<group>"; };
 		0626F6451BD0DBC10000A9A6 /* FboPingPong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FboPingPong.h; path = Shader/FboPingPong.h; sourceTree = "<group>"; };
@@ -194,6 +195,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06246AA11BE36C8C00F436DE /* Thread */ = {
+			isa = PBXGroup;
+			children = (
+				06246AA01BE36C7F00F436DE /* ThreadIf.h */,
+			);
+			name = Thread;
+			sourceTree = "<group>";
+		};
 		0626F64A1BD1DD0F0000A9A6 /* Uniform */ = {
 			isa = PBXGroup;
 			children = (
@@ -492,6 +501,7 @@
 				062F47F41BCBEC900027C8BF /* App */,
 				062F47E41BCB91480027C8BF /* Config.h */,
 				062F48141BD082390027C8BF /* Shader */,
+				06246AA11BE36C8C00F436DE /* Thread */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

@@ -52,10 +52,19 @@ void BoxWorldApp::setup(){
     mShaderExecutor = new ShaderExecutor(BOXWORLD_WIDTH, BOXWORLD_HEIGHT);
     
     if(ResourceMgrInst::get()->isDefaultAppValid()) {
-        Parser *shader_parser = new Parser(ResourceMgrInst::get()->getDefAppContent());
-        mShaderExecutor->setProgramModel(shader_parser->getMainProgram(), shader_parser->getAudioProgram());
-        delete shader_parser;
+        runAppWithContent(ResourceMgrInst::get()->getDefAppContent());
     }
+}
+
+BoxWorldApp::~BoxWorldApp() {
+    if(mShaderExecutor) delete mShaderExecutor;
+    delete ResourceMgrInst::get();
+}
+
+void BoxWorldApp::runAppWithContent(string content) {
+    Parser *shader_parser = new Parser(content);
+    mShaderExecutor->setProgramModel(shader_parser->getMainProgram(), shader_parser->getAudioProgram());
+    delete shader_parser;
 }
 
 //--------------------------------------------------------------
@@ -76,7 +85,17 @@ void BoxWorldApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void BoxWorldApp::keyReleased(int key){
-
+    switch(key) {
+        case OF_KEY_UP:{
+            string next_app_content = ResourceMgrInst::get()->getNextAppContent();
+            if(next_app_content != string("")) {
+                runAppWithContent(next_app_content);
+            }
+        }break;
+        case OF_KEY_DOWN: {
+            
+        }break;
+    }
 }
 
 //--------------------------------------------------------------
@@ -115,11 +134,5 @@ void BoxWorldApp::dragEvent(ofDragInfo dragInfo){
 }
 
 void BoxWorldApp::updateScene(Message *msg){
-    Parser *shader_parser = new Parser(msg->getContent());
-    bool suc = mShaderExecutor->setProgramModel(shader_parser->getMainProgram(), shader_parser->getAudioProgram());
-    delete shader_parser;
-    
-    if(suc) {
-        
-    }
+    runAppWithContent(msg->getContent());
 }
