@@ -30,10 +30,18 @@ void ConnSimuImp::onAppAdd(string name) {
         cout << "empty file?" << endl;
         return;
     }
-    Message *msg = new Message(Message::UPDATE_SHADER_CMD, content);
+    Message *msg = new Message(Message::UPDATE_SHADER_CMD, content, this, &ConnSimuImp::msgCbConstWrapper);
     mConnListener->onIncomingMsg(msg);
-    ResourceMgrInst::get()->resetManifestFile();
     delete msg;
+}
+
+void ConnSimuImp::msgCbConstWrapper(void *user_data, int ret_val, void *args) {
+    ConnSimuImp *inst = static_cast<ConnSimuImp *>(user_data);
+    inst->msgCallback(ret_val, args);
+}
+
+void ConnSimuImp::msgCallback(int ret_val, void *args) {
+    ResourceMgrInst::get()->resetManifestFile();
 }
 
 void ConnSimuImp::handleFileAction(FW::WatchID watchid, const string& dir, const string& filename, FW::Action action)

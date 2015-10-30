@@ -33,6 +33,9 @@ public:
     void update();
 
 private:
+    static void msgCbConstWrapper(void *user_data, int ret_val, void *args);
+    void msgCallback(int ret_val, void *args);
+    
     FW::FileWatcher *mFileWatcher;
     void onAppAdd(string name);
 };

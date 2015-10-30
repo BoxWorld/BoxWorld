@@ -14,6 +14,8 @@
 
 using namespace std;
 
+typedef void (*msgCallbackFn)(void*, int, void *);
+
 class Message {
 public:
     
@@ -24,9 +26,11 @@ public:
     }E_BoxWorldMsgType;
     
     Message () {}
-    Message(E_BoxWorldMsgType msg_type, string msg_content) {
+    Message(E_BoxWorldMsgType msg_type, string msg_content, void *user_data, msgCallbackFn cb_fn = NULL) {
         mMsgType = msg_type;
         mMsgContent = msg_content;
+        mUserData = user_data;
+        mMsgCbFnP = cb_fn;
     }
     
     ~Message() {}
@@ -39,9 +43,16 @@ public:
         return mMsgContent;
     }
     
+    void runCb(int ret_val, void *args) {
+        if(mMsgCbFnP)
+            mMsgCbFnP(mUserData, ret_val, args);
+    }
+    
 private:
-    E_BoxWorldMsgType mMsgType;
-    string mMsgContent;
+    E_BoxWorldMsgType    mMsgType;
+    string               mMsgContent;
+    msgCallbackFn        mMsgCbFnP;
+    void                *mUserData;
 };
 
 #endif

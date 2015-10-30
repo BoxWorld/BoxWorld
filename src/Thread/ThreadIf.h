@@ -9,8 +9,6 @@
 #ifndef BoxWorld_ThreadIf_h
 #define BoxWorld_ThreadIf_h
 
-typedef void (*boxworldThreadCallbackFn)(void *);
-
 class BoxWorldThreadCallbackIf {
 public:
     virtual ~BoxWorldThreadCallbackIf() {};

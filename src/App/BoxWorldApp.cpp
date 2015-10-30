@@ -78,6 +78,11 @@ void BoxWorldApp::draw(){
     mShaderExecutor->draw();
 }
 
+void BoxWorldApp::updateScene(Message *msg){
+    runAppWithContent(msg->getContent());
+    msg->runCb(0, NULL);
+}
+
 //--------------------------------------------------------------
 void BoxWorldApp::keyPressed(int key){
 
@@ -131,8 +136,4 @@ void BoxWorldApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void BoxWorldApp::dragEvent(ofDragInfo dragInfo){
 
-}
-
-void BoxWorldApp::updateScene(Message *msg){
-    runAppWithContent(msg->getContent());
 }

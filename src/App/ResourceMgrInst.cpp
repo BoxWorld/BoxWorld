@@ -28,10 +28,10 @@ ResourceMgrInst::ResourceMgrInst() {
     }
     
     /* parse default shader info. */
-    ofBuffer file_buf = file.readToBuffer();
-    Json::Reader reader;
+    //ofBuffer file_buf = file.readToBuffer();
+    //Json::Reader reader;
     
-    if (reader.parse(file_buf.getBinaryBuffer(), mManifestJsonValue)) {
+    //if (reader.parse(file_buf.getBinaryBuffer(), mManifestJsonValue)) {
         bool default_shader_valid = mManifestJsonValue[ROOT_KEY_VALID].asBool();
         if(default_shader_valid) {
             string def_app_name = mManifestJsonValue[ROOT_KEY_DEFAULT_APP_NAME].asString();
@@ -47,7 +47,7 @@ ResourceMgrInst::ResourceMgrInst() {
                 }
             }
         }
-    }
+    //}
 }
 
 ResourceMgrInst::~ResourceMgrInst() {
@@ -158,6 +158,8 @@ void ResourceMgrInst::resetManifestFile() {
         ofLogError("main manifest file written failed\n");
     }
     file.close();
+    mManifestJsonValue = root;
+    mAppsVal = mManifestJsonValue[ROOT_KEY_APPS];
 }
 
 void ResourceMgrInst::updateWavFileInfo(string wav_file_raw_name) {
