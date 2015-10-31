@@ -1,0 +1,13 @@
+*~
+*.txt.user
+*.DS_Store
+
+build/*
+debug/*
+build_*
+
+bin/*
+!bin/data/
+
+bin/data/MainManifest.json
+bin/data/Cache/*
