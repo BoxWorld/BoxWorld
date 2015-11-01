@@ -1,6 +1,6 @@
 #include "ofMain.h"
 #include "BoxWorldApp.h"
-#include "Config.h"
+#include "BoxWorldConfig.h"
 #include "ofAppGLFWWindow.h"
 
 //========================================================================

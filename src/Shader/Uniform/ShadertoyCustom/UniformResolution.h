@@ -11,7 +11,7 @@
 
 #include "UniformIf.h"
 #include "ofMain.h"
-#include "Config.h"
+#include "BoxWorldConfig.h"
 
 class UniformResolution : public UniformIf {
 public:

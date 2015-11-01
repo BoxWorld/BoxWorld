@@ -10,7 +10,7 @@
 #define __BoxWorld__ShaderExecutor__
 
 #include <stdio.h>
-#include "Config.h"
+#include "BoxWorldConfig.h"
 #include "ShaderConfig.h"
 #include "FboPingPong.h"
 #include "GLSLProgram.h"

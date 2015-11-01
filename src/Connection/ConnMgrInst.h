@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <string>
 
-#include "Config.h"
+#include "BoxWorldConfig.h"
 #include "ConnIf.h"
 #include "ConnSimuImp.h"
 #include "CmdIf.h"
