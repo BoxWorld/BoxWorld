@@ -76,7 +76,7 @@ public:
         }
     }
     
-    static UniformIf * __stdcall Create() { return new UniformTypeSampler2D(); }
+    static UniformIf * Create() { return new UniformTypeSampler2D(); }
     
 private:
     void setupTexParameters() {

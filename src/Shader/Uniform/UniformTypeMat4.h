@@ -42,7 +42,7 @@ public:
         mCtrl->applyMat4OnShader(getLocation(), valueArr);
     }
     
-    static UniformIf * __stdcall Create() { return new UniformTypeMat4(); }
+    static UniformIf * Create() { return new UniformTypeMat4(); }
 };
 
 

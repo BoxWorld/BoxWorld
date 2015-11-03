@@ -17,7 +17,7 @@ public:
         mCtrl->applyUintOnShader(getLocation(), value);
     }
     
-    static UniformIf * __stdcall Create() { return new UniformTypeUint(); }
+    static UniformIf * Create() { return new UniformTypeUint(); }
 };
 
 #endif

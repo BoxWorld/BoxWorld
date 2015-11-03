@@ -203,11 +203,11 @@ void  GLSLProgram::applyVec4OnShader(int loc, float f1, float f2, float f3, floa
 }
 
 void  GLSLProgram::applyUintOnShader(int loc, unsigned int value){
-    glUniform1ui(loc, value);
+    glUniform1i(loc, (int)value);
 }
 
 void  GLSLProgram::applyDoubleOnShader(int loc, double value){
-    glUniform1d(loc, value);
+    glUniform1f(loc, (float)value);
 }
 
 void  GLSLProgram::applyMat2OnShader(int loc, float* fp){

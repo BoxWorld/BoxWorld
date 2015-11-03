@@ -34,7 +34,7 @@ public:
         glUniform4f(getLocation(), year, month, day, seconds);
     }
     
-    static UniformIf * __stdcall Create() { return new UniformDate(); }
+    static UniformIf * Create() { return new UniformDate(); }
 };
 
 #endif

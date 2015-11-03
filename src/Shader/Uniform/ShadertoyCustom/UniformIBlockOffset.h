@@ -18,7 +18,7 @@ public:
         glUniform1f(getLocation(), mCtrl->getBlockOfs());
     }
     
-    static UniformIf * __stdcall Create() { return new UniformIBlockOffset(); }
+    static UniformIf * Create() { return new UniformIBlockOffset(); }
 };
 
 #endif

@@ -5,6 +5,13 @@ cmake_minimum_required(VERSION 2.8)
 
 include(../of/openFrameworks.cmake)
 
+if(CMAKE_SYSTEM MATCHES Linux)
+set(FILE_WATCHER_IMPLEMENTTION_SOURCE "src/FileWatcher/src/FileWatcherLinux.cpp")
+elseif(CMAKE_SYSTEM MATCHES Darwin)
+set(FILE_WATCHER_IMPLEMENTTION_SOURCE "src/FileWatcher/src/FileWatcherOSX.cpp")
+elseif(CMAKE_SYSTEM MATCHES Windows)
+endif()
+
 #ofxaddon()
 
 include_directories("src/")
@@ -28,9 +35,10 @@ set(SOURCES
     src/Connection/ConnMgrInst.cpp
     src/Connection/ConnSimuImp.cpp
     src/FileWatcher/src/FileWatcher.cpp
-    src/FileWatcher/src/FileWatcherOSX.cpp
+    ${FILE_WATCHER_IMPLEMENTTION_SOURCE}
     src/Shader/GLSLProgram.cpp
     src/Shader/Parser.cpp
+    src/Shader/VAO.cpp
     src/Shader/ShaderExecutor.cpp
     src/jsoncpp/jsoncpp.cpp
     src/ofxCubeMap/src/ofxCubeMap.cpp

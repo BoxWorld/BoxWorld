@@ -19,7 +19,7 @@ public:
         glUniform2f(getLocation(), BOXWORLD_WIDTH, BOXWORLD_HEIGHT);
     }
     
-    static UniformIf * __stdcall Create() { return new UniformResolution(); }
+    static UniformIf * Create() { return new UniformResolution(); }
 };
 
 #endif

@@ -19,7 +19,7 @@ public:
         mCtrl->applyDoubleOnShader(getLocation(), value);
     }
     
-    static UniformIf * __stdcall Create() { return new UniformTypeDouble(); }
+    static UniformIf * Create() { return new UniformTypeDouble(); }
 };
 
 #endif

@@ -37,7 +37,7 @@ public:
         mCtrl->applyVec4OnShader(getLocation(), vect.at(0), vect.at(1), vect.at(2), vect.at(3));
     }
     
-    static UniformIf * __stdcall Create() { return new UniformTypeVec4(); }
+    static UniformIf * Create() { return new UniformTypeVec4(); }
 };
 
 #endif

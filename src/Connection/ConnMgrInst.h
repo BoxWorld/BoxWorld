@@ -72,7 +72,7 @@ private:
 #ifdef BOXWORLD_DEV_MAC
         mConnSimu = new ConnSimuImp(this);
         mConnections.insert(mConnections.end(), mConnSimu);
-#elif BOXWORLD_TARGET_LINUX
+#elif defined BOXWORLD_TARGET_ARM
 #endif
     }
     

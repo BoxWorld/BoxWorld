@@ -17,7 +17,7 @@ public:
         mCtrl->applyIntegerOnShader(getLocation(), value);
     }
     
-    static UniformIf * __stdcall Create() { return new UniformTypeInt(); }
+    static UniformIf * Create() { return new UniformTypeInt(); }
 };
 
 

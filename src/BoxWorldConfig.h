@@ -19,9 +19,11 @@
   #ifdef _WIN64
     #define BOXWORLD_DEV_WIN
   #endif
-#elif __APPLE__
+#elif defined __APPLE__
     #define BOXWORLD_DEV_MAC
-#elif __linux
+#elif defined __arm__
+    #define BOXWORLD_TARGET_ARM
+#elif defined __linux
     #define BOXWORLD_TARGET_LINUX
 #endif
 

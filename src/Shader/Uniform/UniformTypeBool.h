@@ -17,7 +17,7 @@ public:
         mCtrl->applyIntegerOnShader(getLocation(), (mValue == "true")? 1 : 0);
     }
     
-    static UniformIf * __stdcall Create() { return new UniformTypeBool(); }
+    static UniformIf * Create() { return new UniformTypeBool(); }
 };
 
 #endif

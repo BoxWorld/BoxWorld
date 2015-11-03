@@ -6,8 +6,7 @@ build/*
 debug/*
 build_*
 
-bin/*
-!bin/data/
-
 bin/data/MainManifest.json
-bin/data/Cache/*
+bin/data/Cache/Wav/*
+bin/BoxWorld.app
+*.wav

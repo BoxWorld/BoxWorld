@@ -19,7 +19,7 @@ public:
         mCtrl->applyFloatOnShader(getLocation(), value);
     }
     
-    static UniformIf * __stdcall Create() { return new UniformTypeFloat(); }
+    static UniformIf * Create() { return new UniformTypeFloat(); }
 };
 
 #endif

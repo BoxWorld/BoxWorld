@@ -22,7 +22,7 @@ public:
         glUniform1f(getLocation(), mCtrl->getElapsedTime());
     }
     
-    static UniformIf * __stdcall Create() { return new UniformIGlobalTime(); }
+    static UniformIf * Create() { return new UniformIGlobalTime(); }
 };
 
 #endif

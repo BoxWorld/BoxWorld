@@ -22,7 +22,7 @@
 	James Wynn james@jameswynn.com
 */
 
-#include "FileWatcher/FileWatcherLinux.h"
+#include "FileWatcher/inc/FileWatcherLinux.h"
 
 #if FILEWATCHER_PLATFORM == FILEWATCHER_PLATFORM_LINUX
 
@@ -166,17 +166,17 @@ namespace FW
 		if(IN_CLOSE_WRITE & action)
 		{
 			watch->mListener->handleFileAction(watch->mWatchID, watch->mDirName, filename,
-								Actions::Modified);
+								Modified);
 		}
 		if(IN_MOVED_TO & action || IN_CREATE & action)
 		{
 			watch->mListener->handleFileAction(watch->mWatchID, watch->mDirName, filename,
-								Actions::Add);
+								Add);
 		}
 		if(IN_MOVED_FROM & action || IN_DELETE & action)
 		{
 			watch->mListener->handleFileAction(watch->mWatchID, watch->mDirName, filename,
-								Actions::Delete);
+								Delete);
 		}
 	}
 

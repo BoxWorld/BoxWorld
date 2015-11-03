@@ -72,6 +72,6 @@ protected:
     bool                    mNeedRefresh;
 };
 
-typedef UniformIf* (__stdcall *CreateUniformFn)(void);
+typedef UniformIf* ( *CreateUniformFn)(void);
 
 #endif

@@ -11,6 +11,7 @@
 
 #include <list>
 #include "VBO.h"
+#include "BoxWorldConfig.h"
 
 class VBOPair {
 public:
@@ -27,75 +28,19 @@ public:
 
 class VAO {
 public:
-    VAO(int buffer_count) {
-        mInited = false;
-        mNum = buffer_count;
-        mVBOPairArr = new VBOPair[mNum];
-    }
+    VAO(int buffer_count);
     
     void setBuffer(int index, VBO *vbo) {
         mVBOPairArr[index] = *new VBOPair(vbo, true);
     }
     
-    bool init() {
-        if(mInited) return mInited;
-        
-        glGenVertexArrays(1, &mId);
-        glBindVertexArray(mId);
-        
-        for (int i = 0; i < mNum; i++) {
-            VBOPair vbo_pair = *(mVBOPairArr+i);
-            VBO *vbo = vbo_pair.mBuffer;
-            
-            if (vbo->getTarget() == GL_ELEMENT_ARRAY_BUFFER) {
-                vbo->bind(true);
-                glBindVertexArray(0);
-                vbo->bind(false);
-                glBindVertexArray(mId);
-                
-            } else {
-                vbo->bind(true);
-                glVertexAttribPointer(i, vbo->getVectorComponents(),
-                                          vbo->getDataType()->getGLType(), false, 0, 0);
-                glEnableVertexAttribArray(i);
-                vbo->bind(false);
-            }
-        }
-        
-        glBindVertexArray(0);
-        
-        mInited = true;
-        
-        return mInited;
-    }
+    bool init();
     
     bool isInited() { return mInited; }
     
-    void destroy() {
-        for (int i = 0; i < mNum; i++) {
-            VBOPair vbo_pair = *(mVBOPairArr+i);
-            
-            vbo_pair.mBuffer->destroy();
-            delete vbo_pair.mBuffer;
-        }
-        delete mVBOPairArr;
-        
-        if (mId != 0) {
-            glDeleteVertexArrays(1, &mId);
-            mId = 0;
-        }
-        
-        mId = 0;
-        mInited = false;
-    }
+    void destroy();
 
-    void bind(bool bindObj) {
-        if (bindObj) {
-            glBindVertexArray(mId);
-        } else {
-            glBindVertexArray(0);
-        }
-    }
+    void bind(bool bindObj);
     
 private:
     VBOPair      *mVBOPairArr;

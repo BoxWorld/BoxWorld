@@ -22,7 +22,7 @@ public:
         glUniform4f(getLocation(), 0.0, 0.0, 0.0, 0.0);
     }
     
-    static UniformIf * __stdcall Create() { return new UniformIMouse(); }
+    static UniformIf * Create() { return new UniformIMouse(); }
 };
 
 #endif

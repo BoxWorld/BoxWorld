@@ -26,7 +26,7 @@ public:
         glUniform1fv(getLocation(), 4, time);
     }
     
-    static UniformIf * __stdcall Create() { return new UniformIChannelTime(); }
+    static UniformIf * Create() { return new UniformIChannelTime(); }
 };
 
 

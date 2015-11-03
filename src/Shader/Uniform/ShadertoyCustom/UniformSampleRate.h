@@ -19,7 +19,7 @@ public:
         glUniform1f(getLocation(), DEFAULT_SAMPLE_RATE);
     }
     
-    static UniformIf * __stdcall Create() { return new UniformSampleRate(); }
+    static UniformIf * Create() { return new UniformSampleRate(); }
 };
 
 #endif
