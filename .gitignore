@@ -7,6 +7,5 @@ debug/*
 build_*
 
 bin/data/MainManifest.json
-bin/data/Cache/Wav/*
 bin/BoxWorld.app
 *.wav

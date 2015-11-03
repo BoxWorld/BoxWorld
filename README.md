@@ -26,3 +26,12 @@ Compiling for Xcode
 cmake .. -G Xcode -DCMAKE_BUILD_TYPE=Debug
 xcodebuild -configuration Debug
 ```
+Compiling for Raspberry Pi
+--------
+Need CMake version 3.3.2, and GCC version >= 4.9.
+```bash
+cmake  ../ -G "Unix Makefiles"  -DOF_PLATFORM=armv7
+make
+```
+Edit this page with [Dillinger](http://dillinger.io/)
+--------
