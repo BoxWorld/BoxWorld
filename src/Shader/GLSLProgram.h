@@ -14,7 +14,7 @@
 #include "ShaderConfig.h"
 #include "UniformIf.h"
 #include "ShaderCtrlIf.h"
-#include "QuadV.h"
+//#include "QuadV.h"
 
 typedef map<string, UniformIf*> ProgramUniformMap;
 typedef map<string, string>     UniformPresetMap;
@@ -61,7 +61,8 @@ private:
     ProgramUniformMap   mMainUniformMap;        /* Shadertoy pre-defined uniforms. */
     ProgramUniformMap   mCustomUniformMap;      /* Custom normal uniforms. */
     UniformPresetMap    mUniformPresetMap;
-    QuadV               *mQuadDrawable;
+    //QuadV               *mQuadDrawable;
+    ofPlanePrimitive    mPlane;
 };
 
 #endif /* defined(__BoxWorld__GLSLProgram__) */

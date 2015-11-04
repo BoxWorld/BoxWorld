@@ -1,3 +1,5 @@
+#include <unistd.h>
+
 #include "BoxWorldApp.h"
 #include "ConnMgrInst.h"
 #include "Parser.h"
@@ -40,6 +42,11 @@ void BoxWorldApp::setup(){
         string strPath = strExecFile.substr(0, found);
         data_resource_path = strPath.append("/data/");
     }
+#elif defined TARGET_LINUX
+    char buf[512];
+    getcwd(buf, sizeof(buf));
+    printf("current working directory : %s\n", buf);
+    data_resource_path = string(buf).append("/data/");
 #endif
     
     /* Init according to manifest file. */

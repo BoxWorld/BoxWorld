@@ -38,7 +38,6 @@ set(SOURCES
     ${FILE_WATCHER_IMPLEMENTTION_SOURCE}
     src/Shader/GLSLProgram.cpp
     src/Shader/Parser.cpp
-    src/Shader/VAO.cpp
     src/Shader/ShaderExecutor.cpp
     src/jsoncpp/jsoncpp.cpp
     src/ofxCubeMap/src/ofxCubeMap.cpp

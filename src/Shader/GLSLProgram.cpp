@@ -25,12 +25,16 @@ GLSLProgram::GLSLProgram(S_Program programModel, int width, int height) {
     
     mClockStart = clock();
     
-    mQuadDrawable = new QuadV();
-    mQuadDrawable->init();
+    //mQuadDrawable = new QuadV();
+    //mQuadDrawable->init();
+    
+    mPlane.set(BOXWORLD_WIDTH, BOXWORLD_HEIGHT);
+    mPlane.setPosition(BOXWORLD_WIDTH, BOXWORLD_HEIGHT, 0);
+    mPlane.setResolution(2, 2);
 }
 
 GLSLProgram::~GLSLProgram() {
-    if(mQuadDrawable) delete mQuadDrawable;
+    //if(mQuadDrawable) delete mQuadDrawable;
     
     /* delete main uniforms. */
     ProgramUniformMap::iterator iter = mMainUniformMap.begin();
@@ -144,7 +148,8 @@ void GLSLProgram::applyUniforms(){
 }
 
 void GLSLProgram::renderFrame(){
-    mQuadDrawable->render();
+    //mQuadDrawable->render();
+    mPlane.draw();
 }
 
 int GLSLProgram::getTexUnitIdx() {

@@ -10,6 +10,12 @@
 #include "VAO.h"
 
 #ifdef TARGET_OPENGLES
+#define glGenVertexArrays glGenVertexArraysOES
+#define glDeleteVertexArrays glDeleteVertexArraysOES
+#define glBindVertexArray glBindVertexArrayOES
+#endif
+
+#ifdef TARGET_WIN32
 #include <dlfcn.h>
 typedef void (* glGenVertexArraysType) (GLsizei n,  GLuint *arrays);
 glGenVertexArraysType glGenVertexArraysFunc = nullptr;
@@ -29,11 +35,14 @@ VAO::VAO(int buffer_count) {
     mNum = buffer_count;
     mVBOPairArr = new VBOPair[mNum];
     
-#ifdef TARGET_OPENGLES
+#ifdef TARGET_WIN32
     if(glGenVertexArrays == 0) {
         glGenVertexArrays = (glGenVertexArraysType)dlsym(RTLD_DEFAULT, "glGenVertexArrays");
         glDeleteVertexArrays = (glDeleteVertexArraysType)dlsym(RTLD_DEFAULT, "glDeleteVertexArrays");
         glBindVertexArray = (glBindVertexArrayType)dlsym(RTLD_DEFAULT, "glBindVertexArray");
+    }
+    if(!glGenVertexArrays) {
+        ofLog(OF_LOG_FATAL_ERROR, "glGenVertexArrays not found!");
     }
 #endif
 }

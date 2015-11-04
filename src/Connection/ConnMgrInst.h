@@ -46,7 +46,10 @@ public:
     }
     
     void update() {
+#ifdef BOXWORLD_DEV_MAC
         mConnSimu->update();
+#elif defined BOXWORLD_TARGET_ARM
+#endif
     }
     
 private:
