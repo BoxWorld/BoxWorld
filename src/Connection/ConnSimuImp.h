@@ -30,6 +30,7 @@ public:
     void init();
     void handleFileAction(FW::WatchID watchid, const string& dir, const string& filename, FW::Action action);
     void update();
+    void sendMsg(Message *msg);
 
 private:
     static void msgCbConstWrapper(void *user_data, int ret_val, void *args);

@@ -9,6 +9,11 @@ if(CMAKE_SYSTEM MATCHES Linux)
 set(FILE_WATCHER_IMPLEMENTTION_SOURCE "src/FileWatcher/src/FileWatcherLinux.cpp")
 elseif(CMAKE_SYSTEM MATCHES Darwin)
 set(FILE_WATCHER_IMPLEMENTTION_SOURCE "src/FileWatcher/src/FileWatcherOSX.cpp")
+set(CONN_IMPLEMENTTION_SOURCE "src/Connection/ConnBleOSX.mm")
+find_library(MAC_COCOA_FRAMEWORK Cocoa)
+find_library(MAC_IOBLUETOOTH_FRAMEWORK IOBluetooth)
+find_library(MAC_FOUNDATION_FRAMEWORK Foundation)
+set(MAC_TARGET_LINK_LIBRARIES ${MAC_COCOA_FRAMEWORK} ${MAC_IOBLUETOOTH_FRAMEWORK} ${MAC_FOUNDATION_FRAMEWORK})
 elseif(CMAKE_SYSTEM MATCHES Windows)
 endif()
 
@@ -34,6 +39,7 @@ set(SOURCES
     src/App/main.cpp
     src/Connection/ConnMgrInst.cpp
     src/Connection/ConnSimuImp.cpp
+    ${CONN_IMPLEMENTTION_SOURCE}
     src/FileWatcher/src/FileWatcher.cpp
     ${FILE_WATCHER_IMPLEMENTTION_SOURCE}
     src/Shader/GLSLProgram.cpp
@@ -41,6 +47,9 @@ set(SOURCES
     src/Shader/ShaderExecutor.cpp
     src/jsoncpp/jsoncpp.cpp
     src/ofxCubeMap/src/ofxCubeMap.cpp
+    src/Message/Message.cpp
+    src/Message/MsgBuilder.cpp
+    src/Protocol/slip.c
 )
 
 add_executable(
@@ -53,6 +62,7 @@ add_executable(
 target_link_libraries(
     ${APP}
     ${OPENFRAMEWORKS_LIBRARIES}
+    ${MAC_TARGET_LINK_LIBRARIES}
 )
 
 set_target_properties(

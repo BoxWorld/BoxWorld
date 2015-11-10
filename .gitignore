@@ -2,10 +2,12 @@
 *.txt.user
 *.DS_Store
 
+build-*
+build_*
 build/*
 debug/*
-build_*
 
 bin/data/MainManifest.json
 bin/BoxWorld.app
+bin/BoxWorld
 *.wav

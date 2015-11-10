@@ -24,13 +24,18 @@ void ConnSimuImp::update(){
     mFileWatcher->update();
 }
 
+void ConnSimuImp::sendMsg(Message *msg)
+{
+    
+}
+
 void ConnSimuImp::onAppAdd(string name) {
     std::string content(ofBufferFromFile(name).getText());
     if(content == "") {
         cout << "empty file?" << endl;
         return;
     }
-    Message *msg = new Message(Message::UPDATE_SHADER_CMD, content, this, &ConnSimuImp::msgCbConstWrapper);
+    Message *msg = new Message(Message::REQ_UPDATE_SHADER_CMD, content, this, &ConnSimuImp::msgCbConstWrapper);
     mConnListener->onIncomingMsg(msg);
     delete msg;
 }

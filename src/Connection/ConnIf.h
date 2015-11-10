@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <list>
 #include "ConnListenerIf.h"
+#include "Message.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ public:
     
     virtual void init() = 0;
     virtual void update() = 0;
+    virtual void sendMsg(Message *msg) = 0;
 protected:
     ConnListenerIf *mConnListener;
     bool isConnected;

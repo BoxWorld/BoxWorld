@@ -14,9 +14,15 @@
 
 #include "BoxWorldConfig.h"
 #include "ConnIf.h"
-#include "ConnSimuImp.h"
 #include "CmdIf.h"
 #include "CmdReceiverIf.h"
+
+#ifdef BOXWORLD_DEV_MAC
+#include "ConnSimuImp.h"
+#include "ConnBleOSX.h"
+#endif
+
+#define N_RX_BUFFERS	4		/* min 2, power of two : 2, 4, 8, .. */
 
 /*
  * Connection Management
@@ -34,6 +40,9 @@ public:
     
     /* ConnListenerIf Implementation. */
     void onIncomingMsg(Message *conn_msg);
+    void sendMsg(Message *msg);
+    void protocolReceiver(const unsigned char* buf, int len);
+    void update();
     
     void setCmdReceiver(CmdReceiverIf* cmd_receiver) {
         mCmdReceiver = cmd_receiver;
@@ -45,12 +54,6 @@ public:
         cmd->exec();
     }
     
-    void update() {
-#ifdef BOXWORLD_DEV_MAC
-        mConnSimu->update();
-#elif defined BOXWORLD_TARGET_ARM
-#endif
-    }
     
 private:
     ConnMgrInst () {
@@ -75,15 +78,23 @@ private:
 #ifdef BOXWORLD_DEV_MAC
         mConnSimu = new ConnSimuImp(this);
         mConnections.insert(mConnections.end(), mConnSimu);
-#elif defined BOXWORLD_TARGET_ARM
+        
+        mConnBleOSX = new ConnBleOSX(this);
+        mConnections.insert(mConnections.end(), mConnBleOSX);
+#elif defined BOXWORLD_TARGET_LINUX
 #endif
     }
     
+    void processProtocol();
+    
     list<ConnIf *> mConnections;
     list<CmdIf  *> mCmdHistory;
-
-    ConnSimuImp *mConnSimu;
     
+#ifdef BOXWORLD_DEV_MAC
+    ConnSimuImp *mConnSimu;
+    ConnBleOSX  *mConnBleOSX;
+#endif
+
     CmdReceiverIf *mCmdReceiver;
 };
 
