@@ -26,6 +26,8 @@ public:
     unsigned char *getDepthBufPtr() override;
     void dispose() override;
 	bool isValid() override;
+    int getDataType0() override;
+    int getDataType1() override;
 
 private:
 	DepthSensorAttrib mDepthSensorAttrib;

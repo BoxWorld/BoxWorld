@@ -44,9 +44,9 @@ void BoxWorldApp::setup(){
     }
 #elif defined TARGET_LINUX
     char buf[512];
-    getcwd(buf, sizeof(buf));
-    printf("current working directory : %s\n", buf);
-    string data_resource_prefix = buf;
+    char *dir = getcwd(buf, sizeof(buf));
+    printf("current working directory : %s\n", dir);
+    string data_resource_prefix = dir;
     data_resource_path = "/home/han/devel/BoxWorld/bin/data/";//data_resource_prefix.append("/bin/data/");
 #endif
     

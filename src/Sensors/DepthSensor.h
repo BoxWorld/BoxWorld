@@ -40,6 +40,14 @@ public:
 		return mImp->getDepthBufPtr();
 	}
 
+        int getDataType0() {
+            return mImp->getDataType0();
+        }
+
+        int getDataType1() {
+            return mImp->getDataType1();
+        }
+
 	void dispose() {
 		if(mImp != nullptr) {
 			delete mImp;

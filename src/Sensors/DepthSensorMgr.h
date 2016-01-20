@@ -8,8 +8,6 @@
 #ifndef SYNTH_IDE_DEPTH_INPUT_DEPTHSENSORMGR_H_
 #define SYNTH_IDE_DEPTH_INPUT_DEPTHSENSORMGR_H_
 
-//#include <GL/glew.h>
-//#include <GL/gl.h>
 #include "ofMain.h"
 
 #include <stdio.h>
@@ -18,6 +16,7 @@
 
 #include "DepthSensor.h"
 #include "SimuDepthSensorImp.h"
+#include "rsF200DepthSensorImp.h"
 
 class DepthSensorMgr {
 public:
@@ -50,12 +49,12 @@ public:
         
         glTexImage2D(GL_TEXTURE_2D,
                      0,
-                     GL_R8,
+                     mDepthSensor->getDataType0(),
                      mDepthSensor->getAttrib().width,
                      mDepthSensor->getAttrib().height,
                      0,
                      GL_RED,
-                     GL_UNSIGNED_BYTE,
+                     mDepthSensor->getDataType1(),
                      mDepthSensor->getDepthBufPtr()
                      );
         
@@ -77,18 +76,20 @@ private:
 		mSimuDepthSensorImp = new SimuDepthSensorImp();
 		mDepthSensor = new DepthSensor(mSimuDepthSensorImp);
 
-		cout << "use simu depth implementation." << endl;
-		//mKinect1473DepthSensorImp = new Kinect1473DepthSensorImp(mUsbContextP);
-		//if(mKinect1473DepthSensorImp->isValid()) {
-		//	cout << "use kinect1473 implementation." << endl;
-		//	mDepthSensor->setIml(mKinect1473DepthSensorImp);
-		//}
+                mF200DepthSensorImp = new rsF200DepthSensorImp();
+                if(mF200DepthSensorImp->isValid()) {
+                        cout << "use rsF200 implementation." << endl;
+                        mDepthSensor->setIml(mF200DepthSensorImp);
+                }else {
+                    cout << "use simu depth implementation." << endl;
+                }
 	}
 
 	void useSimulation() { mDepthSensor->setIml(mSimuDepthSensorImp); }
-	//void useKinect1473() { mDepthSensor->setIml(mKinect1473DepthSensorImp); }
+        void useF200() { mDepthSensor->setIml(mF200DepthSensorImp); }
 
     DepthSensorImp 					*mSimuDepthSensorImp;
+    DepthSensorImp                                      *mF200DepthSensorImp;
     DepthSensor 					*mDepthSensor;
     GLuint                           mTexId = 0;
     bool							 mRunning;

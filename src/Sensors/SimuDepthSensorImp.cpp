@@ -1,5 +1,6 @@
 #include "SimuDepthSensorImp.h"
 #include "SimuDepthmapModel.h"
+#include "ofMain.h"
 
 #define SIMU_DEPTH_BUF_WIDTH  640
 #define SIMU_DEPTH_BUF_HEIGHT 480
@@ -45,6 +46,9 @@ unsigned char *SimuDepthSensorImp::getDepthBufPtr() {
 
 	return mBuf;
 }
+
+int SimuDepthSensorImp::getDataType0() { return GL_R8; }
+int SimuDepthSensorImp::getDataType1() { return GL_UNSIGNED_BYTE; }
 
 void SimuDepthSensorImp::dispose() {}
 

@@ -33,6 +33,7 @@ include_directories("src/Thread/")
 include_directories("src/jsoncpp/json/")
 include_directories("src/ofxCubeMap/src")
 include_directories("src/Sensors")
+include_directories("src/Sensors/ivcam")
 
 set(SOURCES
     src/App/BoxWorldApp.cpp
@@ -52,6 +53,8 @@ set(SOURCES
     src/Message/MsgBuilder.cpp
     src/Protocol/slip.c
     src/Sensors/SimuDepthSensorImp.cpp
+    src/Sensors/rsf200mgr.cpp
+    src/Sensors/rsF200DepthSensorImp.cpp
 )
 
 add_executable(
@@ -65,6 +68,7 @@ target_link_libraries(
     ${APP}
     ${OPENFRAMEWORKS_LIBRARIES}
     ${MAC_TARGET_LINK_LIBRARIES}
+    libivcam.so
 )
 
 set_target_properties(
