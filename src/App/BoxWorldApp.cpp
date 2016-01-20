@@ -46,7 +46,8 @@ void BoxWorldApp::setup(){
     char buf[512];
     getcwd(buf, sizeof(buf));
     printf("current working directory : %s\n", buf);
-    data_resource_path = string(buf).append("/data/");
+    string data_resource_prefix = buf;
+    data_resource_path = "/home/han/devel/BoxWorld/bin/data/";//data_resource_prefix.append("/bin/data/");
 #endif
     
     /* Init according to manifest file. */

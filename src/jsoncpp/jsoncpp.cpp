@@ -4774,7 +4774,7 @@ bool StyledStreamWriter::hasCommentForValue(const Value& value) {
 struct CommentStyle {
   /// Decide whether to write comments.
   enum Enum {
-    None,  ///< Drop all comments.
+    Nonee,  ///< Drop all comments.
     Most,  ///< Recover odd behavior of previous versions (not implemented yet).
     All  ///< Keep all comments.
   };
@@ -5016,7 +5016,7 @@ void BuiltStyledStreamWriter::unindent() {
 }
 
 void BuiltStyledStreamWriter::writeCommentBeforeValue(Value const& root) {
-  if (cs_ == CommentStyle::None) return;
+  if (cs_ == CommentStyle::Nonee) return;
   if (!root.hasComment(commentBefore))
     return;
 
@@ -5035,7 +5035,7 @@ void BuiltStyledStreamWriter::writeCommentBeforeValue(Value const& root) {
 }
 
 void BuiltStyledStreamWriter::writeCommentAfterValueOnSameLine(Value const& root) {
-  if (cs_ == CommentStyle::None) return;
+  if (cs_ == CommentStyle::Nonee) return;
   if (root.hasComment(commentAfterOnSameLine))
     *sout_ << " " + root.getComment(commentAfterOnSameLine);
 
@@ -5081,7 +5081,7 @@ StreamWriter* StreamWriterBuilder::newStreamWriter() const
   if (cs_str == "All") {
     cs = CommentStyle::All;
   } else if (cs_str == "None") {
-    cs = CommentStyle::None;
+    cs = CommentStyle::Nonee;
   } else {
     throwRuntimeError("commentStyle must be 'All' or 'None'");
   }

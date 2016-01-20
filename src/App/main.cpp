@@ -11,8 +11,8 @@ int main( ){
     settings.glesVersion = 2;
 #else
     ofGLWindowSettings settings;
-    settings.glVersionMajor = 4;
-    settings.glVersionMinor = 0;
+    settings.glVersionMajor = 3;
+    settings.glVersionMinor = 3;
 #endif
     settings.width = BOXWORLD_WIDTH;
     settings.height = BOXWORLD_HEIGHT;
