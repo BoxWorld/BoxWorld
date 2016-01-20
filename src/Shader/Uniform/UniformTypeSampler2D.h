@@ -11,6 +11,7 @@
 
 #include "UniformIf.h"
 #include "ofMain.h"
+#include "DepthSensorMgr.h"
 
 class UniformTypeSampler2D : public UniformIf {
 public:
@@ -19,18 +20,29 @@ public:
         mTexUnitIdx = mCtrl->getTexUnitIdx();
         
         /* generate texture. */
-        ofImage img;
-        bool suc = img.load(ofToDataPath(mValue));
-        if(!suc) {
-            ofLog(OF_LOG_ERROR, "Unable to load texture resource image.");
+        if(mValue.compare("[depthmap]") == 0){
+            isDepthmap = true;
+            mTex.allocate(BOXWORLD_WIDTH, BOXWORLD_HEIGHT, GL_RGBA);
+            DepthSensorMgr::getInst().getDepthSensor();
+        }else{
+            ofImage img;
+            bool suc = img.load(ofToDataPath(mValue));
+            if(!suc) {
+                ofLog(OF_LOG_ERROR, "Unable to load texture resource image.");
+            }
+            mTex = img.getTexture();
+            ofTextureData tex_data = mTex.getTextureData();
+            tex_data.textureTarget = GL_TEXTURE_2D;
+            setupTexParameters();
         }
-        mTex = img.getTexture();
-        ofTextureData tex_data = mTex.getTextureData();
-        tex_data.textureTarget = GL_TEXTURE_2D;
-        setupTexParameters();
     }
 
     void applyValue() {
+        /* for depthmap texture, update with new depthmap every time. */
+        if(isDepthmap) {
+            mTex.setUseExternalTextureID(DepthSensorMgr::getInst().getDepthmapTexId());
+        }
+        
         /* set up texture parameters. */
         if(mTexParamList.size() > 0) {
             GLint wrap_s = GL_CLAMP_TO_EDGE;
@@ -90,6 +102,7 @@ private:
         glBindTexture(GL_TEXTURE_2D, 0);
     }
     
+    bool                    isDepthmap = false;
     int                     mTexUnitIdx;
     ofTexture               mTex;
 };

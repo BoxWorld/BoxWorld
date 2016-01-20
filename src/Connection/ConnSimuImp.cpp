@@ -57,8 +57,10 @@ void ConnSimuImp::handleFileAction(FW::WatchID watchid, const string& dir, const
         case FW::Add:{
             std::cout << "File (" << filename << ") Added! " <<  std::endl;
             fileStatusMap[filename] = ADDED;
+            onAppAdd(filename);
+            fileStatusMap[filename] = NORMAL;
             break;
-        }
+        }/*
         case FW::Modified:{
             if(fileStatusMap.find(filename) != fileStatusMap.end()){
                 if(fileStatusMap[filename] == ADDED){
@@ -66,7 +68,7 @@ void ConnSimuImp::handleFileAction(FW::WatchID watchid, const string& dir, const
                     fileStatusMap[filename] = NORMAL;
                 }
             }
-        }
+        }*/
         default:
             break;
     }

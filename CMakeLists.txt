@@ -32,6 +32,7 @@ include_directories("src/Shader/Uniform/ShadertoyCustom/")
 include_directories("src/Thread/")
 include_directories("src/jsoncpp/json/")
 include_directories("src/ofxCubeMap/src")
+include_directories("src/Sensors")
 
 set(SOURCES
     src/App/BoxWorldApp.cpp
@@ -50,6 +51,7 @@ set(SOURCES
     src/Message/Message.cpp
     src/Message/MsgBuilder.cpp
     src/Protocol/slip.c
+    src/Sensors/SimuDepthSensorImp.cpp
 )
 
 add_executable(

@@ -11,3 +11,4 @@ bin/data/MainManifest.json
 bin/BoxWorld.app
 bin/BoxWorld
 *.wav
+.idea
