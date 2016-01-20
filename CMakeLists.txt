@@ -7,6 +7,8 @@ include(../of/openFrameworks.cmake)
 
 if(CMAKE_SYSTEM MATCHES Linux)
 set(FILE_WATCHER_IMPLEMENTTION_SOURCE "src/FileWatcher/src/FileWatcherLinux.cpp")
+set(SENSOR_SOURCES "src/Sensors/rsf200mgr.cpp src/Sensors/rsF200DepthSensorImp.cpp")
+set(SENSOR_LINK_LIB "libivcam.so")
 elseif(CMAKE_SYSTEM MATCHES Darwin)
 set(FILE_WATCHER_IMPLEMENTTION_SOURCE "src/FileWatcher/src/FileWatcherOSX.cpp")
 set(CONN_IMPLEMENTTION_SOURCE "src/Connection/ConnBleOSX.mm")
@@ -53,8 +55,7 @@ set(SOURCES
     src/Message/MsgBuilder.cpp
     src/Protocol/slip.c
     src/Sensors/SimuDepthSensorImp.cpp
-    src/Sensors/rsf200mgr.cpp
-    src/Sensors/rsF200DepthSensorImp.cpp
+    ${SENSOR_SOURCES}
 )
 
 add_executable(
@@ -68,7 +69,7 @@ target_link_libraries(
     ${APP}
     ${OPENFRAMEWORKS_LIBRARIES}
     ${MAC_TARGET_LINK_LIBRARIES}
-    libivcam.so
+    ${SENSOR_LINK_LIB}
 )
 
 set_target_properties(
