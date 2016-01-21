@@ -7,7 +7,8 @@ include(../of/openFrameworks.cmake)
 
 if(CMAKE_SYSTEM MATCHES Linux)
 set(FILE_WATCHER_IMPLEMENTTION_SOURCE "src/FileWatcher/src/FileWatcherLinux.cpp")
-set(SENSOR_SOURCES "src/Sensors/rsf200mgr.cpp src/Sensors/rsF200DepthSensorImp.cpp")
+set(SENSOR_SOURCES_rsf200mgr "src/Sensors/rsf200mgr.cpp")
+set(SENSOR_SOURCES_rsf200imp "src/Sensors/rsF200DepthSensorImp.cpp")
 set(SENSOR_LINK_LIB "libivcam.so")
 elseif(CMAKE_SYSTEM MATCHES Darwin)
 set(FILE_WATCHER_IMPLEMENTTION_SOURCE "src/FileWatcher/src/FileWatcherOSX.cpp")
@@ -55,7 +56,8 @@ set(SOURCES
     src/Message/MsgBuilder.cpp
     src/Protocol/slip.c
     src/Sensors/SimuDepthSensorImp.cpp
-    ${SENSOR_SOURCES}
+    ${SENSOR_SOURCES_rsf200mgr}
+    ${SENSOR_SOURCES_rsf200imp}
 )
 
 add_executable(
