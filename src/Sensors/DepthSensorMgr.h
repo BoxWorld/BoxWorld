@@ -16,10 +16,7 @@
 
 #include "DepthSensor.h"
 #include "SimuDepthSensorImp.h"
-
-#ifdef TARGET_LINUX
-#include "rsF200DepthSensorImp.h"
-#endif
+#include "RSSensorImp.h"
 
 class DepthSensorMgr {
 public:
@@ -65,6 +62,11 @@ public:
         
         return mTexId;
     }
+    
+    void setImp(DepthSensorImp *depth_sensor_imp){
+        cout << "use custom implementation." << endl;
+        mDepthSensor->setIml(mRSDepthSensorImp);
+    }
 
 private:
 	DepthSensorMgr() :
@@ -79,23 +81,12 @@ private:
 		mSimuDepthSensorImp = new SimuDepthSensorImp();
 		mDepthSensor = new DepthSensor(mSimuDepthSensorImp);
         
-#ifdef TARGET_LINUX
-        mF200DepthSensorImp = new rsF200DepthSensorImp();
-        if(mF200DepthSensorImp->isValid()) {
-                cout << "use rsF200 implementation." << endl;
-                mDepthSensor->setIml(mF200DepthSensorImp);
-        }else
-#endif
-        {
-            cout << "use simu depth implementation." << endl;
-        }
+        mRSDepthSensorImp = new RSSensorImp();
+        cout << "use simu depth implementation." << endl;
 	}
-
-	void useSimulation() { mDepthSensor->setIml(mSimuDepthSensorImp); }
-        void useF200() { mDepthSensor->setIml(mF200DepthSensorImp); }
-
+    
+    DepthSensorImp                  *mRSDepthSensorImp;
     DepthSensorImp 					*mSimuDepthSensorImp;
-    DepthSensorImp                  *mF200DepthSensorImp;
     DepthSensor 					*mDepthSensor;
     GLuint                           mTexId = 0;
     bool							 mRunning;

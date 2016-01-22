@@ -5,14 +5,15 @@ cmake_minimum_required(VERSION 2.8)
 
 include(../of/openFrameworks.cmake)
 
+LINK_DIRECTORIES(src/Sensors/librealsense/lib/)
+
 if(CMAKE_SYSTEM MATCHES Linux)
 set(FILE_WATCHER_IMPLEMENTTION_SOURCE "src/FileWatcher/src/FileWatcherLinux.cpp")
-set(SENSOR_SOURCES_rsf200mgr "src/Sensors/rsf200mgr.cpp")
-set(SENSOR_SOURCES_rsf200imp "src/Sensors/rsF200DepthSensorImp.cpp")
-set(SENSOR_LINK_LIB "libivcam.so")
+set(SENSOR_LINK_LIB "librealsense.so")
 elseif(CMAKE_SYSTEM MATCHES Darwin)
 set(FILE_WATCHER_IMPLEMENTTION_SOURCE "src/FileWatcher/src/FileWatcherOSX.cpp")
 set(CONN_IMPLEMENTTION_SOURCE "src/Connection/ConnBleOSX.mm")
+set(SENSOR_LINK_LIB "librealsense.dylib")
 find_library(MAC_COCOA_FRAMEWORK Cocoa)
 find_library(MAC_IOBLUETOOTH_FRAMEWORK IOBluetooth)
 find_library(MAC_FOUNDATION_FRAMEWORK Foundation)
@@ -36,7 +37,7 @@ include_directories("src/Thread/")
 include_directories("src/jsoncpp/json/")
 include_directories("src/ofxCubeMap/src")
 include_directories("src/Sensors")
-include_directories("src/Sensors/ivcam")
+include_directories("src/Sensors/librealsense/include")
 
 set(SOURCES
     src/App/BoxWorldApp.cpp
@@ -56,8 +57,8 @@ set(SOURCES
     src/Message/MsgBuilder.cpp
     src/Protocol/slip.c
     src/Sensors/SimuDepthSensorImp.cpp
-    ${SENSOR_SOURCES_rsf200mgr}
-    ${SENSOR_SOURCES_rsf200imp}
+    src/Sensors/RSSensorImp.cpp
+    src/Sensors/intelRealsenseMgr.cpp
 )
 
 add_executable(

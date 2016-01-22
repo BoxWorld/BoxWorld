@@ -4,6 +4,7 @@
 #include "ConnMgrInst.h"
 #include "Parser.h"
 #include "ResourceMgrInst.h"
+#include "intelRealsenseMgr.h"
 
 //--------------------------------------------------------------
 void BoxWorldApp::setup(){
@@ -67,6 +68,7 @@ void BoxWorldApp::setup(){
 BoxWorldApp::~BoxWorldApp() {
     if(mShaderExecutor) delete mShaderExecutor;
     delete ResourceMgrInst::get();
+    delete intelrsMgr::get();
 }
 
 void BoxWorldApp::runAppWithContent(string content) {

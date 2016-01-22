@@ -45,8 +45,8 @@ public:
     Message(Json::Value &fromJson);
     
     ~Message() {
-        if(mEncodedDataInfo.dataP)
-            delete mEncodedDataInfo.dataP;
+        //if(mEncodedDataInfo.dataP)
+        //    delete mEncodedDataInfo.dataP;
     }
     
     E_BoxWorldMsgType getType() {
