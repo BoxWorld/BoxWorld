@@ -56,7 +56,7 @@ public:
                      mDepthSensor->getAttrib().width,
                      mDepthSensor->getAttrib().height,
                      0,
-                     GL_RGB,
+                     mDepthSensor->getFormat(),
                      mDepthSensor->getDataType1(),
                      mDepthSensor->getDepthBufPtr()
                      );

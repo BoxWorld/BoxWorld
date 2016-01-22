@@ -48,6 +48,7 @@ unsigned char *SimuDepthSensorImp::getDepthBufPtr() {
 }
 
 int SimuDepthSensorImp::getDataType0() { return GL_R8; }
+int SimuDepthSensorImp::getFormat(){ return GL_RED; }
 int SimuDepthSensorImp::getDataType1() { return GL_UNSIGNED_BYTE; }
 
 void SimuDepthSensorImp::dispose() {}

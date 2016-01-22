@@ -27,6 +27,7 @@ public:
     void dispose() override;
 	bool isValid() override;
     int getDataType0() override;
+    int getFormat() override;
     int getDataType1() override;
 
 private:
