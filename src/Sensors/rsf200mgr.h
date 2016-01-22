@@ -26,6 +26,7 @@ private:
     Ivcam           mIvcam;
     IVCAM_STATUS    mStatus;
     Frame           mFrame;
+    uint8_t        *mColoredDepth;
 };
 
 #endif // RSF200MGR_H

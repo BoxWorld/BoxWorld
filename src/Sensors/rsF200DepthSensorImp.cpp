@@ -31,8 +31,8 @@ unsigned char *rsF200DepthSensorImp::getDepthBufPtr() {
         return rsf200_inst->getDepthBuf();
 }
 
-int rsF200DepthSensorImp::getDataType0() { return GL_R16; }
-int rsF200DepthSensorImp::getDataType1() { return GL_SHORT; }
+int rsF200DepthSensorImp::getDataType0() { return GL_RGB; }
+int rsF200DepthSensorImp::getDataType1() { return GL_UNSIGNED_BYTE; }
 
 void rsF200DepthSensorImp::dispose() {
     rsf200_inst->stopCapture();
