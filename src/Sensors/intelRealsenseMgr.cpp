@@ -80,12 +80,12 @@ void intelrsMgr::stream() {
                         uint8_t depth_val = ((float)depth/mOneMeter) * 255;
                         
                         cur_buf_p[i * rowBytes + j*3]   = depth_val;
-                        cur_buf_p[i * rowBytes + j*3+1] = depth_val;
-                        cur_buf_p[i * rowBytes + j*3+2] = depth_val;
+                        cur_buf_p[i * rowBytes + j*3+1] = 0;
+                        cur_buf_p[i * rowBytes + j*3+2] = 0;
                     }else {
-                        cur_buf_p[i * rowBytes + j*3]   = 1;
-                        cur_buf_p[i * rowBytes + j*3+1] = 1;
-                        cur_buf_p[i * rowBytes + j*3+2] = 1;
+                        cur_buf_p[i * rowBytes + j*3]   = 0;
+                        cur_buf_p[i * rowBytes + j*3+1] = 0;
+                        cur_buf_p[i * rowBytes + j*3+2] = 0;
                     }
                 }
             }
