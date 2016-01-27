@@ -22,7 +22,7 @@ public:
         /* generate texture. */
         if(mValue.compare("[depthmap]") == 0){
             isDepthmap = true;
-            mTex.allocate(BOXWORLD_WIDTH, BOXWORLD_HEIGHT, GL_RGBA);
+            mTex.allocate(mCtrl->getWidth(), mCtrl->getHeight(), GL_RGBA);
             DepthSensorMgr::getInst().getDepthSensor();
         }else{
             ofImage img;

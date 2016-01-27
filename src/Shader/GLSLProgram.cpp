@@ -28,8 +28,8 @@ GLSLProgram::GLSLProgram(S_Program programModel, int width, int height) {
     //mQuadDrawable = new QuadV();
     //mQuadDrawable->init();
     
-    mPlane.set(BOXWORLD_WIDTH, BOXWORLD_HEIGHT);
-    mPlane.setPosition(BOXWORLD_WIDTH, BOXWORLD_HEIGHT, 0);
+    mPlane.set(mWidth, mHeight);
+    mPlane.setPosition(mWidth, mHeight, 0);
     mPlane.setResolution(2, 2);
 }
 

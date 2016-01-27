@@ -10,16 +10,13 @@
 #include "intelRealsenseMgr.h"
 #include "ofMain.h"
 
-#define F200_DEPTH_BUF_WIDTH  640
-#define F200_DEPTH_BUF_HEIGHT 480
-
 intelrsMgr *interlrs_inst;
 
 void RSSensorImp::init() {
     if(inited) return;
     
-    mDepthSensorAttrib.width  = F200_DEPTH_BUF_WIDTH;
-    mDepthSensorAttrib.height = F200_DEPTH_BUF_HEIGHT;
+    mDepthSensorAttrib.width  = RESOLUTION_WIDTH;
+    mDepthSensorAttrib.height = RESOLUTION_HEIGHT;
     
     interlrs_inst = intelrsMgr::get();
     interlrs_inst->startCapture(this);

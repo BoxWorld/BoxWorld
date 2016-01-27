@@ -12,6 +12,7 @@ public:
     void setup();
     void update();
     void draw();
+    void exit();
 
     void keyPressed(int key);
     void keyReleased(int key);
@@ -29,7 +30,9 @@ public:
 private:
     void runAppWithContent(string content);
     
+    bool                 mEdit, mMouse;
     ofVec2f              mWinSize;
+    ofMatrix4x4          mTileMat;
     ShaderExecutor      *mShaderExecutor;
     ofPlanePrimitive     mFinalDisplayPlane;
     ofShader             mFinalDisplayShader;

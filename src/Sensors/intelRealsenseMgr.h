@@ -17,6 +17,9 @@
 #include "ofThread.h"
 #include "DepthSensorImp.h"
 
+#define RESOLUTION_WIDTH  640
+#define RESOLUTION_HEIGHT 480
+
 class intelRealsenseThread;
 
 class intelrsMgr {

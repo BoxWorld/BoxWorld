@@ -16,7 +16,7 @@
 class UniformIResolution : public UniformIf {
 public:
     void applyValue() {
-        glUniform3f(getLocation(), BOXWORLD_WIDTH, BOXWORLD_HEIGHT, 1.0);
+        glUniform3f(getLocation(), mCtrl->getWidth(), mCtrl->getHeight(), 1.0);
     }
     
     static UniformIf * Create() { return new UniformIResolution(); }

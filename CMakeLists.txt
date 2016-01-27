@@ -21,7 +21,7 @@ set(MAC_TARGET_LINK_LIBRARIES ${MAC_COCOA_FRAMEWORK} ${MAC_IOBLUETOOTH_FRAMEWORK
 elseif(CMAKE_SYSTEM MATCHES Windows)
 endif()
 
-#ofxaddon()
+ofxaddon(ofxGui)
 
 include_directories("src/")
 include_directories("src/App/")
@@ -43,6 +43,7 @@ set(SOURCES
     src/App/BoxWorldApp.cpp
     src/App/ResourceMgrInst.cpp
     src/App/main.cpp
+    src/App/BoxWorldWindowAttrib.cpp
     src/Connection/ConnMgrInst.cpp
     src/Connection/ConnSimuImp.cpp
     ${CONN_IMPLEMENTTION_SOURCE}

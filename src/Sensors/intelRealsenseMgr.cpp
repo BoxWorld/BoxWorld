@@ -7,12 +7,13 @@
 //
 #include "DepthSensorMgr.h"
 #include "intelRealsenseMgr.h"
+#include "BoxWorldWindowAttrib.h"
 
 intelrsMgr::intelrsMgr() {
     mRSThread = new intelRealsenseThread(this, NULL);
     mBufIdx = 0;
-    mDepthData[0] = (uint8_t *)malloc(640 * 480 * 3);
-    mDepthData[1] = (uint8_t *)malloc(640 * 480 * 3);
+    mDepthData[0] = (uint8_t *)malloc(RESOLUTION_WIDTH * RESOLUTION_HEIGHT * 3);
+    mDepthData[1] = (uint8_t *)malloc(RESOLUTION_WIDTH * RESOLUTION_HEIGHT * 3);
     mRSThread->startThread();
 }
 
@@ -44,7 +45,7 @@ void intelrsMgr::stream() {
     printf("    Firmware version: %s\n", mDev->get_firmware_version());
     
     // Configure depth to run at VGA resolution at 30 frames per second
-    mDev->enable_stream(rs::stream::depth, 640, 480, rs::format::z16, 30);
+    mDev->enable_stream(rs::stream::depth, RESOLUTION_WIDTH, RESOLUTION_HEIGHT, rs::format::z16, 30);
     mDev->set_option(rs::option::f200_laser_power, 15);
     mDev->set_option(rs::option::f200_filter_option, 6);
     mDev->set_option(rs::option::f200_accuracy, 3);
@@ -60,24 +61,33 @@ void intelrsMgr::stream() {
     
     while(mValid) {
         try{
+            uint16_t min_dist, max_dist;
+            float dist_range;
             // This call waits until a new coherent set of frames is available on a device
             // Calls to get_frame_data(...) and get_frame_timestamp(...) on a device will return stable values until wait_for_frames(...) is called
             mDev->wait_for_frames();
 
-            // Retrieve depth data, which was previously configured as a 640 x 480 image of 16-bit depth values
+            min_dist = mOneMeter * (BoxWorldWindowAttrib::getInst().minDist/1000);
+            max_dist = mOneMeter * (BoxWorldWindowAttrib::getInst().maxDist/1000);
+            dist_range = max_dist - min_dist;
+            
+            /* Retrieve depth data, which was previously configured as a 
+                RESOLUTION_WIDTH x RESOLUTION_HEIGHT image of 16-bit depth values
+             */
             const uint16_t *depth_frame = reinterpret_cast<const uint16_t *>(mDev->get_frame_data(rs::stream::depth));
             uint16_t *depth_frame_ptr = (uint16_t *)depth_frame;
             
             uint8_t *cur_buf_p = mDepthData[mBufIdx];
             
-            int rowBytes = 640 * 3;
-            for ( int i = 0; i < 480; ++i )
+            int rowBytes = RESOLUTION_WIDTH * 3;
+            for ( int i = 0; i < RESOLUTION_HEIGHT; ++i )
             {
-                for ( int j=0; j <640; ++j )
+                for ( int j=0; j <RESOLUTION_WIDTH; ++j )
                 {
                     uint16_t depth = *depth_frame_ptr++;
-                    if(depth > 0 && depth < mOneMeter){
-                        uint8_t depth_val = ((float)depth/mOneMeter) * 255;
+                    if(depth > min_dist && depth < max_dist){
+                        //uint8_t depth_val = ((float)depth/mOneMeter) * 255;
+                        uint8_t depth_val = 255 * ((depth-min_dist)/dist_range);
                         
                         cur_buf_p[i * rowBytes + j*3]   = depth_val;
                         cur_buf_p[i * rowBytes + j*3+1] = 0;

@@ -14,6 +14,8 @@ public:
     virtual float getElapsedTime() = 0;
     virtual int   getTexUnitIdx() = 0;
     virtual float getBlockOfs() = 0;
+    virtual int getWidth() = 0;
+    virtual int getHeight() = 0;
     
     virtual void  applyTextureOnShader(string name, int textureTarget, int textureID, int textureLocation) = 0;
     virtual void  applyTextureOnShader(string name, ofTexture& tex, int texLocation) = 0;

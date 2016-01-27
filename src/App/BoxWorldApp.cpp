@@ -5,6 +5,7 @@
 #include "Parser.h"
 #include "ResourceMgrInst.h"
 #include "intelRealsenseMgr.h"
+#include "BoxWorldWindowAttrib.h"
 
 //--------------------------------------------------------------
 void BoxWorldApp::setup(){
@@ -83,7 +84,7 @@ void BoxWorldApp::setup(){
     
     /* Init according to manifest file. */
     ResourceMgrInst::get()->setRootDir(data_resource_path);
-
+    BoxWorldWindowAttrib::getInst().load();
     /* Init connection manager for incoming message handling. */
     ConnMgrInst::get()->setCmdReceiver(this);
     ofSetDataPathRoot(data_resource_path);
@@ -105,6 +106,10 @@ void BoxWorldApp::setup(){
     mFinalDisplayPlane.set(mWinSize.x, mWinSize.y);
     mFinalDisplayPlane.setPosition(mWinSize.x, mWinSize.y, 0);
     mFinalDisplayPlane.setResolution(2, 2);
+    mTileMat = ofMatrix4x4::newTranslationMatrix(0.0f, 0.0f, 0.0f) * ofMatrix4x4::newScaleMatrix(1.0f, 1.0f, 0.0f);
+    
+    mEdit = false;
+    mMouse = true;
 }
 
 BoxWorldApp::~BoxWorldApp() {
@@ -121,6 +126,12 @@ void BoxWorldApp::runAppWithContent(string content) {
 
 //--------------------------------------------------------------
 void BoxWorldApp::update(){
+    BoxWorldWindowAttrib::getInst().update();
+    mTileMat = ofMatrix4x4::newTranslationMatrix(BoxWorldWindowAttrib::getInst().transX/640.0,
+                                                 BoxWorldWindowAttrib::getInst().transY/-480.0, 0.0f)
+             * ofMatrix4x4::newScaleMatrix(BoxWorldWindowAttrib::getInst().scaleX,
+                                           BoxWorldWindowAttrib::getInst().scaleX * 0.75, 0.0f);
+
     mShaderExecutor->update();
     ConnMgrInst::get()->update();
 }
@@ -128,12 +139,19 @@ void BoxWorldApp::update(){
 //--------------------------------------------------------------
 void BoxWorldApp::draw(){
     //mShaderExecutor->draw();
+    if(mEdit)
+        ofBackgroundGradient(ofColor::gray, ofColor::black);
+    
     mFinalDisplayShader.begin();
     mFinalDisplayShader.setUniformTexture("tex", mShaderExecutor->getResultTexture(), 0);
+    mFinalDisplayShader.setUniformMatrix4f("TileMatrix", mTileMat);
     mFinalDisplayShader.setUniform2f("resolution", mWinSize);
     mFinalDisplayShader.setUniform3f("iResolution", mWinSize.x, mWinSize.y, 0.0);
     mFinalDisplayPlane.draw();
     mFinalDisplayShader.end();
+    
+    if(mEdit)
+        BoxWorldWindowAttrib::getInst().draw();
 }
 
 void BoxWorldApp::updateScene(Message *msg){
@@ -143,7 +161,18 @@ void BoxWorldApp::updateScene(Message *msg){
 
 //--------------------------------------------------------------
 void BoxWorldApp::keyPressed(int key){
-
+    if( key == 'e' ){
+        mEdit = !mEdit;
+    }else if (key == 'm'){
+        mMouse = !mMouse;
+        if (mMouse){
+            ofShowCursor();
+        } else {
+            ofHideCursor();
+        }
+    }else if (key == 'f'){
+        ofToggleFullscreen();
+    }
 }
 
 //--------------------------------------------------------------
@@ -194,4 +223,8 @@ void BoxWorldApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void BoxWorldApp::dragEvent(ofDragInfo dragInfo){
 
+}
+
+void BoxWorldApp::exit(){
+    BoxWorldWindowAttrib::getInst().save();
 }

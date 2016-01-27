@@ -16,7 +16,7 @@ void SimuDepthSensorImp::init() {
 		mBuf = new unsigned char[mDepthSensorAttrib.width * mDepthSensorAttrib.height];
 		for(int r=0; r<SIMU_DEPTH_BUF_HEIGHT; r++){
 			for(int c=0; c<SIMU_DEPTH_BUF_WIDTH; c++){
-				mBuf[640*r+c] = kSimuDepthmapData[640*r+c];
+				mBuf[SIMU_DEPTH_BUF_WIDTH*r+c] = kSimuDepthmapData[SIMU_DEPTH_BUF_WIDTH*r+c];
 			}
 		}
 	}
@@ -35,12 +35,12 @@ unsigned char *SimuDepthSensorImp::getDepthBufPtr() {
 	for(int r=0; r<SIMU_DEPTH_BUF_HEIGHT; r++){
 		for(int c=0; c<SIMU_DEPTH_BUF_WIDTH; c++){
 			int rand_val = 0;//rand() % 2 + 1;
-			int new_val = kSimuDepthmapData[640*r+c] + rand_val;
+			int new_val = kSimuDepthmapData[SIMU_DEPTH_BUF_WIDTH*r+c] + rand_val;
 			if(new_val > 255) new_val = 255;
-			mBuf[640*r+c] = new_val;
-			//int cur_val = mBuf[640*r+c] + 1;
+			mBuf[SIMU_DEPTH_BUF_WIDTH*r+c] = new_val;
+			//int cur_val = mBuf[SIMU_DEPTH_BUF_WIDTH*r+c] + 1;
 			//if(cur_val > 255) cur_val = 0;
-			//mBuf[640*r+c] = cur_val & 0xff;
+			//mBuf[SIMU_DEPTH_BUF_WIDTH*r+c] = cur_val & 0xff;
 		}
 	}
 

@@ -26,6 +26,8 @@ public:
     
     void  render();
     void setBlockOfs(float block_ofs) { mBlockOfs = block_ofs; }
+    int getWidth() { return mWidth; }
+    int getHeight() { return mHeight; }
 private:
     /* inherited from ShaderCtrlIf. */
     float getElapsedTime();
