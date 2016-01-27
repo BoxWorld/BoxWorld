@@ -29,5 +29,8 @@ public:
 private:
     void runAppWithContent(string content);
     
-    ShaderExecutor *mShaderExecutor;
+    ofVec2f              mWinSize;
+    ShaderExecutor      *mShaderExecutor;
+    ofPlanePrimitive     mFinalDisplayPlane;
+    ofShader             mFinalDisplayShader;
 };

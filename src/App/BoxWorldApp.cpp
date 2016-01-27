@@ -8,6 +8,36 @@
 
 //--------------------------------------------------------------
 void BoxWorldApp::setup(){
+    string finalDisplayVert = "#version 330\nlayout(location = 0) \
+    in vec3 VertexPosition; \
+    uniform mat4 TileMatrix = mat4(1.0); \
+    uniform vec2 resolution; \
+    out vec4 glFragCoord; \
+    void main() { \
+    vec2 v = VertexPosition.xy; \
+    v.x = v.x * TileMatrix[0][0] + TileMatrix[3][0]; \
+    v.y = v.y * TileMatrix[1][1] + TileMatrix[3][1]; \
+    v = v * 0.5 + 0.5; \
+    glFragCoord.xy = v * resolution; \
+    gl_Position = vec4(VertexPosition, 1.0); \
+    }";
+    
+    string finalDisplayFrag = "#version 330\nlayout(location = 0) \
+    out vec4 glFragColor; \
+    in vec4 glFragCoord; \
+    uniform vec3 iResolution; \
+    uniform sampler2D tex; \
+    void mainImage(out vec4 fragColor,in vec2 fragCoord) { \
+        vec2 uv = fragCoord.xy / iResolution.xy; \
+        vec4 col = texture(tex, uv); \
+        fragColor = col; \
+    } \
+    void main() { \
+        vec4 color; \
+        mainImage(color, glFragCoord.xy); \
+        glFragColor = color; \
+    }";
+    
     ofEnableAlphaBlending();
     ofDisableArbTex();
 
@@ -63,6 +93,18 @@ void BoxWorldApp::setup(){
     if(ResourceMgrInst::get()->isDefaultAppValid()) {
         runAppWithContent(ResourceMgrInst::get()->getDefAppContent());
     }
+    
+    /* Init final display map shader, to map a 'BOXWORLD_WIDTH X BOXWORLD_HEIGHT' sized buffer to full screen */
+    mFinalDisplayShader.unload();
+    mFinalDisplayShader.setupShaderFromSource(GL_VERTEX_SHADER, finalDisplayVert);
+    mFinalDisplayShader.setupShaderFromSource(GL_FRAGMENT_SHADER, finalDisplayFrag);
+    mFinalDisplayShader.linkProgram();
+    
+    mWinSize = ofVec2f(ofGetWindowWidth(), ofGetWindowHeight());
+    printf("%f-%f\n", mWinSize.x, mWinSize.y);
+    mFinalDisplayPlane.set(mWinSize.x, mWinSize.y);
+    mFinalDisplayPlane.setPosition(mWinSize.x, mWinSize.y, 0);
+    mFinalDisplayPlane.setResolution(2, 2);
 }
 
 BoxWorldApp::~BoxWorldApp() {
@@ -85,7 +127,13 @@ void BoxWorldApp::update(){
 
 //--------------------------------------------------------------
 void BoxWorldApp::draw(){
-    mShaderExecutor->draw();
+    //mShaderExecutor->draw();
+    mFinalDisplayShader.begin();
+    mFinalDisplayShader.setUniformTexture("tex", mShaderExecutor->getResultTexture(), 0);
+    mFinalDisplayShader.setUniform2f("resolution", mWinSize);
+    mFinalDisplayShader.setUniform3f("iResolution", mWinSize.x, mWinSize.y, 0.0);
+    mFinalDisplayPlane.draw();
+    mFinalDisplayShader.end();
 }
 
 void BoxWorldApp::updateScene(Message *msg){

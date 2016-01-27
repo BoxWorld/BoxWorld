@@ -148,3 +148,7 @@ void ShaderExecutor::draw(){
     mFboPingpong.dst->draw(0, 0, mWidth, mHeight);
     ofPopStyle();
 }
+
+ofTexture ShaderExecutor::getResultTexture() {
+    return mFboPingpong.dst->getTexture();
+}

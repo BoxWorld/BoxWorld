@@ -16,7 +16,7 @@ int main( ){
 #endif
     settings.width = BOXWORLD_WIDTH;
     settings.height = BOXWORLD_HEIGHT;
-    settings.windowMode = OF_WINDOW;
+    settings.windowMode = OF_FULLSCREEN;
     ofCreateWindow(settings);
     
 	ofRunApp(new BoxWorldApp());

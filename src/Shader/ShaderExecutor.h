@@ -48,6 +48,7 @@ public:
     bool setProgramModel(const S_Program& mainProgramModel, const S_Program& audioProgramModel);
     void update();
     void draw();
+    ofTexture getResultTexture();
     
     void threadCallBack(void *);
 private:
