@@ -1,10 +1,10 @@
 <Panel>
-	<Trans_X>0</Trans_X>
-	<Trans_Y>0</Trans_Y>
-	<Scale_X>1</Scale_X>
+	<Trans_X>36</Trans_X>
+	<Trans_Y>186</Trans_Y>
+	<Scale_X>0.845</Scale_X>
 	<Scale_Y>1</Scale_Y>
 <Panel/>
 <Ratio>1.77778</Ratio>
-<Dist_Min>400</Dist_Min>
-	<Dist_Max>700</Dist_Max>
+<Dist_Min>362</Dist_Min>
+	<Dist_Max>424</Dist_Max>
 </Panel>

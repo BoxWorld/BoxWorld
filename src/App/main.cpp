@@ -14,8 +14,8 @@ int main( ){
     settings.glVersionMajor = 3;
     settings.glVersionMinor = 3;
 #endif
-    //settings.width = 1024;
-    //settings.height = 576;
+    settings.width = 1024;
+    settings.height = 768;
     settings.windowMode = OF_FULLSCREEN;
     ofCreateWindow(settings);
     

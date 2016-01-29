@@ -19,8 +19,8 @@ void BoxWorldWindowAttrib::load(){
     gui.add(scaleX.setup("Scale.X", 1.0, 0.0, 1.0));
     //gui.add(scaleY.setup("Scale.Y", 1.0, 0.0, 1.0));
     //gui.add(ratio.setup("Ratio", 1.77777777777778, 1.77777777777778, 1.77916666666667));
-    gui.add(minDist.setup("Dist.Min", 400, 200, 499));
-    gui.add(maxDist.setup("Dist.Max", 700, 500, 1000));
+    gui.add(minDist.setup("Dist.Min", 300, 200, 399));
+    gui.add(maxDist.setup("Dist.Max", 700, 400, 1000));
 
     gui.loadFromFile("settings.xml");
 }

@@ -46,6 +46,9 @@ void intelrsMgr::stream() {
     
     // Configure depth to run at VGA resolution at 30 frames per second
     mDev->enable_stream(rs::stream::depth, RESOLUTION_WIDTH, RESOLUTION_HEIGHT, rs::format::z16, 30);
+    //mDev->enable_stream(rs::stream::color, rs::preset::best_quality);
+    //mDev->enable_stream(rs::stream::infrared, rs::preset::best_quality);
+    
     mDev->set_option(rs::option::f200_laser_power, 15);
     mDev->set_option(rs::option::f200_filter_option, 6);
     mDev->set_option(rs::option::f200_accuracy, 3);
@@ -61,14 +64,14 @@ void intelrsMgr::stream() {
     
     while(mValid) {
         try{
-            uint16_t min_dist, max_dist;
+            float min_dist, max_dist;
             float dist_range;
             // This call waits until a new coherent set of frames is available on a device
             // Calls to get_frame_data(...) and get_frame_timestamp(...) on a device will return stable values until wait_for_frames(...) is called
             mDev->wait_for_frames();
 
-            min_dist = mOneMeter * (BoxWorldWindowAttrib::getInst().minDist/1000);
-            max_dist = mOneMeter * (BoxWorldWindowAttrib::getInst().maxDist/1000);
+            min_dist = mOneMeter * (BoxWorldWindowAttrib::getInst().minDist/1000.0);
+            max_dist = mOneMeter * (BoxWorldWindowAttrib::getInst().maxDist/1000.0);
             dist_range = max_dist - min_dist;
             
             /* Retrieve depth data, which was previously configured as a 
@@ -80,22 +83,23 @@ void intelrsMgr::stream() {
             uint8_t *cur_buf_p = mDepthData[mBufIdx];
             
             int rowBytes = RESOLUTION_WIDTH * 3;
-            for ( int i = 0; i < RESOLUTION_HEIGHT; ++i )
+            for ( int i = RESOLUTION_HEIGHT; i > 0; --i )
             {
-                for ( int j=0; j <RESOLUTION_WIDTH; ++j )
+                for ( int j=0; j <RESOLUTION_WIDTH; j++ )
                 {
-                    uint16_t depth = *depth_frame_ptr++;
+                    uint16_t row_idx = RESOLUTION_HEIGHT - i - 1;
+                    uint16_t depth = *(depth_frame_ptr + i*RESOLUTION_WIDTH + j);
                     if(depth > min_dist && depth < max_dist){
                         //uint8_t depth_val = ((float)depth/mOneMeter) * 255;
                         uint8_t depth_val = 255 * ((depth-min_dist)/dist_range);
                         
-                        cur_buf_p[i * rowBytes + j*3]   = depth_val;
-                        cur_buf_p[i * rowBytes + j*3+1] = 0;
-                        cur_buf_p[i * rowBytes + j*3+2] = 0;
+                        cur_buf_p[row_idx * rowBytes + j*3]   = 255 - depth_val;
+                        cur_buf_p[row_idx * rowBytes + j*3+1] = 0;
+                        cur_buf_p[row_idx * rowBytes + j*3+2] = 0;
                     }else {
-                        cur_buf_p[i * rowBytes + j*3]   = 0;
-                        cur_buf_p[i * rowBytes + j*3+1] = 0;
-                        cur_buf_p[i * rowBytes + j*3+2] = 0;
+                        cur_buf_p[row_idx * rowBytes + j*3]   = 0;
+                        cur_buf_p[row_idx * rowBytes + j*3+1] = 0;
+                        cur_buf_p[row_idx * rowBytes + j*3+2] = 0;
                     }
                 }
             }
