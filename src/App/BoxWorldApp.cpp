@@ -6,6 +6,7 @@
 #include "ResourceMgrInst.h"
 #include "intelRealsenseMgr.h"
 #include "BoxWorldWindowAttrib.h"
+#include "DepthSensorMgr.h"
 
 //--------------------------------------------------------------
 void BoxWorldApp::setup(){
@@ -132,6 +133,7 @@ void BoxWorldApp::update(){
              * ofMatrix4x4::newScaleMatrix(BoxWorldWindowAttrib::getInst().scaleX,
                                            BoxWorldWindowAttrib::getInst().scaleX * 0.75, 0.0f);
 
+    DepthSensorMgr::getInst().averageData();
     mShaderExecutor->update();
     ConnMgrInst::get()->update();
 }

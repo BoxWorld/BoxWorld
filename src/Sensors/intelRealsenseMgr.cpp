@@ -8,12 +8,22 @@
 #include "DepthSensorMgr.h"
 #include "intelRealsenseMgr.h"
 #include "BoxWorldWindowAttrib.h"
+#include "SimuDepthmapModel.h"
 
 intelrsMgr::intelrsMgr() {
     mRSThread = new intelRealsenseThread(this, NULL);
     mBufIdx = 0;
-    mDepthData[0] = (uint8_t *)malloc(RESOLUTION_WIDTH * RESOLUTION_HEIGHT * 3);
-    mDepthData[1] = (uint8_t *)malloc(RESOLUTION_WIDTH * RESOLUTION_HEIGHT * 3);
+    mNumPixels = RESOLUTION_WIDTH * RESOLUTION_HEIGHT;
+    mDepthFloatImage[0].allocate(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,OF_IMAGE_GRAYSCALE);
+    mDepthFloatImage[1].allocate(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,OF_IMAGE_GRAYSCALE);
+    
+    mDepthFloatPixels[0] = mDepthFloatImage[0].getPixels();
+    mDepthFloatPixels[1] = mDepthFloatImage[1].getPixels();
+    for(int i=0; i<mNumPixels; i++) {
+        mDepthFloatPixels[0][i] = 1.0;
+        mDepthFloatPixels[1][i] = 1.0;
+    }
+    
     mRSThread->startThread();
 }
 
@@ -24,8 +34,6 @@ intelrsMgr::~intelrsMgr() {
         mRSThread->waitForThread();
         delete mRSThread;
     }
-    if(mDepthData[0]) free(mDepthData[0]);
-    if(mDepthData[1]) free(mDepthData[1]);
     stopCapture();
 }
 
@@ -61,45 +69,51 @@ void intelrsMgr::stream() {
     
     mValid = true;
     DepthSensorMgr::getInst().setImp(mOwner);
+    mBufIdx = 0;
     
     while(mValid) {
         try{
             float min_dist, max_dist;
-            float dist_range;
             // This call waits until a new coherent set of frames is available on a device
             // Calls to get_frame_data(...) and get_frame_timestamp(...) on a device will return stable values until wait_for_frames(...) is called
             mDev->wait_for_frames();
+            
+            mDepthFloatPixels[mBufIdx] = mDepthFloatImage[mBufIdx].getPixels();
 
             min_dist = mOneMeter * (BoxWorldWindowAttrib::getInst().minDist/1000.0);
             max_dist = mOneMeter * (BoxWorldWindowAttrib::getInst().maxDist/1000.0);
-            dist_range = max_dist - min_dist;
             
             /* Retrieve depth data, which was previously configured as a 
                 RESOLUTION_WIDTH x RESOLUTION_HEIGHT image of 16-bit depth values
              */
             const uint16_t *depth_frame = reinterpret_cast<const uint16_t *>(mDev->get_frame_data(rs::stream::depth));
-            uint16_t *depth_frame_ptr = (uint16_t *)depth_frame;
+            uint16_t *depth_frame_ptr;
+            /*
+            for(int r=0; r<RESOLUTION_HEIGHT; r++){
+                for(int c=0; c<RESOLUTION_WIDTH; c++){
+                    int rand_val = 0;//rand() % 2 + 1;
+                    int new_val = kSimuDepthmapData[RESOLUTION_WIDTH*r+c] + rand_val;
+                    if(new_val > 255) new_val = 255;
+                    //new_val = ofMap(new_val, 255, 0, 0.0f,1.0f);
+                    
+                    mDepthFloatPixels[mBufIdx][RESOLUTION_WIDTH*r+c] = ofMap(new_val, 0, 255, 0.0f,1.0f);
+                }
+            }
+            */
             
-            uint8_t *cur_buf_p = mDepthData[mBufIdx];
-            
-            int rowBytes = RESOLUTION_WIDTH * 3;
-            for ( int i = RESOLUTION_HEIGHT; i > 0; --i )
-            {
-                for ( int j=0; j <RESOLUTION_WIDTH; j++ )
-                {
-                    uint16_t row_idx = RESOLUTION_HEIGHT - i - 1;
-                    uint16_t depth = *(depth_frame_ptr + i*RESOLUTION_WIDTH + j);
-                    if(depth > min_dist && depth < max_dist){
-                        //uint8_t depth_val = ((float)depth/mOneMeter) * 255;
-                        uint8_t depth_val = 255 * ((depth-min_dist)/dist_range);
-                        
-                        cur_buf_p[row_idx * rowBytes + j*3]   = 255 - depth_val;
-                        cur_buf_p[row_idx * rowBytes + j*3+1] = 0;
-                        cur_buf_p[row_idx * rowBytes + j*3+2] = 0;
-                    }else {
-                        cur_buf_p[row_idx * rowBytes + j*3]   = 0;
-                        cur_buf_p[row_idx * rowBytes + j*3+1] = 0;
-                        cur_buf_p[row_idx * rowBytes + j*3+2] = 0;
+            for ( int i = RESOLUTION_HEIGHT-1; i > 0; i-- ){
+                for ( int j=0; j<RESOLUTION_WIDTH; j++ ){
+                    uint32_t row_idx = RESOLUTION_HEIGHT - i;
+                    uint32_t s_idx = i * RESOLUTION_WIDTH + j;
+                    uint32_t t_idx = row_idx * RESOLUTION_WIDTH + j;
+                    depth_frame_ptr = (uint16_t *)depth_frame + s_idx;
+                    
+                    if(*depth_frame_ptr > min_dist && *depth_frame_ptr < max_dist){
+                        mDepthFloatPixels[mBufIdx][t_idx] = ofMap(*depth_frame_ptr, max_dist, min_dist, 0.0f, 1.0f);
+                    }else if(*depth_frame_ptr <= min_dist) {
+                        mDepthFloatPixels[mBufIdx][t_idx] = 1.0;
+                    }else if(*depth_frame_ptr >= max_dist) {
+                        mDepthFloatPixels[mBufIdx][t_idx] = 0.0;
                     }
                 }
             }
@@ -128,8 +142,15 @@ void intelrsMgr::startCapture(DepthSensorImp *owner) {
     printf("start Capture...\n");
 }
 
-uint8_t *intelrsMgr::getDepthBuf(){
-    return mDepthData[1 - mBufIdx];
+ofTexture & intelrsMgr::getDepthTexture(){
+    int idx = mBufIdx + 1; if(idx == 2) idx = 0;
+    mDepthFloatImage[idx].setFromPixels(mDepthFloatPixels[idx],
+                                            RESOLUTION_WIDTH,
+                                            RESOLUTION_HEIGHT,
+                                            OF_IMAGE_GRAYSCALE
+                                            );
+    
+    return mDepthFloatImage[mBufIdx].getTexture();    
 }
 
 void intelrsMgr::stopCapture() {

@@ -11,6 +11,7 @@ void SimuDepthSensorImp::init() {
 	
 	mDepthSensorAttrib.width  = SIMU_DEPTH_BUF_WIDTH;
 	mDepthSensorAttrib.height = SIMU_DEPTH_BUF_HEIGHT;
+    mDepthFloatImage.allocate(SIMU_DEPTH_BUF_WIDTH, SIMU_DEPTH_BUF_HEIGHT, OF_IMAGE_GRAYSCALE);
 
 	if(!mBuf) {
 		mBuf = new unsigned char[mDepthSensorAttrib.width * mDepthSensorAttrib.height];
@@ -27,24 +28,26 @@ DepthSensorAttrib SimuDepthSensorImp::getAttrib() {
     return mDepthSensorAttrib;
 }
 
-unsigned char *SimuDepthSensorImp::getDepthBufPtr() {
+ofTexture & SimuDepthSensorImp::getDepthBufTexture() {
 	if(!inited) {
 		init();
 	}
+    
+    float *depthFloatPixels = mDepthFloatImage.getPixels();
 
 	for(int r=0; r<SIMU_DEPTH_BUF_HEIGHT; r++){
 		for(int c=0; c<SIMU_DEPTH_BUF_WIDTH; c++){
 			int rand_val = 0;//rand() % 2 + 1;
 			int new_val = kSimuDepthmapData[SIMU_DEPTH_BUF_WIDTH*r+c] + rand_val;
 			if(new_val > 255) new_val = 255;
-			mBuf[SIMU_DEPTH_BUF_WIDTH*r+c] = new_val;
-			//int cur_val = mBuf[SIMU_DEPTH_BUF_WIDTH*r+c] + 1;
-			//if(cur_val > 255) cur_val = 0;
-			//mBuf[SIMU_DEPTH_BUF_WIDTH*r+c] = cur_val & 0xff;
+            //new_val = ofMap(new_val, 255, 0, 0.0f,1.0f);
+
+			depthFloatPixels[SIMU_DEPTH_BUF_WIDTH*r+c] = ofMap(new_val, 0, 255, 0.0f,1.0f);
 		}
 	}
+    mDepthFloatImage.setFromPixels(depthFloatPixels, SIMU_DEPTH_BUF_WIDTH, SIMU_DEPTH_BUF_HEIGHT, OF_IMAGE_GRAYSCALE );
 
-	return mBuf;
+	return mDepthFloatImage.getTexture();
 }
 
 int SimuDepthSensorImp::getDataType0() { return GL_R8; }

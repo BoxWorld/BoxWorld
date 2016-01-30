@@ -28,12 +28,12 @@ DepthSensorAttrib RSSensorImp::getAttrib() {
     return mDepthSensorAttrib;
 }
 
-unsigned char *RSSensorImp::getDepthBufPtr() {
+ofTexture & RSSensorImp::getDepthBufTexture() {
     if(!inited) {
         init();
     }
     
-    return interlrs_inst->getDepthBuf();
+    return interlrs_inst->getDepthTexture();
 }
 
 int RSSensorImp::getDataType0() { return GL_RGB; }

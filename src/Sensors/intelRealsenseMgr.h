@@ -35,17 +35,19 @@ public:
     bool isValid() { return mValid; }
     void stream();
     void startCapture(DepthSensorImp *owner);
-    uint8_t *getDepthBuf();
+    ofTexture & getDepthTexture();
     void stopCapture();
     
 private:
     bool                     mValid;
     rs::device              *mDev;
     uint8_t                  mBufIdx;
-    uint8_t                 *mDepthData[2];
     uint16_t                 mOneMeter;
+    uint16_t                 mNumPixels;
     intelRealsenseThread    *mRSThread;
     DepthSensorImp          *mOwner;
+    ofFloatImage             mDepthFloatImage[2];
+    float                   *mDepthFloatPixels[2];
 };
 
 class intelRealsenseThread : public ofThread {

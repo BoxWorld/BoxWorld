@@ -30,7 +30,7 @@ public:
     
     void init() override;
     DepthSensorAttrib getAttrib() override;
-    unsigned char *getDepthBufPtr() override;
+    ofTexture & getDepthBufTexture() override;
     void dispose() override;
     bool isValid() override;
     int getDataType0() override;

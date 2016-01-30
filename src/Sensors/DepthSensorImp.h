@@ -2,7 +2,7 @@
 #define __DEPTHSENSORIMG_H__
 
 #include "DepthSensorConfig.h"
-
+#include "ofMain.h"
 /*
  * Interface for depth sensor implementation.
  */
@@ -14,7 +14,8 @@ public:
 
 	virtual void init() = 0;
 	virtual DepthSensorAttrib getAttrib() = 0;
-	virtual unsigned char *getDepthBufPtr() = 0;
+	//virtual unsigned char *getDepthBufPtr() = 0;
+    virtual ofTexture & getDepthBufTexture() = 0;
     virtual int getDataType0() = 0;
     virtual int getFormat() = 0;
     virtual int getDataType1() = 0;

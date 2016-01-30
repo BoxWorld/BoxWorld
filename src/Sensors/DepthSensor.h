@@ -36,8 +36,8 @@ public:
 		return mImp->getAttrib();
 	}
 
-	unsigned char *getDepthBufPtr() {
-		return mImp->getDepthBufPtr();
+	ofTexture & getDepthBufTexture() {
+		return mImp->getDepthBufTexture();
 	}
 
     int getDataType0() {
