@@ -88,18 +88,6 @@ void intelrsMgr::stream() {
              */
             const uint16_t *depth_frame = reinterpret_cast<const uint16_t *>(mDev->get_frame_data(rs::stream::depth));
             uint16_t *depth_frame_ptr;
-            /*
-            for(int r=0; r<RESOLUTION_HEIGHT; r++){
-                for(int c=0; c<RESOLUTION_WIDTH; c++){
-                    int rand_val = 0;//rand() % 2 + 1;
-                    int new_val = kSimuDepthmapData[RESOLUTION_WIDTH*r+c] + rand_val;
-                    if(new_val > 255) new_val = 255;
-                    //new_val = ofMap(new_val, 255, 0, 0.0f,1.0f);
-                    
-                    mDepthFloatPixels[mBufIdx][RESOLUTION_WIDTH*r+c] = ofMap(new_val, 0, 255, 0.0f,1.0f);
-                }
-            }
-            */
             
             for ( int i = RESOLUTION_HEIGHT-1; i > 0; i-- ){
                 for ( int j=0; j<RESOLUTION_WIDTH; j++ ){

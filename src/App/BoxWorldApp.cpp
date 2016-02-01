@@ -133,7 +133,7 @@ void BoxWorldApp::update(){
              * ofMatrix4x4::newScaleMatrix(BoxWorldWindowAttrib::getInst().scaleX,
                                            BoxWorldWindowAttrib::getInst().scaleX * 0.75, 0.0f);
 
-    DepthSensorMgr::getInst().averageData();
+    DepthSensorMgr::getInst().preProcessingData();
     mShaderExecutor->update();
     ConnMgrInst::get()->update();
 }
