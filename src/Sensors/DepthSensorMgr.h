@@ -31,7 +31,24 @@ public:
 
 	void dispose() {
 		mRunning = false;
+        mBufferFull = false;
 	}
+    
+    void smoothData() {
+        int count = 0;
+        ofTexture tex = mDepthSensor->getDepthBufTexture();
+        count = mFrameCtr;
+        if(mBufferFull) {
+            count = 20;
+        }
+        mSmoothTexture = smooth(mFrames, tex, mFrameCtr, count);
+        mFrames[mFrameCtr] = tex;
+        
+        mFrameCtr = (mFrameCtr+1) % 20;
+        if(!mBufferFull && (mFrameCtr == 0)) {
+            mBufferFull = true;
+        }
+    }
     
     void averageData() {
         mFrames[mFrameCtr] = mDepthSensor->getDepthBufTexture();
@@ -67,14 +84,16 @@ public:
     }
     
     void preProcessingData() {
-        averageData();
+        smoothData();
+        //averageData();
         //blurData();
     }
     
     int getDepthmapTexId() {
-        int tex_id = mAverageTexture.getTextureData().textureID;
+        //int tex_id = mAverageTexture.getTextureData().textureID;
         //int tex_id = mFboBlur[0].getTexture().getTextureData().textureID;
         //int tex_id = mDepthSensor->getDepthBufTexture().getTextureData().textureID;
+        int tex_id = mSmoothTexture.getTextureData().textureID;
         return tex_id;
     }
     
@@ -92,6 +111,43 @@ private:
 
 	virtual ~DepthSensorMgr() {}
 
+    void initSmoothShader() {
+        string fragmentSmoothShader = "#version 330\nlayout(location = 0) \
+        out vec4 glFragColor; \
+        in vec4 glFragCoord; \
+        uniform vec3 iResolution; \
+        uniform sampler2D tex_head;\
+        uniform sampler2D tex_tail;\
+        uniform sampler2D tex_smooth;\
+        uniform int count;\
+        void main(void) {\
+            vec2 st = glFragCoord.xy / iResolution.xy;\
+            float head   = texture(tex_head, st).r;\
+            float tail   = texture(tex_tail, st).r;\
+            float avg = texture(tex_smooth, st).r;\
+            float value = 0.0;\
+            if(count < 20) {\
+                value = avg*count + head;\
+                value /= count + 1;\
+            }else {\
+                value = avg*count - tail + head;\
+                value /= count;\
+            }\
+            glFragColor.rgb = vec3( value, value, value);\
+            glFragColor.a = 1.0;\
+        }";
+        mSmoothShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexShader);
+        mSmoothShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentSmoothShader);
+        mSmoothShader.linkProgram();
+        mSmoothTexture.allocate(mWidth, mHeight, GL_RGB32F);
+
+        mFboSmooth.allocate(mWidth, mHeight, GL_RGB32F);
+        mFboSmooth.allocate(mWidth, mHeight, GL_RGB32F);
+        mFboSmooth.begin();
+        ofClear(255,255);
+        mFboSmooth.end();
+    }
+    
     void initAverageShader() {
         string fragmentAverageShader = "#version 330\nlayout(location = 0) \
         out vec4 glFragColor; \
@@ -194,6 +250,7 @@ private:
         mWidth = mDepthSensor->getAttrib().width;
         mHeight = mDepthSensor->getAttrib().height;
         
+        initSmoothShader();
         initAverageShader();
         initBlurShader();
         
@@ -205,14 +262,38 @@ private:
         cout << "use simu depth implementation." << endl;
         
         delete [] mFrames;
-        mFrames = new ofTexture[10];
-        for (int i = 0; i < 10; i++){
+        mFrames = new ofTexture[20];
+        for (int i = 0; i < 20; i++){
             mFrames[i] = ofTexture();
             mFrames[i].allocate(mWidth, mHeight, GL_RGB32F);
             mFrames[i] = mFboAverage.getTexture();
         }
         mFrameCtr = 0;
 	}
+    
+    ofTexture smooth(ofTexture *framesArray, ofTexture tex, int tailIdx, int count) {
+        ofVec2f win_size = ofVec2f(mWidth, mHeight);
+
+        mFboSmooth.begin();
+        {
+            mSmoothShader.begin();
+            {
+                mSmoothShader.setUniform1i("count", count);
+                mSmoothShader.setUniformTexture("tex_head", tex, 0);
+                mSmoothShader.setUniformTexture("tex_tail", framesArray[tailIdx], 1);
+                mSmoothShader.setUniformTexture("tex_smooth", mSmoothTexture, 2);
+
+                mSmoothShader.setUniform2f("resolution", win_size);
+                mSmoothShader.setUniform3f("iResolution", win_size.x, win_size.y, 0.0);
+                
+                mDrawPlane.draw();
+            }
+            mSmoothShader.end();
+        }
+        mFboSmooth.end();
+        
+        return mFboSmooth.getTexture();
+    }
     
     ofTexture average(ofTexture *framesArray, int nTotal)
     {
@@ -242,13 +323,13 @@ private:
     }
     
     ofPlanePrimitive mDrawPlane;
-    ofShader         mAverageShader, mBlurShader;
-    ofFbo            mFboAverage, mFboBlur[2];
-    ofTexture       *mFrames, mAverageTexture;
+    ofShader         mSmoothShader, mAverageShader, mBlurShader;
+    ofFbo            mFboSmooth, mFboAverage, mFboBlur[2];
+    ofTexture       *mFrames, mAverageTexture, mSmoothTexture;
     DepthSensorImp  *mRSDepthSensorImp;
     DepthSensorImp 	*mSimuDepthSensorImp;
     DepthSensor 	*mDepthSensor;
-    bool			 mRunning;
+    bool			 mRunning, mBufferFull;
     int              mFrameCtr, mWidth, mHeight;
     
     string vertexShader = "#version 330\nlayout(location = 0) \
