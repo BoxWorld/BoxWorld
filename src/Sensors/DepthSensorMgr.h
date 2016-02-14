@@ -119,7 +119,7 @@ private:
         uniform sampler2D tex_head;\
         uniform sampler2D tex_tail;\
         uniform sampler2D tex_smooth;\
-        uniform int count;\
+        uniform float count;\
         void main(void) {\
             vec2 st = glFragCoord.xy / iResolution.xy;\
             float head   = texture(tex_head, st).r;\
@@ -128,10 +128,10 @@ private:
             float value = 0.0;\
             if(count < 20) {\
                 value = avg*count + head;\
-                value /= count + 1;\
+                value /= count + 1.0;\
             }else {\
-                value = avg*count - tail + head;\
-                value /= count;\
+                value = avg*20.0 - tail + head;\
+                value /= 20.0;\
             }\
             glFragColor.rgb = vec3( value, value, value);\
             glFragColor.a = 1.0;\
@@ -273,14 +273,13 @@ private:
     
     ofTexture smooth(ofTexture *framesArray, ofTexture tex, int tailIdx, int count) {
         ofVec2f win_size = ofVec2f(mWidth, mHeight);
-
         mFboSmooth.begin();
         {
             mSmoothShader.begin();
             {
-                mSmoothShader.setUniform1i("count", count);
+                mSmoothShader.setUniform1f("count", (float)count);
                 mSmoothShader.setUniformTexture("tex_head", tex, 0);
-                mSmoothShader.setUniformTexture("tex_tail", framesArray[tailIdx], 1);
+                mSmoothShader.setUniformTexture("tex_tail", mSmoothTexture, 1);
                 mSmoothShader.setUniformTexture("tex_smooth", mSmoothTexture, 2);
 
                 mSmoothShader.setUniform2f("resolution", win_size);

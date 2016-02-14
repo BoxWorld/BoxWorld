@@ -37,12 +37,7 @@ ofTexture & SimuDepthSensorImp::getDepthBufTexture() {
 
 	for(int r=0; r<SIMU_DEPTH_BUF_HEIGHT; r++){
 		for(int c=0; c<SIMU_DEPTH_BUF_WIDTH; c++){
-            /*int rand_val = 0;
-            for(int i=0; i<30; i++) {
-                rand_val += rand() % 11;
-            }
-            rand_val /= 30;*/
-            int rand_val = rand() % 31;
+            int rand_val = rand() % 11;
 			int new_val = kSimuDepthmapData[SIMU_DEPTH_BUF_WIDTH*r+c] + rand_val;
 			if(new_val > 255) new_val = 255;
 
