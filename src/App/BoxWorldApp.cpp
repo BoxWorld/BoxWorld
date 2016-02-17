@@ -174,6 +174,8 @@ void BoxWorldApp::keyPressed(int key){
         }
     }else if (key == 'f'){
         ofToggleFullscreen();
+    }else if (key == 's') {
+        intelrsMgr::get()->save();
     }
 }
 

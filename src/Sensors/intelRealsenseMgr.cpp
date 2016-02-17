@@ -136,11 +136,21 @@ ofTexture & intelrsMgr::getDepthTexture(){
                                             RESOLUTION_WIDTH,
                                             RESOLUTION_HEIGHT,
                                             OF_IMAGE_GRAYSCALE
-                                            );
+                                        );
     
-    return mDepthFloatImage[mBufIdx].getTexture();    
+    return mDepthFloatImage[mBufIdx].getTexture();
 }
 
 void intelrsMgr::stopCapture() {
     printf("stop Capture...\n");
+}
+
+void intelrsMgr::save() {
+    int idx = mBufIdx + 1; if(idx == 2) idx = 0;
+    mDepthFloatImage[idx].setFromPixels(mDepthFloatPixels[idx],
+                                            RESOLUTION_WIDTH,
+                                            RESOLUTION_HEIGHT,
+                                            OF_IMAGE_GRAYSCALE
+                                        );
+    mDepthFloatImage[idx].saveImage("sample.png");
 }

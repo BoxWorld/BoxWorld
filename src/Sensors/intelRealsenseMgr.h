@@ -37,6 +37,7 @@ public:
     void startCapture(DepthSensorImp *owner);
     ofTexture & getDepthTexture();
     void stopCapture();
+    void save();
     
 private:
     bool                     mValid;

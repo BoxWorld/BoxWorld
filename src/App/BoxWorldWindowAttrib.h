@@ -27,6 +27,7 @@ public:
     
     ofxPanel        gui;
     
+    ofxIntSlider    blurCtr;
     ofxIntSlider    transX, transY;
     ofxFloatSlider  scaleX;
     //ofxFloatSlider  scaleY, ratio;

@@ -17,6 +17,7 @@
 #include "DepthSensor.h"
 #include "SimuDepthSensorImp.h"
 #include "RSSensorImp.h"
+#include "BoxWorldWindowAttrib.h"
 
 class DepthSensorMgr {
 public:
@@ -50,50 +51,47 @@ public:
         }
     }
     
-    void averageData() {
-        mFrames[mFrameCtr] = mDepthSensor->getDepthBufTexture();
-        mAverageTexture = average(mFrames, 10);
-        mFrameCtr = (mFrameCtr+1) % 10;
-    }
-    
-    void blurData() {
-        ofVec2f win_size = ofVec2f(mWidth, mHeight);
-        int actual, other;
-        for(int i=0; i<6; i++) {
-            actual = i%2; other = (i+1)%2;
-            mFboBlur[actual].begin();
+    void gaussianBlur() {
+        ofTexture srcTex = mSmoothTexture;
+        for(int i=0; i<BoxWorldWindowAttrib::getInst().blurCtr; i++) {
+            mFboHGaussian.begin();
             {
-                ofClear(0, 0, 0, 255);
-                mBlurShader.begin();
+                mGaussianBlurHShader.begin();
                 {
-                    mBlurShader.setUniform2f("resolution", win_size);
-                    mBlurShader.setUniform3f("iResolution", win_size.x, win_size.y, 0.0);
-                    mBlurShader.setUniform1f("fade_const", 0.0005);
-                    if(i == 0) {
-                        mBlurShader.setUniformTexture("tex", mAverageTexture, 0);
-                    }else {
-                        mBlurShader.setUniformTexture("tex", mFboBlur[other], 0);
-                    }
-
+                    mGaussianBlurHShader.setUniformTexture("sTexture", srcTex, 0);
+                    
                     mDrawPlane.draw();
                 }
-                mBlurShader.end();
+                mGaussianBlurHShader.end();
             }
-            mFboBlur[actual].end();
+            mFboHGaussian.end();
+            
+            mFboVGaussian.begin();
+            {
+                mGaussianBlurVShader.begin();
+                {
+                    mGaussianBlurVShader.setUniformTexture("sTexture", mFboHGaussian.getTexture(), 0);
+                    
+                    mDrawPlane.draw();
+                }
+                mGaussianBlurVShader.end();
+            }
+            mFboVGaussian.end();
+            
+            srcTex = mFboVGaussian.getTexture();
         }
     }
     
     void preProcessingData() {
         smoothData();
-        //averageData();
-        //blurData();
+        gaussianBlur();
     }
     
     int getDepthmapTexId() {
-        //int tex_id = mAverageTexture.getTextureData().textureID;
-        //int tex_id = mFboBlur[0].getTexture().getTextureData().textureID;
         //int tex_id = mDepthSensor->getDepthBufTexture().getTextureData().textureID;
-        int tex_id = mSmoothTexture.getTextureData().textureID;
+        //int tex_id = mSmoothTexture.getTextureData().textureID;
+        int tex_id = mFboVGaussian.getTexture().getTextureData().textureID;
+
         return tex_id;
     }
     
@@ -136,111 +134,63 @@ private:
             glFragColor.rgb = vec3( value, value, value);\
             glFragColor.a = 1.0;\
         }";
-        mSmoothShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexShader);
+        mSmoothShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexSmoothShader);
         mSmoothShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentSmoothShader);
         mSmoothShader.linkProgram();
         mSmoothTexture.allocate(mWidth, mHeight, GL_RGB32F);
 
-        mFboSmooth.allocate(mWidth, mHeight, GL_RGB32F);
-        mFboSmooth.allocate(mWidth, mHeight, GL_RGB32F);
+        mFboSmooth.allocate(mWidth, mHeight, GL_RGBA);
+        mFboSmooth.allocate(mWidth, mHeight, GL_RGBA);
         mFboSmooth.begin();
         ofClear(255,255);
         mFboSmooth.end();
     }
     
-    void initAverageShader() {
-        string fragmentAverageShader = "#version 330\nlayout(location = 0) \
+    void initGaussianBlurShader() {
+        string fragmentGaussianBlurShader = "#version 330\nlayout(location = 0) \
         out vec4 glFragColor; \
+        uniform sampler2D sTexture; \
         in vec4 glFragCoord; \
-        uniform vec3 iResolution; \
-        uniform sampler2D tex0;\
-        uniform sampler2D tex1;\
-        uniform sampler2D tex2;\
-        uniform sampler2D tex3;\
-        uniform sampler2D tex4;\
-        uniform sampler2D tex5;\
-        uniform sampler2D tex6;\
-        uniform sampler2D tex7;\
-        uniform sampler2D tex8;\
-        uniform sampler2D tex9;\
-        uniform float steps;\
-        void main(void) {\
-            vec2 st = glFragCoord.xy / iResolution.xy;\
-            float a = texture(tex0, st).r;\
-            float b = texture(tex1, st).r;\
-            float c = texture(tex2, st).r;\
-            float d = texture(tex3, st).r;\
-            float e = texture(tex4, st).r;\
-            float f = texture(tex5, st).r;\
-            float g = texture(tex6, st).r;\
-            float h = texture(tex7, st).r;\
-            float i = texture(tex8, st).r;\
-            float j = texture(tex9, st).r;\
-            float value = a + b + c + d + e + f + g + h + i + j;\
-            value /= steps;\
-            glFragColor.rgb = vec3( value, value, value);\
-            glFragColor.a = 1.0;\
+        in vec2 v_blurTexCoords[14]; \
+        void main() { \
+            glFragColor = vec4(0.0); \
+            glFragColor += texture(sTexture, v_blurTexCoords[ 0])*0.0044299121055113265; \
+            glFragColor += texture(sTexture, v_blurTexCoords[ 1])*0.00895781211794; \
+            glFragColor += texture(sTexture, v_blurTexCoords[ 2])*0.0215963866053; \
+            glFragColor += texture(sTexture, v_blurTexCoords[ 3])*0.0443683338718; \
+            glFragColor += texture(sTexture, v_blurTexCoords[ 4])*0.0776744219933; \
+            glFragColor += texture(sTexture, v_blurTexCoords[ 5])*0.115876621105; \
+            glFragColor += texture(sTexture, v_blurTexCoords[ 6])*0.147308056121; \
+            glFragColor += texture(sTexture, glFragCoord.xy       )*0.159576912161; \
+            glFragColor += texture(sTexture, v_blurTexCoords[ 7])*0.147308056121; \
+            glFragColor += texture(sTexture, v_blurTexCoords[ 8])*0.115876621105; \
+            glFragColor += texture(sTexture, v_blurTexCoords[ 9])*0.0776744219933; \
+            glFragColor += texture(sTexture, v_blurTexCoords[10])*0.0443683338718; \
+            glFragColor += texture(sTexture, v_blurTexCoords[11])*0.0215963866053; \
+            glFragColor += texture(sTexture, v_blurTexCoords[12])*0.00895781211794; \
+            glFragColor += texture(sTexture, v_blurTexCoords[13])*0.0044299121055113265; \
         }";
-        mAverageShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexShader);
-        mAverageShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentAverageShader);
-        mAverageShader.linkProgram();
-        mAverageTexture.allocate(mWidth, mHeight, GL_RGB32F);
+        mGaussianBlurHShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexGaussianBlurHShader);
+        mGaussianBlurHShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentGaussianBlurShader);
+        mGaussianBlurHShader.linkProgram();
+        mGaussianBlurHTexture.allocate(mWidth, mHeight, GL_RGB32F);
+
+        mFboHGaussian.allocate(mWidth, mHeight, GL_RGBA);
+        mFboHGaussian.allocate(mWidth, mHeight, GL_RGBA);
+        mFboHGaussian.begin();
+        ofClear(255,255);
+        mFboHGaussian.end();
         
-        mFboAverage.allocate(mWidth, mHeight, GL_RGB32F);
-        mFboAverage.begin();
-        ofClear(255,255);
-        mFboAverage.end();
-    }
-    
-    void initBlurShader() {
-        string fragmentBlurShader = "#version 330\nlayout(location = 0) \
-        out vec4 glFragColor; \
-        in vec4 glFragCoord; \
-        uniform vec3 iResolution; \
-        float kernel[9];\
-        uniform sampler2D tex;\
-        uniform float fade_const;\
-        vec2 offset[9];\
-        void main(void){\
-            vec2 st = glFragCoord.xy;\
-            vec4 sum = vec4(0.0);\
-            offset[0] = vec2(-1.0, -1.0);\
-            offset[1] = vec2(0.0, -1.0);\
-            offset[2] = vec2(1.0, -1.0);\
-            offset[3] = vec2(-1.0, 0.0);\
-            offset[4] = vec2(0.0, 0.0);\
-            offset[5] = vec2(1.0, 0.0);\
-            offset[6] = vec2(-1.0, 1.0);\
-            offset[7] = vec2(0.0, 1.0);\
-            offset[8] = vec2(1.0, 1.0);\
-            kernel[0] = 1.0/16.0;   kernel[1] = 2.0/16.0;   kernel[2] = 1.0/16.0;\
-            kernel[3] = 2.0/16.0;   kernel[4] = 4.0/16.0;   kernel[5] = 2.0/16.0;\
-            kernel[6] = 1.0/16.0;   kernel[7] = 2.0/16.0;   kernel[8] = 1.0/16.0;\
-            int i = 0;\
-            for (i = 0; i < 4; i++){\
-                vec4 tmp = texture(tex, (st + offset[i]) / iResolution.xy);\
-                sum += tmp * kernel[i];\
-            }\
-            for (i = 5; i < 9; i++){\
-                vec4 tmp = texture(tex, (st + offset[i]) / iResolution.xy);\
-                sum += tmp * kernel[i];\
-            }\
-            vec4 color0 = texture(tex, (st + offset[4]) / iResolution.xy);\
-            sum += color0 * kernel[4];\
-            glFragColor = (1.0 - fade_const) * color0 +  fade_const * vec4(sum.rgb, color0.a);\
-        }";
-        mBlurShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexShader);
-        mBlurShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentBlurShader);
-        mBlurShader.linkProgram();
+        mGaussianBlurVShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexGaussianBlurVShader);
+        mGaussianBlurVShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentGaussianBlurShader);
+        mGaussianBlurVShader.linkProgram();
+        mGaussianBlurVTexture.allocate(mWidth, mHeight, GL_RGB32F);
         
-        mFboBlur[0].allocate(mWidth, mHeight, GL_RGB32F);
-        mFboBlur[0].begin();
+        mFboVGaussian.allocate(mWidth, mHeight, GL_RGBA);
+        mFboVGaussian.allocate(mWidth, mHeight, GL_RGBA);
+        mFboVGaussian.begin();
         ofClear(255,255);
-        mFboBlur[0].end();
-        mFboBlur[1].allocate(mWidth, mHeight, GL_RGB32F);
-        mFboBlur[1].begin();
-        ofClear(255,255);
-        mFboBlur[1].end();
+        mFboVGaussian.end();
     }
     
     void init(){
@@ -251,8 +201,7 @@ private:
         mHeight = mDepthSensor->getAttrib().height;
         
         initSmoothShader();
-        initAverageShader();
-        initBlurShader();
+        initGaussianBlurShader();
         
         mDrawPlane.set(mWidth, mHeight);
         mDrawPlane.setPosition(mWidth, mHeight, 0);
@@ -266,7 +215,6 @@ private:
         for (int i = 0; i < 20; i++){
             mFrames[i] = ofTexture();
             mFrames[i].allocate(mWidth, mHeight, GL_RGB32F);
-            mFrames[i] = mFboAverage.getTexture();
         }
         mFrameCtr = 0;
 	}
@@ -294,44 +242,17 @@ private:
         return mFboSmooth.getTexture();
     }
     
-    ofTexture average(ofTexture *framesArray, int nTotal)
-    {
-        ofVec2f win_size = ofVec2f(mWidth, mHeight);
-
-        mFboAverage.begin();
-        {
-            ofClear(0, 0, 0, 255);
-            mAverageShader.begin();
-            {
-                for (int i = 0; i < nTotal; i++){
-                    string texName = "tex"+ofToString(i);
-                    mAverageShader.setUniformTexture(texName.c_str() , framesArray[i] , i );
-                }
-                
-                mAverageShader.setUniform1f("steps", (float)nTotal);
-                mAverageShader.setUniform2f("resolution", win_size);
-                mAverageShader.setUniform3f("iResolution", win_size.x, win_size.y, 0.0);
-
-                mDrawPlane.draw();
-            }
-            mAverageShader.end();
-        }
-        mFboAverage.end();
-        
-        return mFboAverage.getTexture();
-    }
-    
     ofPlanePrimitive mDrawPlane;
-    ofShader         mSmoothShader, mAverageShader, mBlurShader;
-    ofFbo            mFboSmooth, mFboAverage, mFboBlur[2];
-    ofTexture       *mFrames, mAverageTexture, mSmoothTexture;
+    ofShader         mSmoothShader, mGaussianBlurHShader, mGaussianBlurVShader;
+    ofFbo            mFboSmooth, mFboHGaussian, mFboVGaussian;
+    ofTexture       *mFrames, mSmoothTexture, mGaussianBlurHTexture, mGaussianBlurVTexture;
     DepthSensorImp  *mRSDepthSensorImp;
     DepthSensorImp 	*mSimuDepthSensorImp;
     DepthSensor 	*mDepthSensor;
     bool			 mRunning, mBufferFull;
     int              mFrameCtr, mWidth, mHeight;
     
-    string vertexShader = "#version 330\nlayout(location = 0) \
+    string vertexSmoothShader = "#version 330\nlayout(location = 0) \
     in vec3 VertexPosition; \
     uniform mat4 TileMatrix = mat4(1.0); \
     uniform vec2 resolution; \
@@ -344,8 +265,52 @@ private:
         glFragCoord.xy = v * resolution; \
         gl_Position = vec4(VertexPosition, 1.0); \
     }";
+    
+    string vertexGaussianBlurHShader = "#version 330\nlayout(location = 0) \
+    in vec3 VertexPosition; \
+    out vec4 glFragCoord;   \
+    out vec2 v_blurTexCoords[14]; \
+    void main() { \
+        gl_Position = vec4(VertexPosition, 1.0);; \
+        glFragCoord.xy = VertexPosition.xy * 0.5 + 0.5;  \
+        v_blurTexCoords[ 0] = glFragCoord.xy + vec2(-0.028, 0.0); \
+        v_blurTexCoords[ 1] = glFragCoord.xy + vec2(-0.024, 0.0); \
+        v_blurTexCoords[ 2] = glFragCoord.xy + vec2(-0.020, 0.0); \
+        v_blurTexCoords[ 3] = glFragCoord.xy + vec2(-0.016, 0.0); \
+        v_blurTexCoords[ 4] = glFragCoord.xy + vec2(-0.012, 0.0); \
+        v_blurTexCoords[ 5] = glFragCoord.xy + vec2(-0.008, 0.0); \
+        v_blurTexCoords[ 6] = glFragCoord.xy + vec2(-0.004, 0.0); \
+        v_blurTexCoords[ 7] = glFragCoord.xy + vec2( 0.004, 0.0); \
+        v_blurTexCoords[ 8] = glFragCoord.xy + vec2( 0.008, 0.0); \
+        v_blurTexCoords[ 9] = glFragCoord.xy + vec2( 0.012, 0.0); \
+        v_blurTexCoords[10] = glFragCoord.xy + vec2( 0.016, 0.0); \
+        v_blurTexCoords[11] = glFragCoord.xy + vec2( 0.020, 0.0); \
+        v_blurTexCoords[12] = glFragCoord.xy + vec2( 0.024, 0.0); \
+        v_blurTexCoords[13] = glFragCoord.xy + vec2( 0.028, 0.0); \
+    }";
+    
+    string vertexGaussianBlurVShader = "#version 330\nlayout(location = 0) \
+    in vec3 VertexPosition; \
+    out vec4 glFragCoord;   \
+    out vec2 v_blurTexCoords[14]; \
+    void main() { \
+    gl_Position = vec4(VertexPosition, 1.0);; \
+    glFragCoord.xy = VertexPosition.xy * 0.5 + 0.5;  \
+    v_blurTexCoords[ 0] = glFragCoord.xy + vec2(0.0, -0.028); \
+    v_blurTexCoords[ 1] = glFragCoord.xy + vec2(0.0, -0.024); \
+    v_blurTexCoords[ 2] = glFragCoord.xy + vec2(0.0, -0.020); \
+    v_blurTexCoords[ 3] = glFragCoord.xy + vec2(0.0, -0.016); \
+    v_blurTexCoords[ 4] = glFragCoord.xy + vec2(0.0, -0.012); \
+    v_blurTexCoords[ 5] = glFragCoord.xy + vec2(0.0, -0.008); \
+    v_blurTexCoords[ 6] = glFragCoord.xy + vec2(0.0, -0.004); \
+    v_blurTexCoords[ 7] = glFragCoord.xy + vec2(0.0,  0.004); \
+    v_blurTexCoords[ 8] = glFragCoord.xy + vec2(0.0,  0.008); \
+    v_blurTexCoords[ 9] = glFragCoord.xy + vec2(0.0,  0.012); \
+    v_blurTexCoords[10] = glFragCoord.xy + vec2(0.0,  0.016); \
+    v_blurTexCoords[11] = glFragCoord.xy + vec2(0.0,  0.020); \
+    v_blurTexCoords[12] = glFragCoord.xy + vec2(0.0,  0.024); \
+    v_blurTexCoords[13] = glFragCoord.xy + vec2(0.0,  0.028); \
+    }";
 };
-
-
 
 #endif /* SYNTH_IDE_DEPTH_INPUT_DEPTHSENSORMGR_H_ */
