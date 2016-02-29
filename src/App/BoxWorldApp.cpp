@@ -128,10 +128,15 @@ void BoxWorldApp::runAppWithContent(string content) {
 //--------------------------------------------------------------
 void BoxWorldApp::update(){
     BoxWorldWindowAttrib::getInst().update();
+    /* scaleY is adapt to projector ratio.
+     * 16:9  ===> 0.75
+     * 16:10 ===> 0.8333
+     *  4:3  ===> 1.0  (means no change, since original resolution is 640x480[4:3])
+     */
     mTileMat = ofMatrix4x4::newTranslationMatrix(BoxWorldWindowAttrib::getInst().transX/640.0,
                                                  BoxWorldWindowAttrib::getInst().transY/-480.0, 0.0f)
              * ofMatrix4x4::newScaleMatrix(BoxWorldWindowAttrib::getInst().scaleX,
-                                           BoxWorldWindowAttrib::getInst().scaleX * 0.75, 0.0f);
+                                           BoxWorldWindowAttrib::getInst().scaleX * 0.8333, 0.0f);
 
     DepthSensorMgr::getInst().preProcessingData();
     mShaderExecutor->update();

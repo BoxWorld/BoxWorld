@@ -33,6 +33,7 @@ public:
 	void dispose() {
 		mRunning = false;
         mBufferFull = false;
+        if(mDepthSensor) delete mDepthSensor;
 	}
     
     void smoothData() {
@@ -43,8 +44,11 @@ public:
             count = 20;
         }
         mSmoothTexture = smooth(mFrames, tex, mFrameCtr, count);
-        mFrames[mFrameCtr] = tex;
         
+        mFrames[mFrameCtr].begin();
+        tex.draw(0, 0);
+        mFrames[mFrameCtr].end();
+
         mFrameCtr = (mFrameCtr+1) % 20;
         if(!mBufferFull && (mFrameCtr == 0)) {
             mBufferFull = true;
@@ -107,7 +111,9 @@ private:
 		init();
 	}
 
-	virtual ~DepthSensorMgr() {}
+	virtual ~DepthSensorMgr() {
+        dispose();
+    }
 
     void initSmoothShader() {
         string fragmentSmoothShader = "#version 330\nlayout(location = 0) \
@@ -137,9 +143,8 @@ private:
         mSmoothShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexSmoothShader);
         mSmoothShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentSmoothShader);
         mSmoothShader.linkProgram();
-        mSmoothTexture.allocate(mWidth, mHeight, GL_RGB32F);
+        mSmoothTexture.allocate(mWidth, mHeight, GL_RGBA);
 
-        mFboSmooth.allocate(mWidth, mHeight, GL_RGBA);
         mFboSmooth.allocate(mWidth, mHeight, GL_RGBA);
         mFboSmooth.begin();
         ofClear(255,255);
@@ -173,7 +178,7 @@ private:
         mGaussianBlurHShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexGaussianBlurHShader);
         mGaussianBlurHShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentGaussianBlurShader);
         mGaussianBlurHShader.linkProgram();
-        mGaussianBlurHTexture.allocate(mWidth, mHeight, GL_RGB32F);
+        mGaussianBlurHTexture.allocate(mWidth, mHeight, GL_RGBA);
 
         mFboHGaussian.allocate(mWidth, mHeight, GL_RGBA);
         mFboHGaussian.allocate(mWidth, mHeight, GL_RGBA);
@@ -184,7 +189,7 @@ private:
         mGaussianBlurVShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexGaussianBlurVShader);
         mGaussianBlurVShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentGaussianBlurShader);
         mGaussianBlurVShader.linkProgram();
-        mGaussianBlurVTexture.allocate(mWidth, mHeight, GL_RGB32F);
+        mGaussianBlurVTexture.allocate(mWidth, mHeight, GL_RGBA);
         
         mFboVGaussian.allocate(mWidth, mHeight, GL_RGBA);
         mFboVGaussian.allocate(mWidth, mHeight, GL_RGBA);
@@ -211,15 +216,15 @@ private:
         cout << "use simu depth implementation." << endl;
         
         delete [] mFrames;
-        mFrames = new ofTexture[20];
+        mFrames = new ofFbo[20];
         for (int i = 0; i < 20; i++){
-            mFrames[i] = ofTexture();
-            mFrames[i].allocate(mWidth, mHeight, GL_RGB32F);
+            mFrames[i] = ofFbo();
+            mFrames[i].allocate(mWidth, mHeight, GL_RGBA);
         }
         mFrameCtr = 0;
 	}
     
-    ofTexture smooth(ofTexture *framesArray, ofTexture tex, int tailIdx, int count) {
+    ofTexture smooth(ofFbo *framesArray, ofTexture tex, int tailIdx, int count) {
         ofVec2f win_size = ofVec2f(mWidth, mHeight);
         mFboSmooth.begin();
         {
@@ -227,7 +232,7 @@ private:
             {
                 mSmoothShader.setUniform1f("count", (float)count);
                 mSmoothShader.setUniformTexture("tex_head", tex, 0);
-                mSmoothShader.setUniformTexture("tex_tail", mSmoothTexture, 1);
+                mSmoothShader.setUniformTexture("tex_tail", framesArray[tailIdx].getTexture(), 1);
                 mSmoothShader.setUniformTexture("tex_smooth", mSmoothTexture, 2);
 
                 mSmoothShader.setUniform2f("resolution", win_size);
@@ -244,8 +249,8 @@ private:
     
     ofPlanePrimitive mDrawPlane;
     ofShader         mSmoothShader, mGaussianBlurHShader, mGaussianBlurVShader;
-    ofFbo            mFboSmooth, mFboHGaussian, mFboVGaussian;
-    ofTexture       *mFrames, mSmoothTexture, mGaussianBlurHTexture, mGaussianBlurVTexture;
+    ofFbo           *mFrames, mFboSmooth, mFboHGaussian, mFboVGaussian;
+    ofTexture        mSmoothTexture, mGaussianBlurHTexture, mGaussianBlurVTexture;
     DepthSensorImp  *mRSDepthSensorImp;
     DepthSensorImp 	*mSimuDepthSensorImp;
     DepthSensor 	*mDepthSensor;

@@ -17,7 +17,7 @@ void BoxWorldWindowAttrib::load(){
     gui.add(blurCtr.setup("Blur.Ctr", 1, 1, 10));
     gui.add(transX.setup("Trans.X", 0, -192, 640));
     gui.add(transY.setup("Trans.Y", 0, -144, 480));
-    gui.add(scaleX.setup("Scale.X", 1.0, 0.0, 1.0));
+    gui.add(scaleX.setup("Scale.X", 1.0, 0.0, 1.6));
     //gui.add(scaleY.setup("Scale.Y", 1.0, 0.0, 1.0));
     //gui.add(ratio.setup("Ratio", 1.77777777777778, 1.77777777777778, 1.77916666666667));
     gui.add(minDist.setup("Dist.Min", 300, 200, 500));

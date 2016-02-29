@@ -116,6 +116,7 @@ void intelrsMgr::stream() {
         }
     }
     
+    mDev->disable_stream(rs::stream::depth);
     mDev->stop();
     printf("realsense thread ended.\n");
     return;
