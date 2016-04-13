@@ -29,7 +29,7 @@ public:
     
     ofxIntSlider    blurCtr;
     ofxIntSlider    transX, transY;
-    ofxFloatSlider  scaleX;
+    ofxFloatSlider  scaleX, scaleY;
     //ofxFloatSlider  scaleY, ratio;
     ofxIntSlider    minDist, maxDist;
     

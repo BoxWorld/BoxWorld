@@ -14,9 +14,9 @@ int main( ){
     settings.glVersionMajor = 3;
     settings.glVersionMinor = 3;
 #endif
-    settings.width = 1024;
-    settings.height = 768;
-    settings.windowMode = OF_FULLSCREEN;
+    settings.width = 640;
+    settings.height = 480;
+    settings.windowMode = OF_WINDOW;
     ofCreateWindow(settings);
     
 	ofRunApp(new BoxWorldApp());

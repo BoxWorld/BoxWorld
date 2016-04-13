@@ -136,7 +136,7 @@ void BoxWorldApp::update(){
     mTileMat = ofMatrix4x4::newTranslationMatrix(BoxWorldWindowAttrib::getInst().transX/640.0,
                                                  BoxWorldWindowAttrib::getInst().transY/-480.0, 0.0f)
              * ofMatrix4x4::newScaleMatrix(BoxWorldWindowAttrib::getInst().scaleX,
-                                           BoxWorldWindowAttrib::getInst().scaleX * 0.8333, 0.0f);
+                                           BoxWorldWindowAttrib::getInst().scaleY, 0.0f);
 
     DepthSensorMgr::getInst().preProcessingData();
     mShaderExecutor->update();
