@@ -32,6 +32,9 @@ public:
     ofxFloatSlider  scaleX, scaleY;
     //ofxFloatSlider  scaleY, ratio;
     ofxIntSlider    minDist, maxDist;
+    ofxIntSlider    minHeight, maxHeight;
+    ofxFloatSlider  k, b;
+    ofxFloatSlider  ka, kb, kc;
     
 private:
     BoxWorldWindowAttrib();

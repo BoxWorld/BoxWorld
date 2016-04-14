@@ -90,6 +90,8 @@ void BoxWorldApp::setup(){
     ConnMgrInst::get()->setCmdReceiver(this);
     ofSetDataPathRoot(data_resource_path);
     
+    mWinSize = ofVec2f(ofGetWindowWidth(), ofGetWindowHeight());
+    
     mShaderExecutor = new ShaderExecutor(BOXWORLD_WIDTH, BOXWORLD_HEIGHT);
     
     if(ResourceMgrInst::get()->isDefaultAppValid()) {
@@ -102,7 +104,6 @@ void BoxWorldApp::setup(){
     mFinalDisplayShader.setupShaderFromSource(GL_FRAGMENT_SHADER, finalDisplayFrag);
     mFinalDisplayShader.linkProgram();
     
-    mWinSize = ofVec2f(ofGetWindowWidth(), ofGetWindowHeight());
     printf("%f-%f\n", mWinSize.x, mWinSize.y);
     mFinalDisplayPlane.set(mWinSize.x, mWinSize.y);
     mFinalDisplayPlane.setPosition(mWinSize.x, mWinSize.y, 0);

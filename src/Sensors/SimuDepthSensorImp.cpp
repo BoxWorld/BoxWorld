@@ -1,6 +1,8 @@
 #include "SimuDepthSensorImp.h"
 #include "SimuDepthmapModel.h"
 #include "ofMain.h"
+#include "DepthTransMgr.h"
+#include "BoxWorldWindowAttrib.h"
 
 #define SIMU_DEPTH_BUF_WIDTH  640
 #define SIMU_DEPTH_BUF_HEIGHT 480
@@ -9,6 +11,7 @@ void SimuDepthSensorImp::init() {
 
 	if(inited) return;
 	
+    DepthTransMgr::get();
 	mDepthSensorAttrib.width  = SIMU_DEPTH_BUF_WIDTH;
 	mDepthSensorAttrib.height = SIMU_DEPTH_BUF_HEIGHT;
     mDepthFloatImage.allocate(SIMU_DEPTH_BUF_WIDTH, SIMU_DEPTH_BUF_HEIGHT, OF_IMAGE_GRAYSCALE);
@@ -46,7 +49,9 @@ ofTexture & SimuDepthSensorImp::getDepthBufTexture() {
 	}
     mDepthFloatImage.setFromPixels(depthFloatPixels, SIMU_DEPTH_BUF_WIDTH, SIMU_DEPTH_BUF_HEIGHT, OF_IMAGE_GRAYSCALE );
 
-	return mDepthFloatImage.getTexture();
+    return DepthTransMgr::get()->getTransTexture(mDepthFloatImage.getTexture(),
+                                                 BoxWorldWindowAttrib::getInst().minDist,
+                                                 BoxWorldWindowAttrib::getInst().maxDist);
 }
 
 int SimuDepthSensorImp::getDataType0() { return GL_R8; }

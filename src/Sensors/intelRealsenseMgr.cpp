@@ -53,19 +53,19 @@ void intelrsMgr::stream() {
     printf("    Firmware version: %s\n", mDev->get_firmware_version());
     
     // Configure depth to run at VGA resolution at 30 frames per second
-    mDev->enable_stream(rs::stream::depth, RESOLUTION_WIDTH, RESOLUTION_HEIGHT, rs::format::z16, 30);
+    mDev->enable_stream(rs::stream::depth, RESOLUTION_WIDTH, RESOLUTION_HEIGHT, rs::format::z16, 15);
     //mDev->enable_stream(rs::stream::color, rs::preset::best_quality);
     //mDev->enable_stream(rs::stream::infrared, rs::preset::best_quality);
     
     mDev->set_option(rs::option::f200_laser_power, 15);
     mDev->set_option(rs::option::f200_filter_option, 6);
     mDev->set_option(rs::option::f200_accuracy, 3);
-    mDev->set_option(rs::option::f200_motion_range, 0);
+    mDev->set_option(rs::option::f200_motion_range, 100);
     mDev->set_option(rs::option::f200_confidence_threshold, 5);
     mDev->start();
     
     // Determine depth value corresponding to one meter
-    mOneMeter = static_cast<uint16_t>(1.0f / mDev->get_depth_scale());
+    mOneMeter = (1.0f / mDev->get_depth_scale());
     
     mValid = true;
     DepthSensorMgr::getInst().setImp(mOwner);
@@ -139,7 +139,8 @@ ofTexture & intelrsMgr::getDepthTexture(){
                                             OF_IMAGE_GRAYSCALE
                                         );
     
-    return mDepthFloatImage[mBufIdx].getTexture();
+    return DepthTransMgr::get()->getTransTexture(mDepthFloatImage[mBufIdx].getTexture(),BoxWorldWindowAttrib::getInst().minDist, BoxWorldWindowAttrib::getInst().maxDist);
+    //return mDepthFloatImage[mBufIdx].getTexture();
 }
 
 void intelrsMgr::stopCapture() {

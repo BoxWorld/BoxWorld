@@ -16,6 +16,7 @@
 #include "ThreadIf.h"
 #include "ofThread.h"
 #include "DepthSensorImp.h"
+#include "DepthTransMgr.h"
 
 #define RESOLUTION_WIDTH  640
 #define RESOLUTION_HEIGHT 480
@@ -32,10 +33,14 @@ public:
     intelrsMgr();
     virtual ~intelrsMgr();
     
+    void setup() {
+        DepthTransMgr::get();
+    }
     bool isValid() { return mValid; }
     void stream();
     void startCapture(DepthSensorImp *owner);
     ofTexture & getDepthTexture();
+    ofTexture & getTransTexture(ofTexture &tex, float min_d, float max_d);
     void stopCapture();
     void save();
     
@@ -43,7 +48,7 @@ private:
     bool                     mValid;
     rs::device              *mDev;
     uint8_t                  mBufIdx;
-    uint16_t                 mOneMeter;
+    float                    mOneMeter;
     uint16_t                 mNumPixels;
     intelRealsenseThread    *mRSThread;
     DepthSensorImp          *mOwner;

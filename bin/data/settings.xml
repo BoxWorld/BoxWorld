@@ -1,11 +1,18 @@
 <Panel>
 	<Trans_X>0</Trans_X>
-	<Trans_Y>80</Trans_Y>
-	<Scale_X>0.832</Scale_X>
-	<Scale_Y>0.72</Scale_Y>
+	<Trans_Y>0</Trans_Y>
+	<Scale_X>1</Scale_X>
+	<Scale_Y>1</Scale_Y>
 <Panel/>
 <Ratio>1.77778</Ratio>
-<Dist_Min>474</Dist_Min>
-	<Dist_Max>549</Dist_Max>
-<Blur_Ctr>3</Blur_Ctr>
+<Dist_Min>587</Dist_Min>
+	<Dist_Max>783</Dist_Max>
+<Blur_Ctr>1</Blur_Ctr>
+<Height_Min>32532</Height_Min>
+	<Height_Max>417167</Height_Max>
+<b>0</b>
+<k>1</k>
+<ka>1.005</ka>
+	<kb>1.395</kb>
+<kc>1.005</kc>
 </Panel>

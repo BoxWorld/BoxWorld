@@ -46,9 +46,17 @@ public:
         mSmoothTexture = smooth(mFrames, tex, mFrameCtr, count);
         
         mFrames[mFrameCtr].begin();
-        tex.draw(0, 0);
+        ofClear(0, 0);
+            mCopyShader.begin();
+            ofClear(255, 255);
+            {
+                mCopyShader.setUniformTexture("tex", tex, 0);
+                
+                mDrawPlane.draw();
+            }
+            mCopyShader.end();
         mFrames[mFrameCtr].end();
-
+        
         mFrameCtr = (mFrameCtr+1) % 20;
         if(!mBufferFull && (mFrameCtr == 0)) {
             mBufferFull = true;
@@ -56,11 +64,12 @@ public:
     }
     
     void gaussianBlur() {
-        ofTexture srcTex = mSmoothTexture;
+        ofTexture srcTex = mDepthSensor->getDepthBufTexture();
         for(int i=0; i<BoxWorldWindowAttrib::getInst().blurCtr; i++) {
             mFboHGaussian.begin();
             {
                 mGaussianBlurHShader.begin();
+                ofClear(255, 255);
                 {
                     mGaussianBlurHShader.setUniformTexture("sTexture", srcTex, 0);
                     
@@ -73,6 +82,7 @@ public:
             mFboVGaussian.begin();
             {
                 mGaussianBlurVShader.begin();
+                ofClear(255, 255);
                 {
                     mGaussianBlurVShader.setUniformTexture("sTexture", mFboHGaussian.getTexture(), 0);
                     
@@ -87,7 +97,7 @@ public:
     }
     
     void preProcessingData() {
-        smoothData();
+        //smoothData();
         gaussianBlur();
     }
     
@@ -101,7 +111,7 @@ public:
     
     void setImp(DepthSensorImp *depth_sensor_imp){
         cout << "use custom implementation." << endl;
-        mDepthSensor->setIml(mRSDepthSensorImp);
+        mDepthSensor->setIml(depth_sensor_imp);
     }
 
 private:
@@ -115,6 +125,23 @@ private:
         dispose();
     }
 
+    void initCopyShader() {
+        string fragmentCopyShader = "#version 330\nlayout(location = 0) \
+        out vec4 glFragColor; \
+        in vec4 glFragCoord; \
+        uniform vec3 iResolution; \
+        uniform sampler2D tex;\
+        void main(void) {\
+            vec2 st = glFragCoord.xy / iResolution.xy;\
+            float v   = texture(tex, st).r;\
+            glFragColor.rgb = vec3( v, v, v);\
+            glFragColor.a = 1.0;\
+        }";
+        mCopyShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexCopyShader);
+        mCopyShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentCopyShader);
+        mCopyShader.linkProgram();
+    }
+    
     void initSmoothShader() {
         string fragmentSmoothShader = "#version 330\nlayout(location = 0) \
         out vec4 glFragColor; \
@@ -130,12 +157,12 @@ private:
             float tail   = texture(tex_tail, st).r;\
             float avg = texture(tex_smooth, st).r;\
             float value = 0.0;\
-            if(count < 20) {\
+            if(count < 20.0) {\
                 value = avg*count + head;\
-                value /= count + 1.0;\
+                value = value/(count + 1.0);\
             }else {\
                 value = avg*20.0 - tail + head;\
-                value /= 20.0;\
+                value = value/20.0; \
             }\
             glFragColor.rgb = vec3( value, value, value);\
             glFragColor.a = 1.0;\
@@ -205,6 +232,7 @@ private:
         mWidth = mDepthSensor->getAttrib().width;
         mHeight = mDepthSensor->getAttrib().height;
         
+        initCopyShader();
         initSmoothShader();
         initGaussianBlurShader();
         
@@ -218,7 +246,6 @@ private:
         delete [] mFrames;
         mFrames = new ofFbo[20];
         for (int i = 0; i < 20; i++){
-            mFrames[i] = ofFbo();
             mFrames[i].allocate(mWidth, mHeight, GL_RGBA);
         }
         mFrameCtr = 0;
@@ -232,7 +259,7 @@ private:
             {
                 mSmoothShader.setUniform1f("count", (float)count);
                 mSmoothShader.setUniformTexture("tex_head", tex, 0);
-                mSmoothShader.setUniformTexture("tex_tail", framesArray[tailIdx].getTexture(), 1);
+                mSmoothShader.setUniformTexture("tex_tail", framesArray[tailIdx], 1);
                 mSmoothShader.setUniformTexture("tex_smooth", mSmoothTexture, 2);
 
                 mSmoothShader.setUniform2f("resolution", win_size);
@@ -248,8 +275,9 @@ private:
     }
     
     ofPlanePrimitive mDrawPlane;
-    ofShader         mSmoothShader, mGaussianBlurHShader, mGaussianBlurVShader;
-    ofFbo           *mFrames, mFboSmooth, mFboHGaussian, mFboVGaussian;
+    ofShader         mSmoothShader, mGaussianBlurHShader, mGaussianBlurVShader, mCopyShader;
+    ofFbo            mFboSmooth, mFboHGaussian, mFboVGaussian;
+    ofFbo           *mFrames;
     ofTexture        mSmoothTexture, mGaussianBlurHTexture, mGaussianBlurVTexture;
     DepthSensorImp  *mRSDepthSensorImp;
     DepthSensorImp 	*mSimuDepthSensorImp;
@@ -257,6 +285,19 @@ private:
     bool			 mRunning, mBufferFull;
     int              mFrameCtr, mWidth, mHeight;
     
+    string vertexCopyShader = "#version 330\nlayout(location = 0) \
+    in vec3 VertexPosition; \
+    uniform mat4 TileMatrix = mat4(1.0); \
+    uniform vec2 resolution; \
+    out vec4 glFragCoord; \
+    void main() { \
+        vec2 v = VertexPosition.xy; \
+        v.x = v.x * TileMatrix[0][0] + TileMatrix[3][0]; \
+        v.y = v.y * TileMatrix[1][1] + TileMatrix[3][1]; \
+        v = v * 0.5 + 0.5; \
+        glFragCoord.xy = v * resolution; \
+        gl_Position = vec4(VertexPosition, 1.0); \
+    }";
     string vertexSmoothShader = "#version 330\nlayout(location = 0) \
     in vec3 VertexPosition; \
     uniform mat4 TileMatrix = mat4(1.0); \
