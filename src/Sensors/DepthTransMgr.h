@@ -42,8 +42,9 @@ public:
         uniform float maxD; \
         uniform int minH; \
         uniform int maxH; \
-        uniform float k; \
-        uniform float b; \
+        uniform float xk; \
+        uniform float yk; \
+        uniform float yb; \
         uniform float ka; \
         uniform float kb; \
         uniform float kc; \
@@ -55,7 +56,9 @@ public:
             float b = (uv.y+1) * 210.0 * kb; \
             float c = 535.0 * kc; \
             \
+            uv.x = uv.x * (1.0 - xk * (uv.y * 0.5 + 0.5)); \
             uv = uv * 0.5 + 0.5; \
+            uv.y = uv.y * yk + yb; \
             float d0 = 1.0 - texture(tex, uv).r; \
             float d = d0 * (maxD-minD) + minD; \
             float height = abs(sqrt(d*d - a*a - b*b)); \
@@ -94,8 +97,9 @@ public:
             mTransShader.setUniform1f("maxD", max_d);
             mTransShader.setUniform1i("minH", BoxWorldWindowAttrib::getInst().minHeight);
             mTransShader.setUniform1i("maxH", BoxWorldWindowAttrib::getInst().maxHeight);
-            mTransShader.setUniform1f("k", 0.6);
-            mTransShader.setUniform1f("b", 0.2);
+            mTransShader.setUniform1f("xk", BoxWorldWindowAttrib::getInst().x);
+            mTransShader.setUniform1f("yk", BoxWorldWindowAttrib::getInst().k);
+            mTransShader.setUniform1f("yb", BoxWorldWindowAttrib::getInst().b);
             mTransShader.setUniform1f("ka", BoxWorldWindowAttrib::getInst().ka);
             mTransShader.setUniform1f("kb", BoxWorldWindowAttrib::getInst().kb);
             mTransShader.setUniform1f("kc", BoxWorldWindowAttrib::getInst().kc);

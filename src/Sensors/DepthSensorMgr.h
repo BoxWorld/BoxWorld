@@ -41,30 +41,21 @@ public:
         ofTexture tex = mDepthSensor->getDepthBufTexture();
         count = mFrameCtr;
         if(mBufferFull) {
-            count = 20;
+            count = 10;
         }
         mSmoothTexture = smooth(mFrames, tex, mFrameCtr, count);
         
-        mFrames[mFrameCtr].begin();
-        ofClear(0, 0);
-            mCopyShader.begin();
-            ofClear(255, 255);
-            {
-                mCopyShader.setUniformTexture("tex", tex, 0);
-                
-                mDrawPlane.draw();
-            }
-            mCopyShader.end();
-        mFrames[mFrameCtr].end();
+        mFrames[mFrameCtr].clear();
+        mFrames[mFrameCtr] = tex;
         
-        mFrameCtr = (mFrameCtr+1) % 20;
+        mFrameCtr = (mFrameCtr+1) % 10;
         if(!mBufferFull && (mFrameCtr == 0)) {
             mBufferFull = true;
         }
     }
     
     void gaussianBlur() {
-        ofTexture srcTex = mDepthSensor->getDepthBufTexture();
+        ofTexture srcTex = mSmoothTexture;
         for(int i=0; i<BoxWorldWindowAttrib::getInst().blurCtr; i++) {
             mFboHGaussian.begin();
             {
@@ -97,7 +88,7 @@ public:
     }
     
     void preProcessingData() {
-        //smoothData();
+        smoothData();
         gaussianBlur();
     }
     
@@ -157,12 +148,12 @@ private:
             float tail   = texture(tex_tail, st).r;\
             float avg = texture(tex_smooth, st).r;\
             float value = 0.0;\
-            if(count < 20.0) {\
+            if(count < 10.0) {\
                 value = avg*count + head;\
                 value = value/(count + 1.0);\
             }else {\
-                value = avg*20.0 - tail + head;\
-                value = value/20.0; \
+                value = avg*count - tail + head;\
+                value = (head + tail)/2.0; \
             }\
             glFragColor.rgb = vec3( value, value, value);\
             glFragColor.a = 1.0;\
@@ -171,6 +162,7 @@ private:
         mSmoothShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentSmoothShader);
         mSmoothShader.linkProgram();
         mSmoothTexture.allocate(mWidth, mHeight, GL_RGBA);
+        mSmoothTexture.clear();
 
         mFboSmooth.allocate(mWidth, mHeight, GL_RGBA);
         mFboSmooth.begin();
@@ -243,15 +235,20 @@ private:
         mRSDepthSensorImp = new RSSensorImp();
         cout << "use simu depth implementation." << endl;
         
-        delete [] mFrames;
+        /*delete [] mFrames;
         mFrames = new ofFbo[20];
         for (int i = 0; i < 20; i++){
             mFrames[i].allocate(mWidth, mHeight, GL_RGBA);
+        }*/
+        for (int i = 0; i < 10; i++){
+            mFrames[i].allocate(mWidth, mHeight, GL_RGBA);
+            mFrames[i].clear();
         }
+        
         mFrameCtr = 0;
 	}
     
-    ofTexture smooth(ofFbo *framesArray, ofTexture tex, int tailIdx, int count) {
+    ofTexture smooth(ofTexture *framesArray, ofTexture tex, int tailIdx, int count) {
         ofVec2f win_size = ofVec2f(mWidth, mHeight);
         mFboSmooth.begin();
         {
@@ -277,7 +274,7 @@ private:
     ofPlanePrimitive mDrawPlane;
     ofShader         mSmoothShader, mGaussianBlurHShader, mGaussianBlurVShader, mCopyShader;
     ofFbo            mFboSmooth, mFboHGaussian, mFboVGaussian;
-    ofFbo           *mFrames;
+    ofTexture        mFrames[10];
     ofTexture        mSmoothTexture, mGaussianBlurHTexture, mGaussianBlurVTexture;
     DepthSensorImp  *mRSDepthSensorImp;
     DepthSensorImp 	*mSimuDepthSensorImp;

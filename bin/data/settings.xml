@@ -5,14 +5,15 @@
 	<Scale_Y>1</Scale_Y>
 <Panel/>
 <Ratio>1.77778</Ratio>
-<Dist_Min>587</Dist_Min>
-	<Dist_Max>783</Dist_Max>
+<Dist_Min>500</Dist_Min>
+	<Dist_Max>831</Dist_Max>
 <Blur_Ctr>1</Blur_Ctr>
-<Height_Min>32532</Height_Min>
-	<Height_Max>417167</Height_Max>
-<b>0</b>
-<k>1</k>
-<ka>1.005</ka>
-	<kb>1.395</kb>
-<kc>1.005</kc>
+<Height_Min>60209</Height_Min>
+	<Height_Max>571536</Height_Max>
+<b>0.2</b>
+<k>0.67</k>
+<ka>0.36</ka>
+	<kb>1.095</kb>
+<kc>1.02</kc>
+<x>0.26</x>
 </Panel>

@@ -26,6 +26,7 @@ void BoxWorldWindowAttrib::load(){
     gui.add(minHeight.setup("Height.Min", 0, -500, 178056));
     gui.add(maxHeight.setup("Height.Max", 100, -200, 571536));
     
+    gui.add(x.setup("x", 0.2, 0, 1));
     gui.add(k.setup("k", 0.6, 0, 1));
     gui.add(b.setup("b", 0.2, 0, 1));
     

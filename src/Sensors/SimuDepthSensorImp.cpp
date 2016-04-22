@@ -52,6 +52,7 @@ ofTexture & SimuDepthSensorImp::getDepthBufTexture() {
     return DepthTransMgr::get()->getTransTexture(mDepthFloatImage.getTexture(),
                                                  BoxWorldWindowAttrib::getInst().minDist,
                                                  BoxWorldWindowAttrib::getInst().maxDist);
+    //return mDepthFloatImage.getTexture();
 }
 
 int SimuDepthSensorImp::getDataType0() { return GL_R8; }

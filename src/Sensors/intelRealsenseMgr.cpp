@@ -54,7 +54,7 @@ void intelrsMgr::stream() {
     
     // Configure depth to run at VGA resolution at 30 frames per second
     mDev->enable_stream(rs::stream::depth, RESOLUTION_WIDTH, RESOLUTION_HEIGHT, rs::format::z16, 15);
-    //mDev->enable_stream(rs::stream::color, rs::preset::best_quality);
+    //mDev->enable_stream(rs::stream::depth, rs::preset::best_quality);
     //mDev->enable_stream(rs::stream::infrared, rs::preset::best_quality);
     
     mDev->set_option(rs::option::f200_laser_power, 15);
@@ -62,6 +62,7 @@ void intelrsMgr::stream() {
     mDev->set_option(rs::option::f200_accuracy, 3);
     mDev->set_option(rs::option::f200_motion_range, 100);
     mDev->set_option(rs::option::f200_confidence_threshold, 5);
+    
     mDev->start();
     
     // Determine depth value corresponding to one meter

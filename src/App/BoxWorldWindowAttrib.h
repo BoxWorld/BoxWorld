@@ -33,7 +33,7 @@ public:
     //ofxFloatSlider  scaleY, ratio;
     ofxIntSlider    minDist, maxDist;
     ofxIntSlider    minHeight, maxHeight;
-    ofxFloatSlider  k, b;
+    ofxFloatSlider  x, k, b;
     ofxFloatSlider  ka, kb, kc;
     
 private:
