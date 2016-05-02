@@ -49,9 +49,7 @@ ofTexture & SimuDepthSensorImp::getDepthBufTexture() {
 	}
     mDepthFloatImage.setFromPixels(depthFloatPixels, SIMU_DEPTH_BUF_WIDTH, SIMU_DEPTH_BUF_HEIGHT, OF_IMAGE_GRAYSCALE );
 
-    return DepthTransMgr::get()->getTransTexture(mDepthFloatImage.getTexture(),
-                                                 BoxWorldWindowAttrib::getInst().minDist,
-                                                 BoxWorldWindowAttrib::getInst().maxDist);
+    return DepthTransMgr::get()->getTransTexture(mDepthFloatImage.getTexture(), BoxWorldWindowAttrib::getInst().minDist, BoxWorldWindowAttrib::getInst().maxDist);
     //return mDepthFloatImage.getTexture();
 }
 

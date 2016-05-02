@@ -42,6 +42,7 @@ public:
         uniform float maxD; \
         uniform int minH; \
         uniform int maxH; \
+        uniform float xofs; \
         uniform float xk; \
         uniform float yk; \
         uniform float yb; \
@@ -52,18 +53,18 @@ public:
         void mainImage(out vec4 fragColor,in vec2 fragCoord) { \
             vec2 uv = fragCoord.xy / iResolution.xy; \
             \
-            float a = uv.x * 337.5 * ka; \
-            float b = (uv.y+1) * 210.0 * kb; \
-            float c = 535.0 * kc; \
-            \
             uv.x = uv.x * (1.0 - xk * (uv.y * 0.5 + 0.5)); \
             uv = uv * 0.5 + 0.5; \
             uv.y = uv.y * yk + yb; \
             float d0 = 1.0 - texture(tex, uv).r; \
             float d = d0 * (maxD-minD) + minD; \
+            float a = 2.0 * (uv.x - 0.5); \
+            a = (a - xofs) * 337.5 * ka; \
+            float b = 2.0 * (uv.y - 0.5); \
+            b = (b+1) * 210.0 * kb; \
             float height = abs(sqrt(d*d - a*a - b*b)); \
             height = d*d - a*a - b*b; \
-            height = smoothstep(minH, maxH, height); \
+            height = 1.0 - smoothstep(minH, maxH, height); \
             vec4 col = vec4(height, height, height, 1.0); \
             fragColor = col; \
         } \
@@ -97,6 +98,7 @@ public:
             mTransShader.setUniform1f("maxD", max_d);
             mTransShader.setUniform1i("minH", BoxWorldWindowAttrib::getInst().minHeight);
             mTransShader.setUniform1i("maxH", BoxWorldWindowAttrib::getInst().maxHeight);
+            mTransShader.setUniform1f("xofs", BoxWorldWindowAttrib::getInst().xofs);
             mTransShader.setUniform1f("xk", BoxWorldWindowAttrib::getInst().x);
             mTransShader.setUniform1f("yk", BoxWorldWindowAttrib::getInst().k);
             mTransShader.setUniform1f("yb", BoxWorldWindowAttrib::getInst().b);

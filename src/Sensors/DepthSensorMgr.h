@@ -52,6 +52,7 @@ public:
         if(!mBufferFull && (mFrameCtr == 0)) {
             mBufferFull = true;
         }
+        //mSmoothTexture = mDepthSensor->getDepthBufTexture();
     }
     
     void gaussianBlur() {
@@ -89,13 +90,13 @@ public:
     
     void preProcessingData() {
         smoothData();
-        gaussianBlur();
+        //gaussianBlur();
     }
     
     int getDepthmapTexId() {
-        //int tex_id = mDepthSensor->getDepthBufTexture().getTextureData().textureID;
-        //int tex_id = mSmoothTexture.getTextureData().textureID;
-        int tex_id = mFboVGaussian.getTexture().getTextureData().textureID;
+        //int tex_id = mDepthSensor->getDepthBufTexture();
+        int tex_id = mSmoothTexture.getTextureData().textureID;
+        //int tex_id = mFboVGaussian.getTexture().getTextureData().textureID;
 
         return tex_id;
     }
